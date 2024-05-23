@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="com.lnht_HTTSWebAppication_war_1.0-SNAPSHOTPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>com.lnht.pojo.Diemtrungtuyen</class>
+    <class>com.lnht.pojo.Nganh</class>
+    <class>com.lnht.pojo.Truong</class>
+    <class>com.lnht.pojo.Loaituyensinh</class>
+    <class>com.lnht.pojo.Banner</class>
+    <class>com.lnht.pojo.Binhluanvideolivestream</class>
+    <class>com.lnht.pojo.Thongbaolivestream</class>
+    <class>com.lnht.pojo.Chuongtrinhdaotao</class>
+    <class>com.lnht.pojo.Videolivestream</class>
+    <class>com.lnht.pojo.Binhluanthongbao</class>
+    <class>com.lnht.pojo.Khoa</class>
+    <class>com.lnht.pojo.User</class>
+    <class>com.lnht.pojo.Thongtin</class>
+    <class>com.lnht.pojo.Tintuyensinh</class>
+    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/hotrotuyensinh?zeroDateTimeBehavior=CONVERT_TO_NULL"/>
+      <property name="javax.persistence.jdbc.user" value="root"/>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+      <property name="javax.persistence.jdbc.password" value="Admin@123"/>
+    </properties>
+  </persistence-unit>
+</persistence>
