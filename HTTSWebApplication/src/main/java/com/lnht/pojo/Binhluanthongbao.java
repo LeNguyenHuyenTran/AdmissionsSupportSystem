@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Admin
+ * @author minh-nguyen
  */
 @Entity
 @Table(name = "binhluanthongbao")
@@ -52,9 +52,9 @@ public class Binhluanthongbao implements Serializable {
     @Column(name = "created_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
-    @JoinColumn(name = "thongbaolivestream", referencedColumnName = "id")
+    @JoinColumn(name = "thongbaolivestream_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Thongbaolivestream thongbaolivestream;
+    private Thongbaolivestream thongbaolivestreamId;
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private User userId;
@@ -95,12 +95,12 @@ public class Binhluanthongbao implements Serializable {
         this.createdDate = createdDate;
     }
 
-    public Thongbaolivestream getThongbaolivestream() {
-        return thongbaolivestream;
+    public Thongbaolivestream getThongbaolivestreamId() {
+        return thongbaolivestreamId;
     }
 
-    public void setThongbaolivestream(Thongbaolivestream thongbaolivestream) {
-        this.thongbaolivestream = thongbaolivestream;
+    public void setThongbaolivestreamId(Thongbaolivestream thongbaolivestreamId) {
+        this.thongbaolivestreamId = thongbaolivestreamId;
     }
 
     public User getUserId() {

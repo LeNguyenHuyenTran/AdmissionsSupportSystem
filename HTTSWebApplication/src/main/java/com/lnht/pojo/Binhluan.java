@@ -6,17 +6,18 @@ package com.lnht.pojo;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -25,12 +26,12 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author minh-nguyen
  */
 @Entity
-@Table(name = "thongtin")
+@Table(name = "binhluan")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Thongtin.findAll", query = "SELECT t FROM Thongtin t"),
-    @NamedQuery(name = "Thongtin.findById", query = "SELECT t FROM Thongtin t WHERE t.id = :id")})
-public class Thongtin implements Serializable {
+    @NamedQuery(name = "Binhluan.findAll", query = "SELECT b FROM Binhluan b"),
+    @NamedQuery(name = "Binhluan.findById", query = "SELECT b FROM Binhluan b WHERE b.id = :id")})
+public class Binhluan implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -38,22 +39,29 @@ public class Thongtin implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    @Basic(optional = false)
+    @NotNull
     @Lob
-    @Size(max = 2147483647)
-    @Column(name = "noidung")
-    private String noidung;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "thongtin")
-    private Tintuyensinh tintuyensinh;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "thongtin")
-    private Khoa khoa;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "thongtin")
-    private Truong truong;
+    @Size(min = 1, max = 65535)
+    @Column(name = "binhluan")
+    private String binhluan;
+    @JoinColumn(name = "tintuyensinh_id", referencedColumnName = "id")
+    @ManyToOne
+    private Tintuyensinh tintuyensinhId;
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @ManyToOne
+    private User userId;
 
-    public Thongtin() {
+    public Binhluan() {
     }
 
-    public Thongtin(Integer id) {
+    public Binhluan(Integer id) {
         this.id = id;
+    }
+
+    public Binhluan(Integer id, String binhluan) {
+        this.id = id;
+        this.binhluan = binhluan;
     }
 
     public Integer getId() {
@@ -64,36 +72,28 @@ public class Thongtin implements Serializable {
         this.id = id;
     }
 
-    public String getNoidung() {
-        return noidung;
+    public String getBinhluan() {
+        return binhluan;
     }
 
-    public void setNoidung(String noidung) {
-        this.noidung = noidung;
+    public void setBinhluan(String binhluan) {
+        this.binhluan = binhluan;
     }
 
-    public Tintuyensinh getTintuyensinh() {
-        return tintuyensinh;
+    public Tintuyensinh getTintuyensinhId() {
+        return tintuyensinhId;
     }
 
-    public void setTintuyensinh(Tintuyensinh tintuyensinh) {
-        this.tintuyensinh = tintuyensinh;
+    public void setTintuyensinhId(Tintuyensinh tintuyensinhId) {
+        this.tintuyensinhId = tintuyensinhId;
     }
 
-    public Khoa getKhoa() {
-        return khoa;
+    public User getUserId() {
+        return userId;
     }
 
-    public void setKhoa(Khoa khoa) {
-        this.khoa = khoa;
-    }
-
-    public Truong getTruong() {
-        return truong;
-    }
-
-    public void setTruong(Truong truong) {
-        this.truong = truong;
+    public void setUserId(User userId) {
+        this.userId = userId;
     }
 
     @Override
@@ -106,10 +106,10 @@ public class Thongtin implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Thongtin)) {
+        if (!(object instanceof Binhluan)) {
             return false;
         }
-        Thongtin other = (Thongtin) object;
+        Binhluan other = (Binhluan) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -118,7 +118,7 @@ public class Thongtin implements Serializable {
 
     @Override
     public String toString() {
-        return "com.lnht.pojo.Thongtin[ id=" + id + " ]";
+        return "com.lnht.pojo.Binhluan[ id=" + id + " ]";
     }
     
 }

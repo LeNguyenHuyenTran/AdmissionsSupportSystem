@@ -7,6 +7,7 @@ package com.lnht.pojo;
 import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,7 +25,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Admin
+ * @author minh-nguyen
  */
 @Entity
 @Table(name = "videolivestream")
@@ -52,9 +53,9 @@ public class Videolivestream implements Serializable {
     @Size(min = 1, max = 65535)
     @Column(name = "video")
     private String video;
-    @OneToMany(mappedBy = "videoLivestream")
+    @OneToMany(mappedBy = "videoLivestreamid")
     private Set<Binhluanvideolivestream> binhluanvideolivestreamSet;
-    @OneToMany(mappedBy = "videolivestream")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "videolivestreamId")
     private Set<Thongbaolivestream> thongbaolivestreamSet;
 
     public Videolivestream() {

@@ -12,12 +12,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -26,7 +25,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Admin
+ * @author minh-nguyen
  */
 @Entity
 @Table(name = "khoa")
@@ -56,10 +55,8 @@ public class Khoa implements Serializable {
     private Set<Diemtrungtuyen> diemtrungtuyenSet;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "khoa")
     private Set<Nganh> nganhSet;
-    @JoinColumns({
-        @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false),
-        @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)})
-    @ManyToOne(optional = false)
+    @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
+    @OneToOne(optional = false)
     private Thongtin thongtin;
 
     public Khoa() {

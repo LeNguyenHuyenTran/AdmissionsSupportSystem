@@ -13,13 +13,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
-import javax.persistence.JoinTable;
 import javax.persistence.Lob;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -27,7 +25,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Admin
+ * @author minh-nguyen
  */
 @Entity
 @Table(name = "tintuyensinh")
@@ -47,23 +45,14 @@ public class Tintuyensinh implements Serializable {
     @Size(max = 65535)
     @Column(name = "tieude")
     private String tieude;
-    @JoinTable(name = "binhluan", joinColumns = {
-        @JoinColumn(name = "tintuyensinh", referencedColumnName = "id"),
-        @JoinColumn(name = "tintuyensinh", referencedColumnName = "id")}, inverseJoinColumns = {
-        @JoinColumn(name = "nguoibinhluan", referencedColumnName = "id"),
-        @JoinColumn(name = "nguoibinhluan", referencedColumnName = "id")})
-    @ManyToMany
-    private Set<User> userSet;
-    @JoinColumns({
-        @JoinColumn(name = "loaituyensinh", referencedColumnName = "id"),
-        @JoinColumn(name = "loaituyensinh", referencedColumnName = "id")})
-    @ManyToOne(optional = false)
+    @JoinColumn(name = "loaituyensinh", referencedColumnName = "id")
+    @OneToOne(optional = false)
     private Loaituyensinh loaituyensinh;
-    @JoinColumns({
-        @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false),
-        @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)})
-    @ManyToOne(optional = false)
+    @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
+    @OneToOne(optional = false)
     private Thongtin thongtin;
+    @OneToMany(mappedBy = "tintuyensinhId")
+    private Set<Binhluan> binhluanSet;
 
     public Tintuyensinh() {
     }
@@ -88,15 +77,6 @@ public class Tintuyensinh implements Serializable {
         this.tieude = tieude;
     }
 
-    @XmlTransient
-    public Set<User> getUserSet() {
-        return userSet;
-    }
-
-    public void setUserSet(Set<User> userSet) {
-        this.userSet = userSet;
-    }
-
     public Loaituyensinh getLoaituyensinh() {
         return loaituyensinh;
     }
@@ -111,6 +91,15 @@ public class Tintuyensinh implements Serializable {
 
     public void setThongtin(Thongtin thongtin) {
         this.thongtin = thongtin;
+    }
+
+    @XmlTransient
+    public Set<Binhluan> getBinhluanSet() {
+        return binhluanSet;
+    }
+
+    public void setBinhluanSet(Set<Binhluan> binhluanSet) {
+        this.binhluanSet = binhluanSet;
     }
 
     @Override
