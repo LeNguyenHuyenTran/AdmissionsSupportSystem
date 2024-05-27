@@ -12,18 +12,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Admin
+ * @author minh-nguyen
  */
 @Entity
 @Table(name = "truong")
@@ -47,10 +46,8 @@ public class Truong implements Serializable {
     @Size(max = 65535)
     @Column(name = "anh")
     private String anh;
-    @JoinColumns({
-        @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false),
-        @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)})
-    @ManyToOne(optional = false)
+    @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
+    @OneToOne(optional = false)
     private Thongtin thongtin;
 
     public Truong() {

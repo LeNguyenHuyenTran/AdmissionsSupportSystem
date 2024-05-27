@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 
 /**
  *
- * @author Admin
+ * @author minh-nguyen
  */
 @Embeddable
 public class DiemtrungtuyenPK implements Serializable {

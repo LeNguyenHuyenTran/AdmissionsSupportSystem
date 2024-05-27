@@ -12,7 +12,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -25,7 +24,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Admin
+ * @author minh-nguyen
  */
 @Entity
 @Table(name = "nganh")
@@ -49,9 +48,7 @@ public class Nganh implements Serializable {
     private String ten;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "nganh1")
     private Set<Diemtrungtuyen> diemtrungtuyenSet;
-    @JoinColumns({
-        @JoinColumn(name = "khoa", referencedColumnName = "id"),
-        @JoinColumn(name = "khoa", referencedColumnName = "id")})
+    @JoinColumn(name = "khoa", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Khoa khoa;
 

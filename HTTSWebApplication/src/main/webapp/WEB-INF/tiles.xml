@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache
+Software Foundation//DTD Tiles Configuration 3.0//EN"
+"http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+
+<tiles-definitions>
+    <definition name="baseLayout"
+                template="/WEB-INF/layout/base.jsp">
+        <put-attribute name="title" value="" />
+        <put-attribute name="sidebar"
+                       value="/WEB-INF/layout/sidebar.jsp" />
+        <put-attribute name="header"
+                       value="/WEB-INF/layout/header.jsp" />
+        <put-attribute name="content"
+                       value="" />
+        <put-attribute name="footer"
+                       value="/WEB-INF/layout/footer.jsp" />
+    </definition>
+    <definition name="index" extends="baseLayout">
+        <put-attribute name="title" value="Trang chủ" />
+        <put-attribute name="content"
+                       value="/WEB-INF/pages/index.jsp" />
+    </definition>
+    <definition name="user" extends="baseLayout">
+        <put-attribute name="title" value="Trang người dùng" />
+        <put-attribute name="content"
+                       value="/WEB-INF/pages/user.jsp" />
+    </definition>
+    <definition name="image" extends="baseLayout">
+        <put-attribute name="title" value="Trang hình ảnh" />
+        <put-attribute name="content"
+                       value="/WEB-INF/pages/image.jsp" />
+    </definition>
+    <definition name="faculty" extends="baseLayout">
+        <put-attribute name="title" value="Trang khoa" />
+        <put-attribute name="content"
+                       value="/WEB-INF/pages/faculty.jsp" />
+    </definition>
+    <definition name="news" extends="baseLayout">
+        <put-attribute name="title" value="Trang tin tức" />
+        <put-attribute name="content"
+                       value="/WEB-INF/pages/news.jsp" />
+    </definition>
+    <definition name="detailUser" extends="baseLayout">
+        <put-attribute name="title" value="Trang chi tiết" />
+        <put-attribute name="content"
+                       value="/WEB-INF/pages/detailUser.jsp" />
+    </definition>
+</tiles-definitions>

@@ -5,7 +5,6 @@
 package com.lnht.pojo;
 
 import java.io.Serializable;
-import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -16,16 +15,15 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Admin
+ * @author minh-nguyen
  */
 @Entity
 @Table(name = "loaituyensinh")
@@ -53,8 +51,8 @@ public class Loaituyensinh implements Serializable {
     @Size(min = 1, max = 2147483647)
     @Column(name = "mota")
     private String mota;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "loaituyensinh")
-    private Set<Tintuyensinh> tintuyensinhSet;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "loaituyensinh")
+    private Tintuyensinh tintuyensinh;
 
     public Loaituyensinh() {
     }
@@ -93,13 +91,12 @@ public class Loaituyensinh implements Serializable {
         this.mota = mota;
     }
 
-    @XmlTransient
-    public Set<Tintuyensinh> getTintuyensinhSet() {
-        return tintuyensinhSet;
+    public Tintuyensinh getTintuyensinh() {
+        return tintuyensinh;
     }
 
-    public void setTintuyensinhSet(Set<Tintuyensinh> tintuyensinhSet) {
-        this.tintuyensinhSet = tintuyensinhSet;
+    public void setTintuyensinh(Tintuyensinh tintuyensinh) {
+        this.tintuyensinh = tintuyensinh;
     }
 
     @Override

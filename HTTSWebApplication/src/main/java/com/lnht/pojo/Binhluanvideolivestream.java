@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Admin
+ * @author minh-nguyen
  */
 @Entity
 @Table(name = "binhluanvideolivestream")
@@ -53,9 +53,9 @@ public class Binhluanvideolivestream implements Serializable {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne
     private User userId;
-    @JoinColumn(name = "videoLivestream", referencedColumnName = "id")
+    @JoinColumn(name = "videoLivestream_id", referencedColumnName = "id")
     @ManyToOne
-    private Videolivestream videoLivestream;
+    private Videolivestream videoLivestreamid;
 
     public Binhluanvideolivestream() {
     }
@@ -101,12 +101,12 @@ public class Binhluanvideolivestream implements Serializable {
         this.userId = userId;
     }
 
-    public Videolivestream getVideoLivestream() {
-        return videoLivestream;
+    public Videolivestream getVideoLivestreamid() {
+        return videoLivestreamid;
     }
 
-    public void setVideoLivestream(Videolivestream videoLivestream) {
-        this.videoLivestream = videoLivestream;
+    public void setVideoLivestreamid(Videolivestream videoLivestreamid) {
+        this.videoLivestreamid = videoLivestreamid;
     }
 
     @Override

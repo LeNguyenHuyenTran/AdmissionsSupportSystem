@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Admin
+ * @author minh-nguyen
  */
 @Entity
 @Table(name = "banner")
@@ -46,7 +46,7 @@ public class Banner implements Serializable {
     @Column(name = "anh")
     private String anh;
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    @ManyToOne
+    @ManyToOne(optional = false)
     private User userId;
 
     public Banner() {

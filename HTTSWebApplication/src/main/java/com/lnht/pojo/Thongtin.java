@@ -5,7 +5,6 @@
 package com.lnht.pojo;
 
 import java.io.Serializable;
-import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -16,15 +15,14 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Admin
+ * @author minh-nguyen
  */
 @Entity
 @Table(name = "thongtin")
@@ -44,12 +42,12 @@ public class Thongtin implements Serializable {
     @Size(max = 2147483647)
     @Column(name = "noidung")
     private String noidung;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "thongtin")
-    private Set<Tintuyensinh> tintuyensinhSet;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "thongtin")
-    private Set<Khoa> khoaSet;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "thongtin")
-    private Set<Truong> truongSet;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "thongtin")
+    private Tintuyensinh tintuyensinh;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "thongtin")
+    private Khoa khoa;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "thongtin")
+    private Truong truong;
 
     public Thongtin() {
     }
@@ -74,31 +72,28 @@ public class Thongtin implements Serializable {
         this.noidung = noidung;
     }
 
-    @XmlTransient
-    public Set<Tintuyensinh> getTintuyensinhSet() {
-        return tintuyensinhSet;
+    public Tintuyensinh getTintuyensinh() {
+        return tintuyensinh;
     }
 
-    public void setTintuyensinhSet(Set<Tintuyensinh> tintuyensinhSet) {
-        this.tintuyensinhSet = tintuyensinhSet;
+    public void setTintuyensinh(Tintuyensinh tintuyensinh) {
+        this.tintuyensinh = tintuyensinh;
     }
 
-    @XmlTransient
-    public Set<Khoa> getKhoaSet() {
-        return khoaSet;
+    public Khoa getKhoa() {
+        return khoa;
     }
 
-    public void setKhoaSet(Set<Khoa> khoaSet) {
-        this.khoaSet = khoaSet;
+    public void setKhoa(Khoa khoa) {
+        this.khoa = khoa;
     }
 
-    @XmlTransient
-    public Set<Truong> getTruongSet() {
-        return truongSet;
+    public Truong getTruong() {
+        return truong;
     }
 
-    public void setTruongSet(Set<Truong> truongSet) {
-        this.truongSet = truongSet;
+    public void setTruong(Truong truong) {
+        this.truong = truong;
     }
 
     @Override

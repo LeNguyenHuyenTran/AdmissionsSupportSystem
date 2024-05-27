@@ -10,7 +10,6 @@ import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -20,7 +19,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Admin
+ * @author minh-nguyen
  */
 @Entity
 @Table(name = "diemtrungtuyen")
@@ -45,19 +44,13 @@ public class Diemtrungtuyen implements Serializable {
     @NotNull
     @Column(name = "diem")
     private double diem;
-    @JoinColumns({
-        @JoinColumn(name = "chuongtrinhdaotao", referencedColumnName = "id", insertable = false, updatable = false),
-        @JoinColumn(name = "chuongtrinhdaotao", referencedColumnName = "id", insertable = false, updatable = false)})
+    @JoinColumn(name = "chuongtrinhdaotao", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Chuongtrinhdaotao chuongtrinhdaotao1;
-    @JoinColumns({
-        @JoinColumn(name = "khoa", referencedColumnName = "id", insertable = false, updatable = false),
-        @JoinColumn(name = "khoa", referencedColumnName = "id", insertable = false, updatable = false)})
+    @JoinColumn(name = "khoa", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Khoa khoa1;
-    @JoinColumns({
-        @JoinColumn(name = "nganh", referencedColumnName = "id", insertable = false, updatable = false),
-        @JoinColumn(name = "nganh", referencedColumnName = "id", insertable = false, updatable = false)})
+    @JoinColumn(name = "nganh", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Nganh nganh1;
 
