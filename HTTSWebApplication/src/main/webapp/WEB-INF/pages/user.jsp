@@ -33,15 +33,15 @@
                                             <input name="id" type="text" class="form-control" id="exampleFormControlInput1" placeholder="your Id"/>
 
                                             <label for="exampleFormControlInput1" class="form-label">Full Name</label>
-                                            <input name="fullName" type="text" class="form-control mb-3" id="exampleFormControlInput1" placeholder="your fullname"/>
+                                            <input name="fullname" type="text" class="form-control mb-3" id="exampleFormControlInput1" placeholder="your fullname"/>
 
                                             <div class="mb-3">
-                                                <label for="exampleFormControlInput1" class="form-label">Address</label>
-                                                <input name="address" type="text" class="form-control" id="exampleFormControlInput1" placeholder="your address"/>
+                                                <label for="exampleFormControlInput1" class="form-label">Email</label>
+                                                <input name="email" type="text" class="form-control" id="exampleFormControlInput1" placeholder="your address"/>
                                             </div>  
                                             <div class="mb-3">
-                                                <label for="exampleFormControlInput1" class="form-label">Phone</label>
-                                                <input name="phone" type="text" class="form-control" id="exampleFormControlInput1" placeholder="your phone"/>
+                                                <label for="exampleFormControlInput1" class="form-label">Username</label>
+                                                <input name="username" type="text" class="form-control" id="exampleFormControlInput1" placeholder="your phone"/>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="exampleFormControlInput1" class="form-label">Password</label>
@@ -81,8 +81,8 @@
                                             Avatar
                                         </th>
                                         <th class="bg-body-secondary">User</th>
-                                        <th class="bg-body-secondary">Address</th>
-                                        <th class="bg-body-secondary">Phone</th>
+                                        <th class="bg-body-secondary">Email</th>
+                                        <th class="bg-body-secondary">Username</th>
                                         <th class="bg-body-secondary">Password</th>
                                         <th class="bg-body-secondary">Role</th>
                                         <th class="bg-body-secondary"></th>
@@ -106,13 +106,13 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <div class="text-nowrap">${user.fullName}</div>
+                                                <div class="text-nowrap">${user.fullname}</div>
                                             </td>
                                             <td>
-                                                <div class="text-wrap">${user.phone}</div>
+                                                <div class="text-wrap">${user.email}</div>
                                             </td>
                                             <td>
-                                                <div class="text-nowrap">${user.address}</div>
+                                                <div class="text-nowrap">${user.username}</div>
                                             </td>
                                             <td>
                                                 <div class="text-wrap">${user.password}</div>
@@ -130,7 +130,7 @@
                                                         <a class="dropdown-item" href="${url}">Info</a>
                                                         <a class="dropdown-item" href="${url}">Edit</a>
                                                         
-                                                        <buttom onclick="deleteProduct('${deleteUrl}','${user.id}')" class="dropdown-item text-danger" type="submit">Delete</button>
+                                                        <buttom onclick="Delete('${deleteUrl}','${user.id}')" class="dropdown-item text-danger" type="submit">Delete</button>
                                                         
                                                     </div>
                                                 </div>

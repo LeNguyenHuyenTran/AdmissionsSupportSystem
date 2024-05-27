@@ -76,7 +76,7 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public void addOrUpdateUser(User user) {
         Session session = this.factory.getObject().getCurrentSession();
-        User isUser = session.get(User.class, user.getId());
+            User isUser = session.get(User.class, user.getId());
         if (isUser!=null){
             session.clear();
             session.update(user);
@@ -95,13 +95,13 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public User getUserById(String id) {
+    public User getUserById(int id) {
         Session session = this.factory.getObject().getCurrentSession();
         return session.get(User.class, id);
     }
 
     @Override
-    public void deleteUser(String id) {
+    public void deleteUser(int id) {
         Session session = this.factory.getObject().getCurrentSession();
         User user = session.get(User.class, id);
         session.delete(user);

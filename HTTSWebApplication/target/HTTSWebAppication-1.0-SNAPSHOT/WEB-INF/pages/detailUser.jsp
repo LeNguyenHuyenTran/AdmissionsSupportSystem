@@ -16,19 +16,19 @@
         <input value="${user.id}" path="id" name="id" type="text" class="form-control" id="exampleFormControlInput1" placeholder="your Id"/>
 
         <label for="exampleFormControlInput1" class="form-label">Full Name</label>
-        <input value="${user.fullName}" name="fullName" type="text" class="form-control mb-3" id="exampleFormControlInput1" placeholder="your fullname"/>
+        <input value="${user.fullname}" name="fullname" type="text" class="form-control mb-3" id="exampleFormControlInput1" placeholder="your fullname"/>
 
         <div class="mb-3">
             <label for="exampleFormControlInput1" class="form-label">Address</label>
-            <input value="${user.address}" path="address" name="address" type="text" class="form-control" id="exampleFormControlInput1" placeholder="your address"/>
+            <input value="${user.email}" name="email" type="text" class="form-control" id="exampleFormControlInput1" placeholder="your address"/>
         </div>  
         <div class="mb-3">
             <label for="exampleFormControlInput1" class="form-label">Phone</label>
-            <input value="${user.phone}" path="phone" name="phone" type="text" class="form-control" id="exampleFormControlInput1" placeholder="your phone"/>
+            <input value="${user.username}"  name="username" type="text" class="form-control" id="exampleFormControlInput1" placeholder="your phone"/>
         </div>
         <div class="mb-3">
             <label for="exampleFormControlInput1" class="form-label">Password</label>
-            <input value="${user.password}" path="password" name="password" type="password" class="form-control" id="exampleFormControlInput1" placeholder="your password"/>
+            <input value="${user.password}" name="password" type="password" class="form-control" id="exampleFormControlInput1" placeholder="your password"/>
         </div>
         <div class="mb-3">
             ${user.avatar}

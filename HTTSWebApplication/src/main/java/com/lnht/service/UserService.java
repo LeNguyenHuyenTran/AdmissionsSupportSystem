@@ -17,6 +17,6 @@ public interface UserService {
     List<User> getUsers(Map<String, String> params);
     void addOrUpdateUser(User user, HttpServletRequest request);
     int countUser();
-    User getUserById(String id);
-    void deleteUser(String id);
+    User getUserById(int id);
+    void deleteUser(int id);
 }

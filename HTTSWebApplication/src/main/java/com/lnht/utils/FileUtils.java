@@ -12,7 +12,7 @@ import java.nio.file.*;
  */
 public class FileUtils {
     public static String findAvatarPath(String fileName){
-        String directory = "/admissionsupport_backend_v1/resources/images/";
+        String directory = "/HTTSWebApplication/resources/images/";
         Path path = Paths.get(directory + fileName);
         return path.toFile().getAbsolutePath();
     }

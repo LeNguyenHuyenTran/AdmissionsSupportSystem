@@ -44,28 +44,28 @@ public class UserServiceImpl implements UserService {
     public void addOrUpdateUser(User user, HttpServletRequest request) {
         HttpSession session = request.getSession();
         
-//        // user.getFile()
-//        if ("".equals(user.getFile().getOriginalFilename()) == false) {
-//            try {
-//                MultipartFile file = user.getFile();
-//                String fileName = file.getOriginalFilename();
-////                /home/minh-nguyen/projects/hotrotuyensinh_project/AdmissionSupportSystem/admissionsupport_backend_v1/src/main/webapp
-////                String rootDir = request.getSession()
-////                        .getServletContext().getRealPath("/");
-//                file.transferTo(new File("/home/minh-nguyen/projects/hotrotuyensinh_project/AdmissionSupportSystem/admissionsupport_backend_v1/src/main/webapp/resources/images/" + fileName));
-//                session.setAttribute("image-file", file.getOriginalFilename());
-//                
-//                user.setAvatar(FileUtils.findAvatarPath(file.getOriginalFilename()));
-//            } catch (IOException | IllegalStateException ex) {
-//                Logger.getLogger(UserServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//        }else{
-//            if(user.getId().isEmpty()==false){
-//                String fileName = (String) session.getAttribute("image-file");
-//                
-//                user.setAvatar(FileUtils.findAvatarPath(fileName));
-//            }
-//        }
+        // user.getFile()
+        if ("".equals(user.getFile().getOriginalFilename()) == false) {
+            try {
+                MultipartFile file = user.getFile();
+                String fileName = file.getOriginalFilename();
+//                /home/minh-nguyen/projects/hotrotuyensinh_project/AdmissionSupportSystem/admissionsupport_backend_v1/src/main/webapp
+//                String rootDir = request.getSession()
+//                        .getServletContext().getRealPath("/");
+                file.transferTo(new File("/home/minh-nguyen/projects/hotrotuyensinh_project/AdmissionSupportSystem/admissionsupport_backend_v1/src/main/webapp/resources/images/" + fileName));
+                session.setAttribute("image-file", file.getOriginalFilename());
+                
+                user.setAvatar(FileUtils.findAvatarPath(file.getOriginalFilename()));
+            } catch (IOException | IllegalStateException ex) {
+                Logger.getLogger(UserServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }else{
+            if(user.getId()!=null){
+                String fileName = (String) session.getAttribute("image-file");
+                
+                user.setAvatar(FileUtils.findAvatarPath(fileName));
+            }
+        }
 
         userRepo.addOrUpdateUser(user);
 
@@ -77,12 +77,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserById(String id) {
+    public User getUserById(int id) {
         return this.userRepo.getUserById(id);
     }
 
     @Override
-    public void deleteUser(String id) {
+    public void deleteUser(int id) {
         this.userRepo.deleteUser(id);
     }
 
