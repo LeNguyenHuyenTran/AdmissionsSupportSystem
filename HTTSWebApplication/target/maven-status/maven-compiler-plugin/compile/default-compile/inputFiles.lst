@@ -5,6 +5,7 @@
 /home/minh-nguyen/projects/HeThongHoTroTuyenSinh/HTTSWebApplication/src/main/java/com/lnht/controllers/UserController.java
 /home/minh-nguyen/projects/HeThongHoTroTuyenSinh/HTTSWebApplication/src/main/java/com/lnht/pojo/Truong.java
 /home/minh-nguyen/projects/HeThongHoTroTuyenSinh/HTTSWebApplication/src/main/java/com/lnht/utils/FileUtils.java
+/home/minh-nguyen/projects/HeThongHoTroTuyenSinh/HTTSWebApplication/src/main/java/com/lnht/pojo/Binhluan.java
 /home/minh-nguyen/projects/HeThongHoTroTuyenSinh/HTTSWebApplication/src/main/java/com/lnht/pojo/Chuongtrinhdaotao.java
 /home/minh-nguyen/projects/HeThongHoTroTuyenSinh/HTTSWebApplication/src/main/java/com/lnht/configs/DispatcherServletInit.java
 /home/minh-nguyen/projects/HeThongHoTroTuyenSinh/HTTSWebApplication/src/main/java/com/lnht/pojo/Tintuyensinh.java

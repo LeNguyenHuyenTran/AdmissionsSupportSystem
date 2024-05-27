@@ -38,8 +38,10 @@ public class UserController {
     
     @GetMapping("/user")
     public String createView(Model model, @RequestParam Map<String,String> params){
+        params.getOrDefault("page", String.valueOf(1));
         int page = Integer.parseInt(this.env.getProperty("PAGE_SIZE"));
         model.addAttribute("users", userService.getUsers(params));
+        params.put("page", String.valueOf(1));
         model.addAttribute("userQuantity", Math.ceil(userService.countUser()*1.0/page));
         return "user";
     }
@@ -50,7 +52,7 @@ public class UserController {
         return "redirect:/user";
     }
     @GetMapping("/user/{id}")
-    public String get(Model model, @PathVariable(value = "id") String id, HttpServletRequest request){
+    public String get(Model model, @PathVariable(value = "id") int id, HttpServletRequest request){
         User user = this.userService.getUserById(id);
         HttpSession session = request.getSession();
         String file = (String) session.getAttribute("image-file");
@@ -64,7 +66,7 @@ public class UserController {
         return "detailUser";
     }
     @DeleteMapping("/user/delete/{id}")
-    public String delete(@PathVariable(value = "id") String id){
+    public String delete(@PathVariable(value = "id") int id){
         this.userService.deleteUser(id);
         return "redirect:/";
     }

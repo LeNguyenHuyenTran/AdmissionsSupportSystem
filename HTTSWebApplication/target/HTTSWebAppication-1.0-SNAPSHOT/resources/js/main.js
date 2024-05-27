@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Other/javascript.js to edit this template
  */
 
-function deleteProduct(url, id) {
+function Delete(url, id) {
     fetch(url, {
         method: 'delete'
     }).then(res => {

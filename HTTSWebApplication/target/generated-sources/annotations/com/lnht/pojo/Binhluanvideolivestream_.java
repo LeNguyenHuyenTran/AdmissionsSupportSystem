@@ -7,12 +7,12 @@ import javax.annotation.processing.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="org.eclipse.persistence.internal.jpa.modelgen.CanonicalModelProcessor", date="2024-05-26T18:55:10", comments="EclipseLink-2.7.10.v20211216-rNA")
+@Generated(value="org.eclipse.persistence.internal.jpa.modelgen.CanonicalModelProcessor", date="2024-05-27T17:44:21", comments="EclipseLink-2.7.10.v20211216-rNA")
 @StaticMetamodel(Binhluanvideolivestream.class)
 public class Binhluanvideolivestream_ { 
 
     public static volatile SingularAttribute<Binhluanvideolivestream, Date> createdDate;
-    public static volatile SingularAttribute<Binhluanvideolivestream, Videolivestream> videoLivestream;
+    public static volatile SingularAttribute<Binhluanvideolivestream, Videolivestream> videoLivestreamid;
     public static volatile SingularAttribute<Binhluanvideolivestream, Integer> id;
     public static volatile SingularAttribute<Binhluanvideolivestream, String> noidung;
     public static volatile SingularAttribute<Binhluanvideolivestream, User> userId;
