@@ -20,6 +20,7 @@ com/lnht/service/impl/UserServiceImpl.class
 com/lnht/pojo/Thongbaolivestream_.class
 com/lnht/pojo/Truong.class
 com/lnht/pojo/User.class
+com/lnht/pojo/Binhluan_.class
 com/lnht/pojo/Loaituyensinh.class
 com/lnht/pojo/Thongtin.class
 com/lnht/pojo/DiemtrungtuyenPK.class
@@ -29,6 +30,7 @@ com/lnht/pojo/Thongbaolivestream.class
 com/lnht/configs/DispatcherServletInit.class
 com/lnht/pojo/Tintuyensinh_.class
 com/lnht/pojo/Khoa.class
+com/lnht/pojo/Binhluan.class
 com/lnht/configs/HibernateConfig.class
 com/lnht/pojo/Banner_.class
 com/lnht/pojo/Binhluanvideolivestream.class

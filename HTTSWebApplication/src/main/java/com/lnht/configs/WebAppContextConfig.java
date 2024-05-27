@@ -29,9 +29,9 @@ import org.springframework.web.servlet.view.JstlView;
 @EnableWebMvc
 @EnableTransactionManagement
 @ComponentScan(basePackages = {
-    "com.admissionsupport.admissionsupport_backend_v1.controllers",
-    "com.admissionsupport.admissionsupport_backend_v1.repository",
-    "com.admissionsupport.admissionsupport_backend_v1.service"
+    "com.lnht.controllers",
+    "com.lnht.repository",
+    "com.lnht.service"
 }
 )
 @PropertySource("classpath:configs.properties")
