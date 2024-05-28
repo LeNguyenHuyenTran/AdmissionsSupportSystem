@@ -8,13 +8,15 @@ import com.lnht.pojo.User;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 /**
  *
  * @author minh-nguyen
  */
-public interface UserService {
+public interface UserService extends UserDetailsService {
     List<User> getUsers(Map<String, String> params);
+    List<User> getUser(String username);
     void addOrUpdateUser(User user, HttpServletRequest request);
     int countUser();
     User getUserById(int id);

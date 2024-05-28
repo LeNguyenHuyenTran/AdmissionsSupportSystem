@@ -48,15 +48,6 @@ public class WebAppContextConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
     }
-    @Bean
-    public Cloudinary cloudinary() {
-        Cloudinary cloudinary
-                = new Cloudinary(ObjectUtils.asMap(
-                        "cloud_name", "dbhlpxx26",
-                        "api_key", "621874533584887",
-                        "api_secret", "EUiMK1Pe8IwZY_s7J8v-XknRs24-A"));
-        return cloudinary;
-    }
 
     @Bean
     public CommonsMultipartResolver multipartResolver() {

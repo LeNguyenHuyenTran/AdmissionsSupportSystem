@@ -41,7 +41,10 @@ import org.springframework.web.multipart.MultipartFile;
     @NamedQuery(name = "User.findByPassword", query = "SELECT u FROM User u WHERE u.password = :password"),
     @NamedQuery(name = "User.findByRole", query = "SELECT u FROM User u WHERE u.role = :role")})
 public class User implements Serializable {
-
+    
+    public static final String ADMIN = "ROLE_ADMIN";
+    public static final String INSTRUCTOR = "ROLE_INSTRUCTOR";
+    public static final String USER = "ROLE_USER";
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

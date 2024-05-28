@@ -30,22 +30,22 @@
 
                                         <div class="mb-3">
                                             <label for="exampleFormControlInput1" class="form-label">Id</label>
-                                            <input name="id" type="text" class="form-control" id="exampleFormControlInput1" placeholder="your Id"/>
+                                            <input name="id" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Id"/>
 
                                             <label for="exampleFormControlInput1" class="form-label">Full Name</label>
-                                            <input name="fullname" type="text" class="form-control mb-3" id="exampleFormControlInput1" placeholder="your fullname"/>
+                                            <input name="fullname" type="text" class="form-control mb-3" id="exampleFormControlInput1" placeholder="Fullname"/>
 
                                             <div class="mb-3">
                                                 <label for="exampleFormControlInput1" class="form-label">Email</label>
-                                                <input name="email" type="text" class="form-control" id="exampleFormControlInput1" placeholder="your address"/>
+                                                <input name="email" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Address"/>
                                             </div>  
                                             <div class="mb-3">
                                                 <label for="exampleFormControlInput1" class="form-label">Username</label>
-                                                <input name="username" type="text" class="form-control" id="exampleFormControlInput1" placeholder="your phone"/>
+                                                <input name="username" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Username"/>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="exampleFormControlInput1" class="form-label">Password</label>
-                                                <input name="password" type="password" class="form-control" id="exampleFormControlInput1" placeholder="your password"/>
+                                                <input name="password" type="password" class="form-control" id="exampleFormControlInput1" placeholder="Password"/>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="exampleFormControlInput1" class="form-label">Image</label>
@@ -55,9 +55,9 @@
                                                 <label for="exampleFormControlInput1" class="form-label">Role</label>
                                                 <select id="exampleFormControlInput1" name="role" class="form-select" aria-label="Default select example">
                                                     <option selected value="admin">Your Role</option>
-                                                    <option value="admin">admin</option>
-                                                    <option value="instructor">instructor</option>
-                                                    <option value="student">student</option>
+                                                    <option value="admin">ROLE_ADMIN</option>
+                                                    <option value="instructor">ROLE_INSTRUCTOR</option>
+                                                    <option value="student">ROLE_USER</option>
                                                 </select>
                                             </div>
                                             <button type="submit" class="btn btn-dark">Create</button>

@@ -11,10 +11,10 @@ Configuration DTD 3.0//EN"
             com.mysql.cj.jdbc.Driver
         </property>
         <property name="hibernate.connection.url">
-            jdbc:mysql://localhost/admission_support_system_db
+            jdbc:mysql://localhost/hotrotuyensinh
         </property>
         <property name="hibernate.connection.username">root</property>
-        <property name="hibernate.connection.password">Minh2003@</property>
+        <property name="hibernate.connection.password">Admin@123</property>
         <property name="hibernate.show_sql">true</property>
 
     </session-factory>

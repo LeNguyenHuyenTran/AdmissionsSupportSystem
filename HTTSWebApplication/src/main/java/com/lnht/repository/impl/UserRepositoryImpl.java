@@ -106,6 +106,23 @@ public class UserRepositoryImpl implements UserRepository {
         User user = session.get(User.class, id);
         session.delete(user);
     }
+
+    @Override
+    public List<User> getUser(String username) {
+        Session session = this.factory.getObject().getCurrentSession(); 
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<User> query = builder.createQuery(User.class);
+        Root root = query.from(User.class);
+        query.select(root);
+        
+        if(!username.isEmpty()) {
+            Predicate p = builder.equal(root.get("username").as(String.class), username.trim());
+            query = query.where(p);
+        }
+            
+        Query q = session.createQuery(query);
+        return q.getResultList();
+    }
     
     
 

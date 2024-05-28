@@ -70,4 +70,9 @@ public class UserController {
         this.userService.deleteUser(id);
         return "redirect:/";
     }
+    
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
 }
