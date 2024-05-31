@@ -35,12 +35,11 @@
                                         <th class="bg-body-secondary text-center">
                                             Avatar
                                         </th>
-                                        <th class="bg-body-secondary">User</th>
-                                        <th class="bg-body-secondary">Address</th>
-                                        <th class="bg-body-secondary">Phone</th>
+                                        <th class="bg-body-secondary">Fullname</th>
+                                        <th class="bg-body-secondary">Email</th>
+                                        <th class="bg-body-secondary">Username</th>
                                         <th class="bg-body-secondary">Password</th>
                                         <th class="bg-body-secondary">Role</th>
-                                        <th class="bg-body-secondary"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -62,13 +61,13 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <div class="text-nowrap">${user.fullName}</div>
+                                                <div class="text-nowrap">${user.fullname}</div>
                                             </td>
                                             <td>
-                                                <div class="text-wrap">${user.phone}</div>
+                                                <div class="text-wrap">${user.username}</div>
                                             </td>
                                             <td>
-                                                <div class="text-nowrap">${user.address}</div>
+                                                <div class="text-nowrap">${user.email}</div>
                                             </td>
                                             <td>
                                                 <div class="text-wrap">${user.password}</div>

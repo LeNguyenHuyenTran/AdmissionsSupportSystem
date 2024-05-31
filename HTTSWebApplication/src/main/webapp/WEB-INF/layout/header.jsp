@@ -19,19 +19,25 @@
             <li class="nav-item">
                 <a class="nav-link" href="#">Users</a>
             </li>
-            <c:if test="${pageContext.request.userPrincipal.name == null}" >
-                <li class="nav-item">
-                    <a class="nav-link text-danger" href="<c:url value="/login" />">Login</a>
-                </li>
-            </c:if>
-            <c:if test="${pageContext.request.userPrincipal.name != null}" >
-                <li class="nav-item">
-                    <a class="nav-link text-danger" href="<c:url value="/" />">${pageContext.request.userPrincipal.name}</a>
-                </li>
-                <<li class="nav-item">
-                    <a class="nav-link" href="#">Logout</a>
-                </li>
-            </c:if>
+            <c:choose>
+                <c:when test="${pageContext.request.userPrincipal.name == null}">
+                    <li class="nav-item ">
+                        <a class=" btn btn-success me-1 " href="<c:url value="/login" />">Đăng nhập</a>
+                    </li>
+                     <li class="nav-item">
+                        <a class=" btn btn-info " href="<c:url value="/register" />">Đăng ký</a>
+                    </li>
+                </c:when>
+                <c:when test="${pageContext.request.userPrincipal.name != null}">
+                    <li class="nav-item">
+                        <a class=" btn btn-success me-1 " href="<c:url value="/" />">Chào ${pageContext.request.userPrincipal.name}!</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class=" btn btn-info " href="<c:url value="/logout" />">Đăng xuất</a>
+                    </li>
+                </c:when>
+
+            </c:choose>
         </ul>
         <ul class="header-nav ms-auto"> 
             <li class="nav-item"><a class="nav-link" href="#">
