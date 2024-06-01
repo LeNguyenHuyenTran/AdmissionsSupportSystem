@@ -40,6 +40,10 @@ import org.springframework.web.multipart.MultipartFile;
     @NamedQuery(name = "User.findByUsername", query = "SELECT u FROM User u WHERE u.username = :username"),
     @NamedQuery(name = "User.findByRole", query = "SELECT u FROM User u WHERE u.role = :role")})
 public class User implements Serializable {
+    
+    public static final String ADMIN = "ROLE_ADMIN";
+    public static final String INSTRUCTOR = "ROLE_INSTRUCTOR";
+    public static final String USER = "ROLE_USER";
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -88,7 +92,8 @@ public class User implements Serializable {
     private Set<ThongBaoLivestream> thongBaoLivestreamSet;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
     private Set<BinhLuanThongBao> binhLuanThongBaoSet;
-    
+    @Transient
+    private String confirmPassword;
     @Transient
     private MultipartFile file;
     
@@ -246,6 +251,20 @@ public class User implements Serializable {
      */
     public void setFile(MultipartFile file) {
         this.file = file;
+    }
+
+    /**
+     * @return the confirmPassword
+     */
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    /**
+     * @param confirmPassword the confirmPassword to set
+     */
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
     }
     
 }

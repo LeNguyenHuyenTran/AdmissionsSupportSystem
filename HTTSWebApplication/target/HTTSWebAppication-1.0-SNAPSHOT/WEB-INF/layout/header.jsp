@@ -30,7 +30,7 @@
                 </c:when>
                 <c:when test="${pageContext.request.userPrincipal.name != null}">
                     <li class="nav-item">
-                        <a class=" btn btn-success me-1 " href="<c:url value="/" />">Chào ${pageContext.request.userPrincipal.name}!</a>
+                        <a class=" btn btn-success me-1 " href="<c:url value="/" />">${pageContext.request.userPrincipal.name}</a>
                     </li>
                     <li class="nav-item">
                         <a class=" btn btn-info " href="<c:url value="/logout" />">Đăng xuất</a>

@@ -18,6 +18,7 @@ public interface UserService extends UserDetailsService {
     List<User> getUsers(Map<String, String> params);
     List<User> getUser(String username);
     void addOrUpdateUser(User user, HttpServletRequest request);
+    boolean addUser(User user);
     int countUser();
     User getUserById(int id);
     void deleteUser(int id);
