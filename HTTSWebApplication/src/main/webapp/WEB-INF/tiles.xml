@@ -47,8 +47,13 @@ Software Foundation//DTD Tiles Configuration 3.0//EN"
                        value="/WEB-INF/pages/detailUser.jsp" />
     </definition>
     <definition name="login" extends="baseLayout">
-        <put-attribute name="title" value="Login" />
+        <put-attribute name="title" value="DANG NHAP" />
         <put-attribute name="content"
                        value="/WEB-INF/pages/login.jsp" />
+    </definition>
+    <definition name="register" extends="baseLayout">
+        <put-attribute name="title" value="DANG KY" />
+        <put-attribute name="content"
+                       value="/WEB-INF/pages/register.jsp" />
     </definition>
 </tiles-definitions>

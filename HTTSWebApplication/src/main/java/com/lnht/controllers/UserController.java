@@ -28,7 +28,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller
 public class UserController {
-    
+    @Autowired
+    private UserService userDetailsService;
 
     @Autowired
     private UserService userService;
@@ -74,5 +75,26 @@ public class UserController {
     @GetMapping("/login")
     public String login() {
         return "login";
+    }
+    
+    @GetMapping("/register")
+    public String registerView(Model model) {
+        model.addAttribute("user", new User());
+        return "register";
+    }
+    
+    @PostMapping("/register")
+    public String register(Model model, @ModelAttribute(value = "user") User user ){
+        String errMsg = "";
+        if(user.getPassword().equals(user.getConfirmPassword())) {
+            if(this.userDetailsService.addUser(user)==true)
+                return "redirect:/login";
+            else
+                errMsg = "Da co loi xay ra";
+        }
+        else
+            errMsg = "Mat khau khong khop";
+        model.addAttribute("errMsg", errMsg);
+        return "register";
     }
 }

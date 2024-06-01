@@ -16,6 +16,7 @@ public interface UserRepository {
     List<User> getUsers(Map<String, String> params);
     List<User> getUser(String username);
     void addOrUpdateUser(User user);
+    boolean addUser(User user);
     int countUser();
     User getUserById(int id);
     void deleteUser(int id);

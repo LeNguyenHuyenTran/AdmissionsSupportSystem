@@ -15,6 +15,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
@@ -123,4 +124,18 @@ public class UserRepositoryImpl implements UserRepository {
         User user = session.get(User.class, id);
         session.delete(user);
     }
+
+    @Override
+    public boolean addUser(User user) {
+        Session session = this.factory.getObject().getCurrentSession();
+        try {
+            session.save(user);
+            return true;
+        } catch (HibernateException ex) {
+            System.err.println(ex.getMessage());
+        }
+        
+        return false;
+    }
+        
 }
