@@ -5,6 +5,7 @@
 package com.lnht.pojo;
 
 import java.io.Serializable;
+import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -15,23 +16,24 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author minh-nguyen
+ * @author Admin
  */
 @Entity
-@Table(name = "loaituyensinh")
+@Table(name = "loai_tuyen_sinh")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Loaituyensinh.findAll", query = "SELECT l FROM Loaituyensinh l"),
-    @NamedQuery(name = "Loaituyensinh.findById", query = "SELECT l FROM Loaituyensinh l WHERE l.id = :id")})
-public class Loaituyensinh implements Serializable {
+    @NamedQuery(name = "LoaiTuyenSinh.findAll", query = "SELECT l FROM LoaiTuyenSinh l"),
+    @NamedQuery(name = "LoaiTuyenSinh.findById", query = "SELECT l FROM LoaiTuyenSinh l WHERE l.id = :id")})
+public class LoaiTuyenSinh implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -49,22 +51,22 @@ public class Loaituyensinh implements Serializable {
     @NotNull
     @Lob
     @Size(min = 1, max = 2147483647)
-    @Column(name = "mota")
-    private String mota;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "loaituyensinh")
-    private Tintuyensinh tintuyensinh;
+    @Column(name = "mo_ta")
+    private String moTa;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "loaiTuyenSinhId")
+    private Set<TinTuyenSinh> tinTuyenSinhSet;
 
-    public Loaituyensinh() {
+    public LoaiTuyenSinh() {
     }
 
-    public Loaituyensinh(Integer id) {
+    public LoaiTuyenSinh(Integer id) {
         this.id = id;
     }
 
-    public Loaituyensinh(Integer id, String ten, String mota) {
+    public LoaiTuyenSinh(Integer id, String ten, String moTa) {
         this.id = id;
         this.ten = ten;
-        this.mota = mota;
+        this.moTa = moTa;
     }
 
     public Integer getId() {
@@ -83,20 +85,21 @@ public class Loaituyensinh implements Serializable {
         this.ten = ten;
     }
 
-    public String getMota() {
-        return mota;
+    public String getMoTa() {
+        return moTa;
     }
 
-    public void setMota(String mota) {
-        this.mota = mota;
+    public void setMoTa(String moTa) {
+        this.moTa = moTa;
     }
 
-    public Tintuyensinh getTintuyensinh() {
-        return tintuyensinh;
+    @XmlTransient
+    public Set<TinTuyenSinh> getTinTuyenSinhSet() {
+        return tinTuyenSinhSet;
     }
 
-    public void setTintuyensinh(Tintuyensinh tintuyensinh) {
-        this.tintuyensinh = tintuyensinh;
+    public void setTinTuyenSinhSet(Set<TinTuyenSinh> tinTuyenSinhSet) {
+        this.tinTuyenSinhSet = tinTuyenSinhSet;
     }
 
     @Override
@@ -109,10 +112,10 @@ public class Loaituyensinh implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Loaituyensinh)) {
+        if (!(object instanceof LoaiTuyenSinh)) {
             return false;
         }
-        Loaituyensinh other = (Loaituyensinh) object;
+        LoaiTuyenSinh other = (LoaiTuyenSinh) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -121,7 +124,7 @@ public class Loaituyensinh implements Serializable {
 
     @Override
     public String toString() {
-        return "com.lnht.pojo.Loaituyensinh[ id=" + id + " ]";
+        return "com.lnht.pojo.LoaiTuyenSinh[ id=" + id + " ]";
     }
     
 }

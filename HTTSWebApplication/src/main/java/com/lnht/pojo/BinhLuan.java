@@ -5,36 +5,33 @@
 package com.lnht.pojo;
 
 import java.io.Serializable;
-import java.util.Set;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author minh-nguyen
+ * @author Admin
  */
 @Entity
-@Table(name = "chuongtrinhdaotao")
+@Table(name = "binh_luan")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Chuongtrinhdaotao.findAll", query = "SELECT c FROM Chuongtrinhdaotao c"),
-    @NamedQuery(name = "Chuongtrinhdaotao.findById", query = "SELECT c FROM Chuongtrinhdaotao c WHERE c.id = :id"),
-    @NamedQuery(name = "Chuongtrinhdaotao.findByTen", query = "SELECT c FROM Chuongtrinhdaotao c WHERE c.ten = :ten")})
-public class Chuongtrinhdaotao implements Serializable {
+    @NamedQuery(name = "BinhLuan.findAll", query = "SELECT b FROM BinhLuan b"),
+    @NamedQuery(name = "BinhLuan.findById", query = "SELECT b FROM BinhLuan b WHERE b.id = :id")})
+public class BinhLuan implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -44,26 +41,27 @@ public class Chuongtrinhdaotao implements Serializable {
     private Integer id;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 70)
-    @Column(name = "ten")
-    private String ten;
     @Lob
-    @Size(max = 2147483647)
-    @Column(name = "mota")
-    private String mota;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "chuongtrinhdaotao1")
-    private Set<Diemtrungtuyen> diemtrungtuyenSet;
+    @Size(min = 1, max = 65535)
+    @Column(name = "binh_luan")
+    private String binhLuan;
+    @JoinColumn(name = "tin_tuyen_sinh_id", referencedColumnName = "id")
+    @ManyToOne
+    private TinTuyenSinh tinTuyenSinhId;
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @ManyToOne
+    private User userId;
 
-    public Chuongtrinhdaotao() {
+    public BinhLuan() {
     }
 
-    public Chuongtrinhdaotao(Integer id) {
+    public BinhLuan(Integer id) {
         this.id = id;
     }
 
-    public Chuongtrinhdaotao(Integer id, String ten) {
+    public BinhLuan(Integer id, String binhLuan) {
         this.id = id;
-        this.ten = ten;
+        this.binhLuan = binhLuan;
     }
 
     public Integer getId() {
@@ -74,29 +72,28 @@ public class Chuongtrinhdaotao implements Serializable {
         this.id = id;
     }
 
-    public String getTen() {
-        return ten;
+    public String getBinhLuan() {
+        return binhLuan;
     }
 
-    public void setTen(String ten) {
-        this.ten = ten;
+    public void setBinhLuan(String binhLuan) {
+        this.binhLuan = binhLuan;
     }
 
-    public String getMota() {
-        return mota;
+    public TinTuyenSinh getTinTuyenSinhId() {
+        return tinTuyenSinhId;
     }
 
-    public void setMota(String mota) {
-        this.mota = mota;
+    public void setTinTuyenSinhId(TinTuyenSinh tinTuyenSinhId) {
+        this.tinTuyenSinhId = tinTuyenSinhId;
     }
 
-    @XmlTransient
-    public Set<Diemtrungtuyen> getDiemtrungtuyenSet() {
-        return diemtrungtuyenSet;
+    public User getUserId() {
+        return userId;
     }
 
-    public void setDiemtrungtuyenSet(Set<Diemtrungtuyen> diemtrungtuyenSet) {
-        this.diemtrungtuyenSet = diemtrungtuyenSet;
+    public void setUserId(User userId) {
+        this.userId = userId;
     }
 
     @Override
@@ -109,10 +106,10 @@ public class Chuongtrinhdaotao implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Chuongtrinhdaotao)) {
+        if (!(object instanceof BinhLuan)) {
             return false;
         }
-        Chuongtrinhdaotao other = (Chuongtrinhdaotao) object;
+        BinhLuan other = (BinhLuan) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -121,7 +118,7 @@ public class Chuongtrinhdaotao implements Serializable {
 
     @Override
     public String toString() {
-        return "com.lnht.pojo.Chuongtrinhdaotao[ id=" + id + " ]";
+        return "com.lnht.pojo.BinhLuan[ id=" + id + " ]";
     }
     
 }

@@ -5,33 +5,36 @@
 package com.lnht.pojo;
 
 import java.io.Serializable;
+import java.util.Set;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author Admin
  */
 @Entity
-@Table(name = "banner")
+@Table(name = "chuong_trinh_dao_tao")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Banner.findAll", query = "SELECT b FROM Banner b"),
-    @NamedQuery(name = "Banner.findById", query = "SELECT b FROM Banner b WHERE b.id = :id")})
-public class Banner implements Serializable {
+    @NamedQuery(name = "ChuongTrinhDaoTao.findAll", query = "SELECT c FROM ChuongTrinhDaoTao c"),
+    @NamedQuery(name = "ChuongTrinhDaoTao.findById", query = "SELECT c FROM ChuongTrinhDaoTao c WHERE c.id = :id"),
+    @NamedQuery(name = "ChuongTrinhDaoTao.findByTen", query = "SELECT c FROM ChuongTrinhDaoTao c WHERE c.ten = :ten")})
+public class ChuongTrinhDaoTao implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -41,24 +44,26 @@ public class Banner implements Serializable {
     private Integer id;
     @Basic(optional = false)
     @NotNull
+    @Size(min = 1, max = 70)
+    @Column(name = "ten")
+    private String ten;
     @Lob
-    @Size(min = 1, max = 65535)
-    @Column(name = "anh")
-    private String anh;
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private User userId;
+    @Size(max = 2147483647)
+    @Column(name = "mo_ta")
+    private String moTa;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "chuongTrinhDaoTao1")
+    private Set<DiemTrungTuyen> diemTrungTuyenSet;
 
-    public Banner() {
+    public ChuongTrinhDaoTao() {
     }
 
-    public Banner(Integer id) {
+    public ChuongTrinhDaoTao(Integer id) {
         this.id = id;
     }
 
-    public Banner(Integer id, String anh) {
+    public ChuongTrinhDaoTao(Integer id, String ten) {
         this.id = id;
-        this.anh = anh;
+        this.ten = ten;
     }
 
     public Integer getId() {
@@ -69,20 +74,29 @@ public class Banner implements Serializable {
         this.id = id;
     }
 
-    public String getAnh() {
-        return anh;
+    public String getTen() {
+        return ten;
     }
 
-    public void setAnh(String anh) {
-        this.anh = anh;
+    public void setTen(String ten) {
+        this.ten = ten;
     }
 
-    public User getUserId() {
-        return userId;
+    public String getMoTa() {
+        return moTa;
     }
 
-    public void setUserId(User userId) {
-        this.userId = userId;
+    public void setMoTa(String moTa) {
+        this.moTa = moTa;
+    }
+
+    @XmlTransient
+    public Set<DiemTrungTuyen> getDiemTrungTuyenSet() {
+        return diemTrungTuyenSet;
+    }
+
+    public void setDiemTrungTuyenSet(Set<DiemTrungTuyen> diemTrungTuyenSet) {
+        this.diemTrungTuyenSet = diemTrungTuyenSet;
     }
 
     @Override
@@ -95,10 +109,10 @@ public class Banner implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Banner)) {
+        if (!(object instanceof ChuongTrinhDaoTao)) {
             return false;
         }
-        Banner other = (Banner) object;
+        ChuongTrinhDaoTao other = (ChuongTrinhDaoTao) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -107,7 +121,7 @@ public class Banner implements Serializable {
 
     @Override
     public String toString() {
-        return "com.lnht.pojo.Banner[ id=" + id + " ]";
+        return "com.lnht.pojo.ChuongTrinhDaoTao[ id=" + id + " ]";
     }
     
 }

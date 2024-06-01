@@ -33,7 +33,7 @@
                                             <input name="id" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Id"/>
 
                                             <label for="exampleFormControlInput1" class="form-label">Full Name</label>
-                                            <input name="fullname" type="text" class="form-control mb-3" id="exampleFormControlInput1" placeholder="Fullname"/>
+                                            <input name="fullName" type="text" class="form-control mb-3" id="exampleFormControlInput1" placeholder="Full Name"/>
 
                                             <div class="mb-3">
                                                 <label for="exampleFormControlInput1" class="form-label">Email</label>
@@ -106,7 +106,7 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <div class="text-nowrap">${user.fullname}</div>
+                                                <div class="text-nowrap">${user.fullName}</div>
                                             </td>
                                             <td>
                                                 <div class="text-wrap">${user.email}</div>

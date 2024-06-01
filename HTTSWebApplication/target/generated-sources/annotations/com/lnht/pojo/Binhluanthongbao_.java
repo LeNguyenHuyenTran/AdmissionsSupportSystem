@@ -1,20 +1,20 @@
 package com.lnht.pojo;
 
-import com.lnht.pojo.Thongbaolivestream;
+import com.lnht.pojo.ThongBaoLivestream;
 import com.lnht.pojo.User;
 import java.util.Date;
 import javax.annotation.processing.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="org.eclipse.persistence.internal.jpa.modelgen.CanonicalModelProcessor", date="2024-05-31T16:00:57", comments="EclipseLink-2.7.10.v20211216-rNA")
-@StaticMetamodel(Binhluanthongbao.class)
-public class Binhluanthongbao_ { 
+@Generated(value="org.eclipse.persistence.internal.jpa.modelgen.CanonicalModelProcessor", date="2024-06-01T15:07:47", comments="EclipseLink-2.7.10.v20211216-rNA")
+@StaticMetamodel(BinhLuanThongBao.class)
+public class BinhLuanThongBao_ { 
 
-    public static volatile SingularAttribute<Binhluanthongbao, Date> createdDate;
-    public static volatile SingularAttribute<Binhluanthongbao, Thongbaolivestream> thongbaolivestreamId;
-    public static volatile SingularAttribute<Binhluanthongbao, Integer> id;
-    public static volatile SingularAttribute<Binhluanthongbao, String> noidung;
-    public static volatile SingularAttribute<Binhluanthongbao, User> userId;
+    public static volatile SingularAttribute<BinhLuanThongBao, Date> createdDate;
+    public static volatile SingularAttribute<BinhLuanThongBao, ThongBaoLivestream> thongBaoLivestreamId;
+    public static volatile SingularAttribute<BinhLuanThongBao, Integer> id;
+    public static volatile SingularAttribute<BinhLuanThongBao, String> noiDung;
+    public static volatile SingularAttribute<BinhLuanThongBao, User> userId;
 
 }

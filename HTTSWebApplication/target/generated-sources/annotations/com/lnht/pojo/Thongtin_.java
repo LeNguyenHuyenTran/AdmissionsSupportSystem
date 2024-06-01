@@ -1,20 +1,22 @@
 package com.lnht.pojo;
 
 import com.lnht.pojo.Khoa;
-import com.lnht.pojo.Tintuyensinh;
+import com.lnht.pojo.ThongBaoLivestream;
+import com.lnht.pojo.TinTuyenSinh;
 import com.lnht.pojo.Truong;
 import javax.annotation.processing.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="org.eclipse.persistence.internal.jpa.modelgen.CanonicalModelProcessor", date="2024-05-31T16:00:57", comments="EclipseLink-2.7.10.v20211216-rNA")
-@StaticMetamodel(Thongtin.class)
-public class Thongtin_ { 
+@Generated(value="org.eclipse.persistence.internal.jpa.modelgen.CanonicalModelProcessor", date="2024-06-01T15:07:47", comments="EclipseLink-2.7.10.v20211216-rNA")
+@StaticMetamodel(ThongTin.class)
+public class ThongTin_ { 
 
-    public static volatile SingularAttribute<Thongtin, Integer> id;
-    public static volatile SingularAttribute<Thongtin, String> noidung;
-    public static volatile SingularAttribute<Thongtin, Khoa> khoa;
-    public static volatile SingularAttribute<Thongtin, Tintuyensinh> tintuyensinh;
-    public static volatile SingularAttribute<Thongtin, Truong> truong;
+    public static volatile SingularAttribute<ThongTin, TinTuyenSinh> tinTuyenSinh;
+    public static volatile SingularAttribute<ThongTin, Integer> id;
+    public static volatile SingularAttribute<ThongTin, ThongBaoLivestream> thongBaoLivestream;
+    public static volatile SingularAttribute<ThongTin, String> noiDung;
+    public static volatile SingularAttribute<ThongTin, Khoa> khoa;
+    public static volatile SingularAttribute<ThongTin, Truong> truong;
 
 }

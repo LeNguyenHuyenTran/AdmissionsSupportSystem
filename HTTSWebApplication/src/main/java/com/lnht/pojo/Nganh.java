@@ -12,6 +12,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -24,7 +25,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author minh-nguyen
+ * @author Admin
  */
 @Entity
 @Table(name = "nganh")
@@ -47,7 +48,7 @@ public class Nganh implements Serializable {
     @Column(name = "ten")
     private String ten;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "nganh1")
-    private Set<Diemtrungtuyen> diemtrungtuyenSet;
+    private Set<DiemTrungTuyen> diemTrungTuyenSet;
     @JoinColumn(name = "khoa", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Khoa khoa;
@@ -81,12 +82,12 @@ public class Nganh implements Serializable {
     }
 
     @XmlTransient
-    public Set<Diemtrungtuyen> getDiemtrungtuyenSet() {
-        return diemtrungtuyenSet;
+    public Set<DiemTrungTuyen> getDiemTrungTuyenSet() {
+        return diemTrungTuyenSet;
     }
 
-    public void setDiemtrungtuyenSet(Set<Diemtrungtuyen> diemtrungtuyenSet) {
-        this.diemtrungtuyenSet = diemtrungtuyenSet;
+    public void setDiemTrungTuyenSet(Set<DiemTrungTuyen> diemTrungTuyenSet) {
+        this.diemTrungTuyenSet = diemTrungTuyenSet;
     }
 
     public Khoa getKhoa() {

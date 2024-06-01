@@ -12,10 +12,10 @@ import javax.validation.constraints.NotNull;
 
 /**
  *
- * @author minh-nguyen
+ * @author Admin
  */
 @Embeddable
-public class DiemtrungtuyenPK implements Serializable {
+public class DiemTrungTuyenPK implements Serializable {
 
     @Basic(optional = false)
     @NotNull
@@ -23,19 +23,19 @@ public class DiemtrungtuyenPK implements Serializable {
     private int khoa;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "chuongtrinhdaotao")
-    private int chuongtrinhdaotao;
+    @Column(name = "chuong_trinh_dao_tao")
+    private int chuongTrinhDaoTao;
     @Basic(optional = false)
     @NotNull
     @Column(name = "nganh")
     private int nganh;
 
-    public DiemtrungtuyenPK() {
+    public DiemTrungTuyenPK() {
     }
 
-    public DiemtrungtuyenPK(int khoa, int chuongtrinhdaotao, int nganh) {
+    public DiemTrungTuyenPK(int khoa, int chuongTrinhDaoTao, int nganh) {
         this.khoa = khoa;
-        this.chuongtrinhdaotao = chuongtrinhdaotao;
+        this.chuongTrinhDaoTao = chuongTrinhDaoTao;
         this.nganh = nganh;
     }
 
@@ -47,12 +47,12 @@ public class DiemtrungtuyenPK implements Serializable {
         this.khoa = khoa;
     }
 
-    public int getChuongtrinhdaotao() {
-        return chuongtrinhdaotao;
+    public int getChuongTrinhDaoTao() {
+        return chuongTrinhDaoTao;
     }
 
-    public void setChuongtrinhdaotao(int chuongtrinhdaotao) {
-        this.chuongtrinhdaotao = chuongtrinhdaotao;
+    public void setChuongTrinhDaoTao(int chuongTrinhDaoTao) {
+        this.chuongTrinhDaoTao = chuongTrinhDaoTao;
     }
 
     public int getNganh() {
@@ -67,7 +67,7 @@ public class DiemtrungtuyenPK implements Serializable {
     public int hashCode() {
         int hash = 0;
         hash += (int) khoa;
-        hash += (int) chuongtrinhdaotao;
+        hash += (int) chuongTrinhDaoTao;
         hash += (int) nganh;
         return hash;
     }
@@ -75,14 +75,14 @@ public class DiemtrungtuyenPK implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof DiemtrungtuyenPK)) {
+        if (!(object instanceof DiemTrungTuyenPK)) {
             return false;
         }
-        DiemtrungtuyenPK other = (DiemtrungtuyenPK) object;
+        DiemTrungTuyenPK other = (DiemTrungTuyenPK) object;
         if (this.khoa != other.khoa) {
             return false;
         }
-        if (this.chuongtrinhdaotao != other.chuongtrinhdaotao) {
+        if (this.chuongTrinhDaoTao != other.chuongTrinhDaoTao) {
             return false;
         }
         if (this.nganh != other.nganh) {
@@ -93,7 +93,7 @@ public class DiemtrungtuyenPK implements Serializable {
 
     @Override
     public String toString() {
-        return "com.lnht.pojo.DiemtrungtuyenPK[ khoa=" + khoa + ", chuongtrinhdaotao=" + chuongtrinhdaotao + ", nganh=" + nganh + " ]";
+        return "com.lnht.pojo.DiemTrungTuyenPK[ khoa=" + khoa + ", chuongTrinhDaoTao=" + chuongTrinhDaoTao + ", nganh=" + nganh + " ]";
     }
     
 }

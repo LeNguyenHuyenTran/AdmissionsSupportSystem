@@ -27,7 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
- * @author minh-nguyen
+ * @author Admin
  */
 @Entity
 @Table(name = "user")
@@ -35,16 +35,12 @@ import org.springframework.web.multipart.MultipartFile;
 @NamedQueries({
     @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
     @NamedQuery(name = "User.findById", query = "SELECT u FROM User u WHERE u.id = :id"),
-    @NamedQuery(name = "User.findByFullname", query = "SELECT u FROM User u WHERE u.fullname = :fullname"),
+    @NamedQuery(name = "User.findByFullName", query = "SELECT u FROM User u WHERE u.fullName = :fullName"),
     @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email"),
     @NamedQuery(name = "User.findByUsername", query = "SELECT u FROM User u WHERE u.username = :username"),
-    @NamedQuery(name = "User.findByPassword", query = "SELECT u FROM User u WHERE u.password = :password"),
     @NamedQuery(name = "User.findByRole", query = "SELECT u FROM User u WHERE u.role = :role")})
 public class User implements Serializable {
-    
-    public static final String ADMIN = "ROLE_ADMIN";
-    public static final String INSTRUCTOR = "ROLE_INSTRUCTOR";
-    public static final String USER = "ROLE_USER";
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -54,8 +50,8 @@ public class User implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 45)
-    @Column(name = "fullname")
-    private String fullname;
+    @Column(name = "full_name")
+    private String fullName;
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Basic(optional = false)
     @NotNull
@@ -69,7 +65,8 @@ public class User implements Serializable {
     private String username;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 50)
+    @Lob
+    @Size(min = 1, max = 65535)
     @Column(name = "password")
     private String password;
     @Basic(optional = false)
@@ -81,21 +78,19 @@ public class User implements Serializable {
     @Size(max = 50)
     @Column(name = "role")
     private String role;
-    @OneToMany(mappedBy = "userId")
-    private Set<Binhluanvideolivestream> binhluanvideolivestreamSet;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
     private Set<Banner> bannerSet;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "nguoidangthongbaoId")
-    private Set<Thongbaolivestream> thongbaolivestreamSet;
     @OneToMany(mappedBy = "userId")
-    private Set<Binhluan> binhluanSet;
+    private Set<BinhLuanVideoLivestream> binhLuanVideoLivestreamSet;
+    @OneToMany(mappedBy = "userId")
+    private Set<BinhLuan> binhLuanSet;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "nguoiDangThongBaoId")
+    private Set<ThongBaoLivestream> thongBaoLivestreamSet;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
-    private Set<Binhluanthongbao> binhluanthongbaoSet;
-
+    private Set<BinhLuanThongBao> binhLuanThongBaoSet;
+    
     @Transient
     private MultipartFile file;
-    
-    
     
     public User() {
     }
@@ -104,9 +99,9 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public User(Integer id, String fullname, String email, String username, String password, String avatar) {
+    public User(Integer id, String fullName, String email, String username, String password, String avatar) {
         this.id = id;
-        this.fullname = fullname;
+        this.fullName = fullName;
         this.email = email;
         this.username = username;
         this.password = password;
@@ -121,12 +116,12 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public String getFullname() {
-        return fullname;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public String getEmail() {
@@ -170,15 +165,6 @@ public class User implements Serializable {
     }
 
     @XmlTransient
-    public Set<Binhluanvideolivestream> getBinhluanvideolivestreamSet() {
-        return binhluanvideolivestreamSet;
-    }
-
-    public void setBinhluanvideolivestreamSet(Set<Binhluanvideolivestream> binhluanvideolivestreamSet) {
-        this.binhluanvideolivestreamSet = binhluanvideolivestreamSet;
-    }
-
-    @XmlTransient
     public Set<Banner> getBannerSet() {
         return bannerSet;
     }
@@ -188,30 +174,39 @@ public class User implements Serializable {
     }
 
     @XmlTransient
-    public Set<Thongbaolivestream> getThongbaolivestreamSet() {
-        return thongbaolivestreamSet;
+    public Set<BinhLuanVideoLivestream> getBinhLuanVideoLivestreamSet() {
+        return binhLuanVideoLivestreamSet;
     }
 
-    public void setThongbaolivestreamSet(Set<Thongbaolivestream> thongbaolivestreamSet) {
-        this.thongbaolivestreamSet = thongbaolivestreamSet;
-    }
-
-    @XmlTransient
-    public Set<Binhluan> getBinhluanSet() {
-        return binhluanSet;
-    }
-
-    public void setBinhluanSet(Set<Binhluan> binhluanSet) {
-        this.binhluanSet = binhluanSet;
+    public void setBinhLuanVideoLivestreamSet(Set<BinhLuanVideoLivestream> binhLuanVideoLivestreamSet) {
+        this.binhLuanVideoLivestreamSet = binhLuanVideoLivestreamSet;
     }
 
     @XmlTransient
-    public Set<Binhluanthongbao> getBinhluanthongbaoSet() {
-        return binhluanthongbaoSet;
+    public Set<BinhLuan> getBinhLuanSet() {
+        return binhLuanSet;
     }
 
-    public void setBinhluanthongbaoSet(Set<Binhluanthongbao> binhluanthongbaoSet) {
-        this.binhluanthongbaoSet = binhluanthongbaoSet;
+    public void setBinhLuanSet(Set<BinhLuan> binhLuanSet) {
+        this.binhLuanSet = binhLuanSet;
+    }
+
+    @XmlTransient
+    public Set<ThongBaoLivestream> getThongBaoLivestreamSet() {
+        return thongBaoLivestreamSet;
+    }
+
+    public void setThongBaoLivestreamSet(Set<ThongBaoLivestream> thongBaoLivestreamSet) {
+        this.thongBaoLivestreamSet = thongBaoLivestreamSet;
+    }
+
+    @XmlTransient
+    public Set<BinhLuanThongBao> getBinhLuanThongBaoSet() {
+        return binhLuanThongBaoSet;
+    }
+
+    public void setBinhLuanThongBaoSet(Set<BinhLuanThongBao> binhLuanThongBaoSet) {
+        this.binhLuanThongBaoSet = binhLuanThongBaoSet;
     }
 
     @Override

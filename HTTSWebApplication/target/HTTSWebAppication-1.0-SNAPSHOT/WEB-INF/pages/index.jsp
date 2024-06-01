@@ -35,7 +35,7 @@
                                         <th class="bg-body-secondary text-center">
                                             Avatar
                                         </th>
-                                        <th class="bg-body-secondary">Fullname</th>
+                                        <th class="bg-body-secondary">Full Name</th>
                                         <th class="bg-body-secondary">Email</th>
                                         <th class="bg-body-secondary">Username</th>
                                         <th class="bg-body-secondary">Password</th>
@@ -61,7 +61,7 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <div class="text-nowrap">${user.fullname}</div>
+                                                <div class="text-nowrap">${user.fullName}</div>
                                             </td>
                                             <td>
                                                 <div class="text-wrap">${user.username}</div>
