@@ -16,7 +16,7 @@
         <input value="${user.id}" path="id" name="id" type="text" class="form-control" id="exampleFormControlInput1" placeholder="your Id"/>
 
         <label for="exampleFormControlInput1" class="form-label">Full Name</label>
-        <input value="${user.fullname}" name="fullname" type="text" class="form-control mb-3" id="exampleFormControlInput1" placeholder="your fullname"/>
+        <input value="${user.fullName}" name="fullName" type="text" class="form-control mb-3" id="exampleFormControlInput1" placeholder="your fullname"/>
 
         <div class="mb-3">
             <label for="exampleFormControlInput1" class="form-label">Address</label>

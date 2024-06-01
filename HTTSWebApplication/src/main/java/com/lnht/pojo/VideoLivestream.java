@@ -25,16 +25,16 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author minh-nguyen
+ * @author Admin
  */
 @Entity
-@Table(name = "videolivestream")
+@Table(name = "video_livestream")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Videolivestream.findAll", query = "SELECT v FROM Videolivestream v"),
-    @NamedQuery(name = "Videolivestream.findById", query = "SELECT v FROM Videolivestream v WHERE v.id = :id"),
-    @NamedQuery(name = "Videolivestream.findByTieude", query = "SELECT v FROM Videolivestream v WHERE v.tieude = :tieude")})
-public class Videolivestream implements Serializable {
+    @NamedQuery(name = "VideoLivestream.findAll", query = "SELECT v FROM VideoLivestream v"),
+    @NamedQuery(name = "VideoLivestream.findById", query = "SELECT v FROM VideoLivestream v WHERE v.id = :id"),
+    @NamedQuery(name = "VideoLivestream.findByTieuDe", query = "SELECT v FROM VideoLivestream v WHERE v.tieuDe = :tieuDe")})
+public class VideoLivestream implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -45,29 +45,29 @@ public class Videolivestream implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 45)
-    @Column(name = "tieude")
-    private String tieude;
+    @Column(name = "tieu_de")
+    private String tieuDe;
     @Basic(optional = false)
     @NotNull
     @Lob
     @Size(min = 1, max = 65535)
     @Column(name = "video")
     private String video;
-    @OneToMany(mappedBy = "videoLivestreamid")
-    private Set<Binhluanvideolivestream> binhluanvideolivestreamSet;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "videolivestreamId")
-    private Set<Thongbaolivestream> thongbaolivestreamSet;
+    @OneToMany(mappedBy = "videoLivestreamId")
+    private Set<BinhLuanVideoLivestream> binhLuanVideoLivestreamSet;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "videoLivestreamId")
+    private Set<ThongBaoLivestream> thongBaoLivestreamSet;
 
-    public Videolivestream() {
+    public VideoLivestream() {
     }
 
-    public Videolivestream(Integer id) {
+    public VideoLivestream(Integer id) {
         this.id = id;
     }
 
-    public Videolivestream(Integer id, String tieude, String video) {
+    public VideoLivestream(Integer id, String tieuDe, String video) {
         this.id = id;
-        this.tieude = tieude;
+        this.tieuDe = tieuDe;
         this.video = video;
     }
 
@@ -79,12 +79,12 @@ public class Videolivestream implements Serializable {
         this.id = id;
     }
 
-    public String getTieude() {
-        return tieude;
+    public String getTieuDe() {
+        return tieuDe;
     }
 
-    public void setTieude(String tieude) {
-        this.tieude = tieude;
+    public void setTieuDe(String tieuDe) {
+        this.tieuDe = tieuDe;
     }
 
     public String getVideo() {
@@ -96,21 +96,21 @@ public class Videolivestream implements Serializable {
     }
 
     @XmlTransient
-    public Set<Binhluanvideolivestream> getBinhluanvideolivestreamSet() {
-        return binhluanvideolivestreamSet;
+    public Set<BinhLuanVideoLivestream> getBinhLuanVideoLivestreamSet() {
+        return binhLuanVideoLivestreamSet;
     }
 
-    public void setBinhluanvideolivestreamSet(Set<Binhluanvideolivestream> binhluanvideolivestreamSet) {
-        this.binhluanvideolivestreamSet = binhluanvideolivestreamSet;
+    public void setBinhLuanVideoLivestreamSet(Set<BinhLuanVideoLivestream> binhLuanVideoLivestreamSet) {
+        this.binhLuanVideoLivestreamSet = binhLuanVideoLivestreamSet;
     }
 
     @XmlTransient
-    public Set<Thongbaolivestream> getThongbaolivestreamSet() {
-        return thongbaolivestreamSet;
+    public Set<ThongBaoLivestream> getThongBaoLivestreamSet() {
+        return thongBaoLivestreamSet;
     }
 
-    public void setThongbaolivestreamSet(Set<Thongbaolivestream> thongbaolivestreamSet) {
-        this.thongbaolivestreamSet = thongbaolivestreamSet;
+    public void setThongBaoLivestreamSet(Set<ThongBaoLivestream> thongBaoLivestreamSet) {
+        this.thongBaoLivestreamSet = thongBaoLivestreamSet;
     }
 
     @Override
@@ -123,10 +123,10 @@ public class Videolivestream implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Videolivestream)) {
+        if (!(object instanceof VideoLivestream)) {
             return false;
         }
-        Videolivestream other = (Videolivestream) object;
+        VideoLivestream other = (VideoLivestream) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -135,7 +135,7 @@ public class Videolivestream implements Serializable {
 
     @Override
     public String toString() {
-        return "com.lnht.pojo.Videolivestream[ id=" + id + " ]";
+        return "com.lnht.pojo.VideoLivestream[ id=" + id + " ]";
     }
     
 }

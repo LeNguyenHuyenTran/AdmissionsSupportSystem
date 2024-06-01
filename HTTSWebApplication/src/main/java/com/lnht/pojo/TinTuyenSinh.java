@@ -14,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -25,15 +26,15 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author minh-nguyen
+ * @author Admin
  */
 @Entity
-@Table(name = "tintuyensinh")
+@Table(name = "tin_tuyen_sinh")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Tintuyensinh.findAll", query = "SELECT t FROM Tintuyensinh t"),
-    @NamedQuery(name = "Tintuyensinh.findById", query = "SELECT t FROM Tintuyensinh t WHERE t.id = :id")})
-public class Tintuyensinh implements Serializable {
+    @NamedQuery(name = "TinTuyenSinh.findAll", query = "SELECT t FROM TinTuyenSinh t"),
+    @NamedQuery(name = "TinTuyenSinh.findById", query = "SELECT t FROM TinTuyenSinh t WHERE t.id = :id")})
+public class TinTuyenSinh implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -43,21 +44,21 @@ public class Tintuyensinh implements Serializable {
     private Integer id;
     @Lob
     @Size(max = 65535)
-    @Column(name = "tieude")
-    private String tieude;
-    @JoinColumn(name = "loaituyensinh", referencedColumnName = "id")
-    @OneToOne(optional = false)
-    private Loaituyensinh loaituyensinh;
+    @Column(name = "tieu_de")
+    private String tieuDe;
+    @JoinColumn(name = "loai_tuyen_sinh_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private LoaiTuyenSinh loaiTuyenSinhId;
     @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
     @OneToOne(optional = false)
-    private Thongtin thongtin;
-    @OneToMany(mappedBy = "tintuyensinhId")
-    private Set<Binhluan> binhluanSet;
+    private ThongTin thongTin;
+    @OneToMany(mappedBy = "tinTuyenSinhId")
+    private Set<BinhLuan> binhLuanSet;
 
-    public Tintuyensinh() {
+    public TinTuyenSinh() {
     }
 
-    public Tintuyensinh(Integer id) {
+    public TinTuyenSinh(Integer id) {
         this.id = id;
     }
 
@@ -69,37 +70,37 @@ public class Tintuyensinh implements Serializable {
         this.id = id;
     }
 
-    public String getTieude() {
-        return tieude;
+    public String getTieuDe() {
+        return tieuDe;
     }
 
-    public void setTieude(String tieude) {
-        this.tieude = tieude;
+    public void setTieuDe(String tieuDe) {
+        this.tieuDe = tieuDe;
     }
 
-    public Loaituyensinh getLoaituyensinh() {
-        return loaituyensinh;
+    public LoaiTuyenSinh getLoaiTuyenSinhId() {
+        return loaiTuyenSinhId;
     }
 
-    public void setLoaituyensinh(Loaituyensinh loaituyensinh) {
-        this.loaituyensinh = loaituyensinh;
+    public void setLoaiTuyenSinhId(LoaiTuyenSinh loaiTuyenSinhId) {
+        this.loaiTuyenSinhId = loaiTuyenSinhId;
     }
 
-    public Thongtin getThongtin() {
-        return thongtin;
+    public ThongTin getThongTin() {
+        return thongTin;
     }
 
-    public void setThongtin(Thongtin thongtin) {
-        this.thongtin = thongtin;
+    public void setThongTin(ThongTin thongTin) {
+        this.thongTin = thongTin;
     }
 
     @XmlTransient
-    public Set<Binhluan> getBinhluanSet() {
-        return binhluanSet;
+    public Set<BinhLuan> getBinhLuanSet() {
+        return binhLuanSet;
     }
 
-    public void setBinhluanSet(Set<Binhluan> binhluanSet) {
-        this.binhluanSet = binhluanSet;
+    public void setBinhLuanSet(Set<BinhLuan> binhLuanSet) {
+        this.binhLuanSet = binhLuanSet;
     }
 
     @Override
@@ -112,10 +113,10 @@ public class Tintuyensinh implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Tintuyensinh)) {
+        if (!(object instanceof TinTuyenSinh)) {
             return false;
         }
-        Tintuyensinh other = (Tintuyensinh) object;
+        TinTuyenSinh other = (TinTuyenSinh) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -124,7 +125,7 @@ public class Tintuyensinh implements Serializable {
 
     @Override
     public String toString() {
-        return "com.lnht.pojo.Tintuyensinh[ id=" + id + " ]";
+        return "com.lnht.pojo.TinTuyenSinh[ id=" + id + " ]";
     }
     
 }

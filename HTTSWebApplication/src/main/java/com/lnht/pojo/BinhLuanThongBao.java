@@ -9,6 +9,8 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
@@ -24,47 +26,47 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author minh-nguyen
+ * @author Admin
  */
 @Entity
-@Table(name = "binhluanvideolivestream")
+@Table(name = "binh_luan_thong_bao")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Binhluanvideolivestream.findAll", query = "SELECT b FROM Binhluanvideolivestream b"),
-    @NamedQuery(name = "Binhluanvideolivestream.findById", query = "SELECT b FROM Binhluanvideolivestream b WHERE b.id = :id"),
-    @NamedQuery(name = "Binhluanvideolivestream.findByCreatedDate", query = "SELECT b FROM Binhluanvideolivestream b WHERE b.createdDate = :createdDate")})
-public class Binhluanvideolivestream implements Serializable {
+    @NamedQuery(name = "BinhLuanThongBao.findAll", query = "SELECT b FROM BinhLuanThongBao b"),
+    @NamedQuery(name = "BinhLuanThongBao.findById", query = "SELECT b FROM BinhLuanThongBao b WHERE b.id = :id"),
+    @NamedQuery(name = "BinhLuanThongBao.findByCreatedDate", query = "SELECT b FROM BinhLuanThongBao b WHERE b.createdDate = :createdDate")})
+public class BinhLuanThongBao implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "id")
     private Integer id;
     @Lob
     @Size(max = 65535)
-    @Column(name = "noidung")
-    private String noidung;
+    @Column(name = "noi_dung")
+    private String noiDung;
     @Basic(optional = false)
     @NotNull
     @Column(name = "created_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
+    @JoinColumn(name = "thong_bao_livestream_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private ThongBaoLivestream thongBaoLivestreamId;
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    @ManyToOne
+    @ManyToOne(optional = false)
     private User userId;
-    @JoinColumn(name = "videoLivestream_id", referencedColumnName = "id")
-    @ManyToOne
-    private Videolivestream videoLivestreamid;
 
-    public Binhluanvideolivestream() {
+    public BinhLuanThongBao() {
     }
 
-    public Binhluanvideolivestream(Integer id) {
+    public BinhLuanThongBao(Integer id) {
         this.id = id;
     }
 
-    public Binhluanvideolivestream(Integer id, Date createdDate) {
+    public BinhLuanThongBao(Integer id, Date createdDate) {
         this.id = id;
         this.createdDate = createdDate;
     }
@@ -77,12 +79,12 @@ public class Binhluanvideolivestream implements Serializable {
         this.id = id;
     }
 
-    public String getNoidung() {
-        return noidung;
+    public String getNoiDung() {
+        return noiDung;
     }
 
-    public void setNoidung(String noidung) {
-        this.noidung = noidung;
+    public void setNoiDung(String noiDung) {
+        this.noiDung = noiDung;
     }
 
     public Date getCreatedDate() {
@@ -93,20 +95,20 @@ public class Binhluanvideolivestream implements Serializable {
         this.createdDate = createdDate;
     }
 
+    public ThongBaoLivestream getThongBaoLivestreamId() {
+        return thongBaoLivestreamId;
+    }
+
+    public void setThongBaoLivestreamId(ThongBaoLivestream thongBaoLivestreamId) {
+        this.thongBaoLivestreamId = thongBaoLivestreamId;
+    }
+
     public User getUserId() {
         return userId;
     }
 
     public void setUserId(User userId) {
         this.userId = userId;
-    }
-
-    public Videolivestream getVideoLivestreamid() {
-        return videoLivestreamid;
-    }
-
-    public void setVideoLivestreamid(Videolivestream videoLivestreamid) {
-        this.videoLivestreamid = videoLivestreamid;
     }
 
     @Override
@@ -119,10 +121,10 @@ public class Binhluanvideolivestream implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Binhluanvideolivestream)) {
+        if (!(object instanceof BinhLuanThongBao)) {
             return false;
         }
-        Binhluanvideolivestream other = (Binhluanvideolivestream) object;
+        BinhLuanThongBao other = (BinhLuanThongBao) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -131,7 +133,7 @@ public class Binhluanvideolivestream implements Serializable {
 
     @Override
     public String toString() {
-        return "com.lnht.pojo.Binhluanvideolivestream[ id=" + id + " ]";
+        return "com.lnht.pojo.BinhLuanThongBao[ id=" + id + " ]";
     }
     
 }

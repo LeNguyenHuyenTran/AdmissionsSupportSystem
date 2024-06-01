@@ -12,7 +12,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -25,7 +27,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author minh-nguyen
+ * @author Admin
  */
 @Entity
 @Table(name = "khoa")
@@ -33,7 +35,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Khoa.findAll", query = "SELECT k FROM Khoa k"),
     @NamedQuery(name = "Khoa.findById", query = "SELECT k FROM Khoa k WHERE k.id = :id"),
-    @NamedQuery(name = "Khoa.findByTenkhoa", query = "SELECT k FROM Khoa k WHERE k.tenkhoa = :tenkhoa")})
+    @NamedQuery(name = "Khoa.findByTenKhoa", query = "SELECT k FROM Khoa k WHERE k.tenKhoa = :tenKhoa")})
 public class Khoa implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -45,19 +47,19 @@ public class Khoa implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 45)
-    @Column(name = "tenkhoa")
-    private String tenkhoa;
+    @Column(name = "ten_khoa")
+    private String tenKhoa;
     @Lob
     @Size(max = 65535)
     @Column(name = "video")
     private String video;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "khoa1")
-    private Set<Diemtrungtuyen> diemtrungtuyenSet;
+    private Set<DiemTrungTuyen> diemTrungTuyenSet;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "khoa")
     private Set<Nganh> nganhSet;
     @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
     @OneToOne(optional = false)
-    private Thongtin thongtin;
+    private ThongTin thongTin;
 
     public Khoa() {
     }
@@ -66,9 +68,9 @@ public class Khoa implements Serializable {
         this.id = id;
     }
 
-    public Khoa(Integer id, String tenkhoa) {
+    public Khoa(Integer id, String tenKhoa) {
         this.id = id;
-        this.tenkhoa = tenkhoa;
+        this.tenKhoa = tenKhoa;
     }
 
     public Integer getId() {
@@ -79,12 +81,12 @@ public class Khoa implements Serializable {
         this.id = id;
     }
 
-    public String getTenkhoa() {
-        return tenkhoa;
+    public String getTenKhoa() {
+        return tenKhoa;
     }
 
-    public void setTenkhoa(String tenkhoa) {
-        this.tenkhoa = tenkhoa;
+    public void setTenKhoa(String tenKhoa) {
+        this.tenKhoa = tenKhoa;
     }
 
     public String getVideo() {
@@ -96,12 +98,12 @@ public class Khoa implements Serializable {
     }
 
     @XmlTransient
-    public Set<Diemtrungtuyen> getDiemtrungtuyenSet() {
-        return diemtrungtuyenSet;
+    public Set<DiemTrungTuyen> getDiemTrungTuyenSet() {
+        return diemTrungTuyenSet;
     }
 
-    public void setDiemtrungtuyenSet(Set<Diemtrungtuyen> diemtrungtuyenSet) {
-        this.diemtrungtuyenSet = diemtrungtuyenSet;
+    public void setDiemTrungTuyenSet(Set<DiemTrungTuyen> diemTrungTuyenSet) {
+        this.diemTrungTuyenSet = diemTrungTuyenSet;
     }
 
     @XmlTransient
@@ -113,12 +115,12 @@ public class Khoa implements Serializable {
         this.nganhSet = nganhSet;
     }
 
-    public Thongtin getThongtin() {
-        return thongtin;
+    public ThongTin getThongTin() {
+        return thongTin;
     }
 
-    public void setThongtin(Thongtin thongtin) {
-        this.thongtin = thongtin;
+    public void setThongTin(ThongTin thongTin) {
+        this.thongTin = thongTin;
     }
 
     @Override

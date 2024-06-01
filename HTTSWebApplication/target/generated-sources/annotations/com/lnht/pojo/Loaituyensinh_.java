@@ -1,17 +1,18 @@
 package com.lnht.pojo;
 
-import com.lnht.pojo.Tintuyensinh;
+import com.lnht.pojo.TinTuyenSinh;
 import javax.annotation.processing.Generated;
+import javax.persistence.metamodel.SetAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="org.eclipse.persistence.internal.jpa.modelgen.CanonicalModelProcessor", date="2024-05-31T16:00:57", comments="EclipseLink-2.7.10.v20211216-rNA")
-@StaticMetamodel(Loaituyensinh.class)
-public class Loaituyensinh_ { 
+@Generated(value="org.eclipse.persistence.internal.jpa.modelgen.CanonicalModelProcessor", date="2024-06-01T15:07:47", comments="EclipseLink-2.7.10.v20211216-rNA")
+@StaticMetamodel(LoaiTuyenSinh.class)
+public class LoaiTuyenSinh_ { 
 
-    public static volatile SingularAttribute<Loaituyensinh, Integer> id;
-    public static volatile SingularAttribute<Loaituyensinh, String> ten;
-    public static volatile SingularAttribute<Loaituyensinh, String> mota;
-    public static volatile SingularAttribute<Loaituyensinh, Tintuyensinh> tintuyensinh;
+    public static volatile SetAttribute<LoaiTuyenSinh, TinTuyenSinh> tinTuyenSinhSet;
+    public static volatile SingularAttribute<LoaiTuyenSinh, Integer> id;
+    public static volatile SingularAttribute<LoaiTuyenSinh, String> ten;
+    public static volatile SingularAttribute<LoaiTuyenSinh, String> moTa;
 
 }

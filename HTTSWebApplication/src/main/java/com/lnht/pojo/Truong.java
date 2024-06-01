@@ -12,7 +12,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
@@ -22,7 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author minh-nguyen
+ * @author Admin
  */
 @Entity
 @Table(name = "truong")
@@ -40,15 +42,15 @@ public class Truong implements Serializable {
     private Integer id;
     @Lob
     @Size(max = 2147483647)
-    @Column(name = "gioithieu")
-    private String gioithieu;
+    @Column(name = "gioi_thieu")
+    private String gioiThieu;
     @Lob
     @Size(max = 65535)
     @Column(name = "anh")
     private String anh;
     @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
     @OneToOne(optional = false)
-    private Thongtin thongtin;
+    private ThongTin thongTin;
 
     public Truong() {
     }
@@ -65,12 +67,12 @@ public class Truong implements Serializable {
         this.id = id;
     }
 
-    public String getGioithieu() {
-        return gioithieu;
+    public String getGioiThieu() {
+        return gioiThieu;
     }
 
-    public void setGioithieu(String gioithieu) {
-        this.gioithieu = gioithieu;
+    public void setGioiThieu(String gioiThieu) {
+        this.gioiThieu = gioiThieu;
     }
 
     public String getAnh() {
@@ -81,12 +83,12 @@ public class Truong implements Serializable {
         this.anh = anh;
     }
 
-    public Thongtin getThongtin() {
-        return thongtin;
+    public ThongTin getThongTin() {
+        return thongTin;
     }
 
-    public void setThongtin(Thongtin thongtin) {
-        this.thongtin = thongtin;
+    public void setThongTin(ThongTin thongTin) {
+        this.thongTin = thongTin;
     }
 
     @Override

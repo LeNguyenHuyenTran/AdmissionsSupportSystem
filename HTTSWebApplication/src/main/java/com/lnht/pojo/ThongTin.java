@@ -5,6 +5,7 @@
 package com.lnht.pojo;
 
 import java.io.Serializable;
+import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -15,22 +16,24 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author minh-nguyen
+ * @author Admin
  */
 @Entity
-@Table(name = "thongtin")
+@Table(name = "thong_tin")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Thongtin.findAll", query = "SELECT t FROM Thongtin t"),
-    @NamedQuery(name = "Thongtin.findById", query = "SELECT t FROM Thongtin t WHERE t.id = :id")})
-public class Thongtin implements Serializable {
+    @NamedQuery(name = "ThongTin.findAll", query = "SELECT t FROM ThongTin t"),
+    @NamedQuery(name = "ThongTin.findById", query = "SELECT t FROM ThongTin t WHERE t.id = :id")})
+public class ThongTin implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -40,19 +43,21 @@ public class Thongtin implements Serializable {
     private Integer id;
     @Lob
     @Size(max = 2147483647)
-    @Column(name = "noidung")
-    private String noidung;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "thongtin")
-    private Tintuyensinh tintuyensinh;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "thongtin")
+    @Column(name = "noi_dung")
+    private String noiDung;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "thongTin")
+    private TinTuyenSinh tinTuyenSinh;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "thongTin")
+    private ThongBaoLivestream thongBaoLivestream;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "thongTin")
     private Khoa khoa;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "thongtin")
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "thongTin")
     private Truong truong;
 
-    public Thongtin() {
+    public ThongTin() {
     }
 
-    public Thongtin(Integer id) {
+    public ThongTin(Integer id) {
         this.id = id;
     }
 
@@ -64,36 +69,28 @@ public class Thongtin implements Serializable {
         this.id = id;
     }
 
-    public String getNoidung() {
-        return noidung;
+    public String getNoiDung() {
+        return noiDung;
     }
 
-    public void setNoidung(String noidung) {
-        this.noidung = noidung;
+    public void setNoiDung(String noiDung) {
+        this.noiDung = noiDung;
     }
 
-    public Tintuyensinh getTintuyensinh() {
-        return tintuyensinh;
+    public TinTuyenSinh getTinTuyenSinh() {
+        return tinTuyenSinh;
     }
 
-    public void setTintuyensinh(Tintuyensinh tintuyensinh) {
-        this.tintuyensinh = tintuyensinh;
+    public void setTinTuyenSinh(TinTuyenSinh tinTuyenSinh) {
+        this.tinTuyenSinh = tinTuyenSinh;
     }
 
-    public Khoa getKhoa() {
-        return khoa;
+    public ThongBaoLivestream getThongBaoLivestream() {
+        return thongBaoLivestream;
     }
 
-    public void setKhoa(Khoa khoa) {
-        this.khoa = khoa;
-    }
-
-    public Truong getTruong() {
-        return truong;
-    }
-
-    public void setTruong(Truong truong) {
-        this.truong = truong;
+    public void setThongBaoLivestream(ThongBaoLivestream thongBaoLivestream) {
+        this.thongBaoLivestream = thongBaoLivestream;
     }
 
     @Override
@@ -106,10 +103,10 @@ public class Thongtin implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Thongtin)) {
+        if (!(object instanceof ThongTin)) {
             return false;
         }
-        Thongtin other = (Thongtin) object;
+        ThongTin other = (ThongTin) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -118,7 +115,21 @@ public class Thongtin implements Serializable {
 
     @Override
     public String toString() {
-        return "com.lnht.pojo.Thongtin[ id=" + id + " ]";
+        return "com.lnht.pojo.ThongTin[ id=" + id + " ]";
+    }
+
+    /**
+     * @return the khoa
+     */
+    public Khoa getKhoa() {
+        return khoa;
+    }
+
+    /**
+     * @param khoa the khoa to set
+     */
+    public void setKhoa(Khoa khoa) {
+        this.khoa = khoa;
     }
     
 }

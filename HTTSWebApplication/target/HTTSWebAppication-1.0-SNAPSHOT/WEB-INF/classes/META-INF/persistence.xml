@@ -17,6 +17,16 @@
     <class>com.lnht.pojo.Thongtin</class>
     <class>com.lnht.pojo.Tintuyensinh</class>
     <class>com.lnht.pojo.Binhluan</class>
+    <class>com.lnht.pojo.ChuongTrinhDaoTao</class>
+    <class>com.lnht.pojo.BinhLuanVideoLivestream</class>
+    <class>com.lnht.pojo.BinhLuan</class>
+    <class>com.lnht.pojo.DiemTrungTuyen</class>
+    <class>com.lnht.pojo.ThongTin</class>
+    <class>com.lnht.pojo.BinhLuanThongBao</class>
+    <class>com.lnht.pojo.ThongBaoLivestream</class>
+    <class>com.lnht.pojo.VideoLivestream</class>
+    <class>com.lnht.pojo.TinTuyenSinh</class>
+    <class>com.lnht.pojo.LoaiTuyenSinh</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/hotrotuyensinh?zeroDateTimeBehavior=CONVERT_TO_NULL"/>
