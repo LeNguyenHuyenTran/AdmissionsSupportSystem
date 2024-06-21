@@ -37,11 +37,11 @@ public class Diemtrungtuyen implements Serializable {
     @EmbeddedId
     protected DiemtrungtuyenPK diemtrungtuyenPK;
     @Basic(optional = false)
-    @NotNull
+    @NotNull(message = "{value.NullMsg}")
     @Column(name = "namhoc")
     private int namhoc;
     @Basic(optional = false)
-    @NotNull
+    @NotNull(message = "{value.NullMsg}")
     @Column(name = "diem")
     private double diem;
     @JoinColumn(name = "chuongtrinhdaotao", referencedColumnName = "id", insertable = false, updatable = false)

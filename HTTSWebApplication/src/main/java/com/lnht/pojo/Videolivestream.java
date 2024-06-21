@@ -7,7 +7,6 @@ package com.lnht.pojo;
 import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -41,22 +40,23 @@ public class Videolivestream implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
+    @NotNull(message = "{value.NullMsg}")
     private Integer id;
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 45)
+    @NotNull(message = "{value.NullMsg}")
+    @Size(min = 1, max = 45, message = "{value.SizeMsg}")
     @Column(name = "tieude")
     private String tieude;
     @Basic(optional = false)
-    @NotNull
+    @NotNull(message = "{value.NullMsg}")
     @Lob
-    @Size(min = 1, max = 65535)
+    @Size(min = 1, max = 65535, message = "{value.SizeMsg}")
     @Column(name = "video")
     private String video;
-    @OneToMany(mappedBy = "videoLivestreamid")
-    private Set<Binhluanvideolivestream> binhluanvideolivestreamSet;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "videolivestreamId")
+    @OneToMany(mappedBy = "videolivestream")
     private Set<Thongbaolivestream> thongbaolivestreamSet;
+    @OneToMany(mappedBy = "video")
+    private Set<Cauhoi> cauhoiSet;
 
     public Videolivestream() {
     }
@@ -96,21 +96,21 @@ public class Videolivestream implements Serializable {
     }
 
     @XmlTransient
-    public Set<Binhluanvideolivestream> getBinhluanvideolivestreamSet() {
-        return binhluanvideolivestreamSet;
-    }
-
-    public void setBinhluanvideolivestreamSet(Set<Binhluanvideolivestream> binhluanvideolivestreamSet) {
-        this.binhluanvideolivestreamSet = binhluanvideolivestreamSet;
-    }
-
-    @XmlTransient
     public Set<Thongbaolivestream> getThongbaolivestreamSet() {
         return thongbaolivestreamSet;
     }
 
     public void setThongbaolivestreamSet(Set<Thongbaolivestream> thongbaolivestreamSet) {
         this.thongbaolivestreamSet = thongbaolivestreamSet;
+    }
+
+    @XmlTransient
+    public Set<Cauhoi> getCauhoiSet() {
+        return cauhoiSet;
+    }
+
+    public void setCauhoiSet(Set<Cauhoi> cauhoiSet) {
+        this.cauhoiSet = cauhoiSet;
     }
 
     @Override

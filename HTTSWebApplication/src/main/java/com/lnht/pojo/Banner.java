@@ -17,9 +17,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -38,17 +40,21 @@ public class Banner implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
+    @NotNull(message = "{value.NullMsg}")
     private Integer id;
     @Basic(optional = false)
-    @NotNull
+    @NotNull(message = "{value.NullMsg}")
     @Lob
-    @Size(min = 1, max = 65535)
+    @Size(min = 1, max = 65535, message = "{value.SizeMsg}")
     @Column(name = "anh")
     private String anh;
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private User userId;
 
+     @Transient
+    private MultipartFile file;
+    
     public Banner() {
     }
 
@@ -108,6 +114,20 @@ public class Banner implements Serializable {
     @Override
     public String toString() {
         return "com.lnht.pojo.Banner[ id=" + id + " ]";
+    }
+
+    /**
+     * @return the file
+     */
+    public MultipartFile getFile() {
+        return file;
+    }
+
+    /**
+     * @param file the file to set
+     */
+    public void setFile(MultipartFile file) {
+        this.file = file;
     }
     
 }

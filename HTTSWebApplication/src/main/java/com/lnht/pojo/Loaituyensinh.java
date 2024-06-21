@@ -5,6 +5,7 @@
 package com.lnht.pojo;
 
 import java.io.Serializable;
+import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -15,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -38,22 +40,22 @@ public class Loaituyensinh implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
+    @NotNull(message = "{value.NullMsg}")
     private Integer id;
     @Basic(optional = false)
-    @NotNull
+    @NotNull(message = "{value.NullMsg}")
     @Lob
-    @Size(min = 1, max = 65535)
+    @Size(min = 1, max = 65535, message = "{value.SizeMsg}")
     @Column(name = "ten")
     private String ten;
     @Basic(optional = false)
-    @NotNull
+    @NotNull(message = "{value.NullMsg}")
     @Lob
-    @Size(min = 1, max = 2147483647)
+    @Size(min = 1, max = 2147483647, message = "{value.SizeMsg}")
     @Column(name = "mota")
     private String mota;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "loaituyensinh")
-    private Tintuyensinh tintuyensinh;
-
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "loaituyensinh")
+    private Set<Tintuyensinh> tintuyensinhSet;
     public Loaituyensinh() {
     }
 
@@ -91,14 +93,6 @@ public class Loaituyensinh implements Serializable {
         this.mota = mota;
     }
 
-    public Tintuyensinh getTintuyensinh() {
-        return tintuyensinh;
-    }
-
-    public void setTintuyensinh(Tintuyensinh tintuyensinh) {
-        this.tintuyensinh = tintuyensinh;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -122,6 +116,20 @@ public class Loaituyensinh implements Serializable {
     @Override
     public String toString() {
         return "com.lnht.pojo.Loaituyensinh[ id=" + id + " ]";
+    }
+
+    /**
+     * @return the tintuyensinhSet
+     */
+    public Set<Tintuyensinh> getTintuyensinhSet() {
+        return tintuyensinhSet;
+    }
+
+    /**
+     * @param tintuyensinhSet the tintuyensinhSet to set
+     */
+    public void setTintuyensinhSet(Set<Tintuyensinh> tintuyensinhSet) {
+        this.tintuyensinhSet = tintuyensinhSet;
     }
     
 }

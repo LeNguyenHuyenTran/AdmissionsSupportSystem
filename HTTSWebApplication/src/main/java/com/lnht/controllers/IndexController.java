@@ -28,7 +28,7 @@ public class IndexController {
     private UserService userService;
     
     @RequestMapping("/")
-    public String index(Model model, @RequestParam Map<String, String> params) {
+    public String index(Model model, @RequestParam Map<String, Object> params) {
         model.addAttribute("users", this.userService.getUsers(params));
         
         int pageSize = Integer.parseInt(this.env.getProperty("PAGE_SIZE"));

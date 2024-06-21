@@ -8,11 +8,8 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -41,34 +38,28 @@ public class Thongbaolivestream implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
+    @NotNull(message = "{value.NullMsg}")
     @Column(name = "id")
     private Integer id;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "giolivestream")
     @Temporal(TemporalType.TIMESTAMP)
+    @NotNull(message = "{value.NullMsg}")
     private Date giolivestream;
-    @JoinColumn(name = "nguoidangthongbao_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private User nguoidangthongbaoId;
-    @JoinColumn(name = "videolivestream_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Videolivestream videolivestreamId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "thongbaolivestreamId")
-    private Set<Binhluanthongbao> binhluanthongbaoSet;
+    @JoinColumn(name = "nguoidangthongbao", referencedColumnName = "id")
+    @ManyToOne
+    private Nguoituvan nguoidangthongbao;
+    @JoinColumn(name = "videolivestream", referencedColumnName = "id")
+    @ManyToOne
+    private Videolivestream videolivestream;
+    @OneToMany(mappedBy = "thongbaolivestream")
+    private Set<Cauhoi> cauhoiSet;
 
     public Thongbaolivestream() {
     }
 
     public Thongbaolivestream(Integer id) {
         this.id = id;
-    }
-
-    public Thongbaolivestream(Integer id, Date giolivestream) {
-        this.id = id;
-        this.giolivestream = giolivestream;
     }
 
     public Integer getId() {
@@ -87,29 +78,29 @@ public class Thongbaolivestream implements Serializable {
         this.giolivestream = giolivestream;
     }
 
-    public User getNguoidangthongbaoId() {
-        return nguoidangthongbaoId;
+    public Nguoituvan getNguoidangthongbao() {
+        return nguoidangthongbao;
     }
 
-    public void setNguoidangthongbaoId(User nguoidangthongbaoId) {
-        this.nguoidangthongbaoId = nguoidangthongbaoId;
+    public void setNguoidangthongbao(Nguoituvan nguoidangthongbao) {
+        this.nguoidangthongbao = nguoidangthongbao;
     }
 
-    public Videolivestream getVideolivestreamId() {
-        return videolivestreamId;
+    public Videolivestream getVideolivestream() {
+        return videolivestream;
     }
 
-    public void setVideolivestreamId(Videolivestream videolivestreamId) {
-        this.videolivestreamId = videolivestreamId;
+    public void setVideolivestream(Videolivestream videolivestream) {
+        this.videolivestream = videolivestream;
     }
 
     @XmlTransient
-    public Set<Binhluanthongbao> getBinhluanthongbaoSet() {
-        return binhluanthongbaoSet;
+    public Set<Cauhoi> getCauhoiSet() {
+        return cauhoiSet;
     }
 
-    public void setBinhluanthongbaoSet(Set<Binhluanthongbao> binhluanthongbaoSet) {
-        this.binhluanthongbaoSet = binhluanthongbaoSet;
+    public void setCauhoiSet(Set<Cauhoi> cauhoiSet) {
+        this.cauhoiSet = cauhoiSet;
     }
 
     @Override

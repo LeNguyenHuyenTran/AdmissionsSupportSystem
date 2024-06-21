@@ -38,19 +38,20 @@ public class Binhluan implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
+    @NotNull(message = "{value.NullMsg}")
     private Integer id;
     @Basic(optional = false)
-    @NotNull
+    @NotNull(message = "{value.NullMsg}")
     @Lob
-    @Size(min = 1, max = 65535)
+    @Size(min = 1, max = 65535, message = "{value.SizeMsg}")
     @Column(name = "binhluan")
     private String binhluan;
-    @JoinColumn(name = "tintuyensinh_id", referencedColumnName = "id")
+    @JoinColumn(name = "tintuyensinh", referencedColumnName = "id")
     @ManyToOne
-    private Tintuyensinh tintuyensinhId;
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private Tintuyensinh tintuyensinh;
+    @JoinColumn(name = "nguoibinhluan", referencedColumnName = "id")
     @ManyToOne
-    private User userId;
+    private User nguoibinhluan;
 
     public Binhluan() {
     }
@@ -80,20 +81,20 @@ public class Binhluan implements Serializable {
         this.binhluan = binhluan;
     }
 
-    public Tintuyensinh getTintuyensinhId() {
-        return tintuyensinhId;
+    public Tintuyensinh getTintuyensinh() {
+        return tintuyensinh;
     }
 
-    public void setTintuyensinhId(Tintuyensinh tintuyensinhId) {
-        this.tintuyensinhId = tintuyensinhId;
+    public void setTintuyensinh(Tintuyensinh tintuyensinh) {
+        this.tintuyensinh = tintuyensinh;
     }
 
-    public User getUserId() {
-        return userId;
+    public User getNguoibinhluan() {
+        return nguoibinhluan;
     }
 
-    public void setUserId(User userId) {
-        this.userId = userId;
+    public void setNguoibinhluan(User nguoibinhluan) {
+        this.nguoibinhluan = nguoibinhluan;
     }
 
     @Override

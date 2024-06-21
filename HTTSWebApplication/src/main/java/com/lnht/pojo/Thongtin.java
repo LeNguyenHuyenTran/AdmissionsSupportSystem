@@ -17,6 +17,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -29,7 +30,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Thongtin.findAll", query = "SELECT t FROM Thongtin t"),
-    @NamedQuery(name = "Thongtin.findById", query = "SELECT t FROM Thongtin t WHERE t.id = :id")})
+    @NamedQuery(name = "Thongtin.findById", query = "SELECT t FROM Thongtin t WHERE t.id = :id"),
+    @NamedQuery(name = "Thongtin.findByTieude", query = "SELECT t FROM Thongtin t WHERE t.tieude = :tieude")})
 public class Thongtin implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -37,9 +39,13 @@ public class Thongtin implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
+    @NotNull(message = "{value.NullMsg}")
     private Integer id;
+    @Size(min=1,max = 200,message = "{value.SizeMsg}")
+    @Column(name = "tieude")
+    private String tieude;
     @Lob
-    @Size(max = 2147483647)
+    @Size(min=1, max = 2147483647,message = "{value.SizeMsg}")
     @Column(name = "noidung")
     private String noidung;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "thongtin")
@@ -62,6 +68,14 @@ public class Thongtin implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getTieude() {
+        return tieude;
+    }
+
+    public void setTieude(String tieude) {
+        this.tieude = tieude;
     }
 
     public String getNoidung() {

@@ -74,7 +74,7 @@
                                                 <div class="text-wrap">${user.password}</div>
                                             </td>
                                             <td>
-                                                <div class="text-nowrap">${user.role}</div>
+                                                <div class="text-nowrap">${user.role.role}</div>
                                             </td>
                                             <td>
                                                 <div class="dropdown">

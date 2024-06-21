@@ -15,7 +15,7 @@ import org.springframework.web.servlet.view.tiles3.TilesView;
  * @author minh-nguyen
  */
 @Configuration
-public class TilesConfig {
+public class TilesConfig{
     @Bean
     public UrlBasedViewResolver viewResolver() {
         UrlBasedViewResolver viewResolver

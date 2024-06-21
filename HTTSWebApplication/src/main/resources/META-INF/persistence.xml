@@ -17,6 +17,12 @@
     <class>com.lnht.pojo.Thongtin</class>
     <class>com.lnht.pojo.Tintuyensinh</class>
     <class>com.lnht.pojo.Binhluan</class>
+    <class>com.lnht.pojo.Userrole</class>
+    <class>com.lnht.pojo.Nguoituvan</class>
+    <class>com.lnht.pojo.Thisinh</class>
+    <class>com.lnht.pojo.Cauhoi</class>
+    <class>com.lnht.pojo.Anh</class>
+    <class>com.lnht.pojo.Admin</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/hotrotuyensinh?zeroDateTimeBehavior=CONVERT_TO_NULL"/>

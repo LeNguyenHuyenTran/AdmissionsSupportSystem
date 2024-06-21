@@ -18,15 +18,15 @@ import javax.validation.constraints.NotNull;
 public class DiemtrungtuyenPK implements Serializable {
 
     @Basic(optional = false)
-    @NotNull
+    @NotNull(message = "{value.NullMsg}")
     @Column(name = "khoa")
     private int khoa;
     @Basic(optional = false)
-    @NotNull
+    @NotNull(message = "{value.NullMsg}")
     @Column(name = "chuongtrinhdaotao")
     private int chuongtrinhdaotao;
     @Basic(optional = false)
-    @NotNull
+    @NotNull(message = "{value.NullMsg}")
     @Column(name = "nganh")
     private int nganh;
 

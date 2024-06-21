@@ -41,14 +41,15 @@ public class Chuongtrinhdaotao implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
+    @NotNull(message = "{value.NullMsg}")
     private Integer id;
     @Basic(optional = false)
-    @NotNull
+    @NotNull(message = "{value.NullMsg}")
     @Size(min = 1, max = 70)
     @Column(name = "ten")
     private String ten;
     @Lob
-    @Size(max = 2147483647)
+    @Size(min=1, max = 2147483647, message = "{value.SizeMsg}")
     @Column(name = "mota")
     private String mota;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "chuongtrinhdaotao1")

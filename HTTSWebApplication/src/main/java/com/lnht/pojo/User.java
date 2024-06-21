@@ -10,20 +10,18 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -35,79 +33,45 @@ import org.springframework.web.multipart.MultipartFile;
 @NamedQueries({
     @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
     @NamedQuery(name = "User.findById", query = "SELECT u FROM User u WHERE u.id = :id"),
-    @NamedQuery(name = "User.findByFullname", query = "SELECT u FROM User u WHERE u.fullname = :fullname"),
-    @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email"),
+    @NamedQuery(name = "User.findByHoten", query = "SELECT u FROM User u WHERE u.hoten = :hoten"),
     @NamedQuery(name = "User.findByUsername", query = "SELECT u FROM User u WHERE u.username = :username"),
-    @NamedQuery(name = "User.findByPassword", query = "SELECT u FROM User u WHERE u.password = :password"),
-    @NamedQuery(name = "User.findByRole", query = "SELECT u FROM User u WHERE u.role = :role")})
+    @NamedQuery(name = "User.findByPassword", query = "SELECT u FROM User u WHERE u.password = :password")})
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
+    @NotNull(message = "{value.NulMsg}")
     @Column(name = "id")
     private Integer id;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 45)
-    @Column(name = "fullname")
-    private String fullname;
-    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
-    @Column(name = "email")
-    private String email;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
+    @Size(min=2, max = 45, message = "{value.SizeMsg}")
+    @Column(name = "hoten")
+    private String hoten;
+    @Size(min=5, max = 50, message = "{value.SizeMsg}")
     @Column(name = "username")
     private String username;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
+    @Size(min=5, max = 50, message = "{value.Size.Msg}")
     @Column(name = "password")
     private String password;
-    @Basic(optional = false)
-    @NotNull
-    @Lob
-    @Size(min = 1, max = 65535)
-    @Column(name = "avatar")
-    private String avatar;
-    @Size(max = 50)
-    @Column(name = "role")
-    private String role;
-    @OneToMany(mappedBy = "userId")
-    private Set<Binhluanvideolivestream> binhluanvideolivestreamSet;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
     private Set<Banner> bannerSet;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "nguoidangthongbaoId")
-    private Set<Thongbaolivestream> thongbaolivestreamSet;
-    @OneToMany(mappedBy = "userId")
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
+    private Thisinh thisinh;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
+    private Admin admin;
+    @OneToMany(mappedBy = "nguoibinhluan")
     private Set<Binhluan> binhluanSet;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
-    private Set<Binhluanthongbao> binhluanthongbaoSet;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
+    private Nguoituvan nguoituvan;
+    @JoinColumn(name = "role", referencedColumnName = "id")
+    @ManyToOne
+    private Userrole role;
 
-    @Transient
-    private MultipartFile file;
-    
-    
-    
     public User() {
     }
 
     public User(Integer id) {
         this.id = id;
-    }
-
-    public User(Integer id, String fullname, String email, String username, String password, String avatar) {
-        this.id = id;
-        this.fullname = fullname;
-        this.email = email;
-        this.username = username;
-        this.password = password;
-        this.avatar = avatar;
     }
 
     public Integer getId() {
@@ -118,20 +82,12 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public String getFullname() {
-        return fullname;
+    public String getHoten() {
+        return hoten;
     }
 
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+    public void setHoten(String hoten) {
+        this.hoten = hoten;
     }
 
     public String getUsername() {
@@ -150,31 +106,6 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    @XmlTransient
-    public Set<Binhluanvideolivestream> getBinhluanvideolivestreamSet() {
-        return binhluanvideolivestreamSet;
-    }
-
-    public void setBinhluanvideolivestreamSet(Set<Binhluanvideolivestream> binhluanvideolivestreamSet) {
-        this.binhluanvideolivestreamSet = binhluanvideolivestreamSet;
-    }
-
     @XmlTransient
     public Set<Banner> getBannerSet() {
         return bannerSet;
@@ -184,13 +115,12 @@ public class User implements Serializable {
         this.bannerSet = bannerSet;
     }
 
-    @XmlTransient
-    public Set<Thongbaolivestream> getThongbaolivestreamSet() {
-        return thongbaolivestreamSet;
+    public Thisinh getThisinh() {
+        return thisinh;
     }
 
-    public void setThongbaolivestreamSet(Set<Thongbaolivestream> thongbaolivestreamSet) {
-        this.thongbaolivestreamSet = thongbaolivestreamSet;
+    public void setThisinh(Thisinh thisinh) {
+        this.thisinh = thisinh;
     }
 
     @XmlTransient
@@ -202,13 +132,20 @@ public class User implements Serializable {
         this.binhluanSet = binhluanSet;
     }
 
-    @XmlTransient
-    public Set<Binhluanthongbao> getBinhluanthongbaoSet() {
-        return binhluanthongbaoSet;
+    public Nguoituvan getNguoituvan() {
+        return nguoituvan;
     }
 
-    public void setBinhluanthongbaoSet(Set<Binhluanthongbao> binhluanthongbaoSet) {
-        this.binhluanthongbaoSet = binhluanthongbaoSet;
+    public void setNguoituvan(Nguoituvan nguoituvan) {
+        this.nguoituvan = nguoituvan;
+    }
+
+    public Userrole getRole() {
+        return role;
+    }
+
+    public void setRole(Userrole role) {
+        this.role = role;
     }
 
     @Override
@@ -237,17 +174,17 @@ public class User implements Serializable {
     }
 
     /**
-     * @return the file
+     * @return the admin
      */
-    public MultipartFile getFile() {
-        return file;
+    public Admin getAdmin() {
+        return admin;
     }
 
     /**
-     * @param file the file to set
+     * @param admin the admin to set
      */
-    public void setFile(MultipartFile file) {
-        this.file = file;
+    public void setAdmin(Admin admin) {
+        this.admin = admin;
     }
     
 }

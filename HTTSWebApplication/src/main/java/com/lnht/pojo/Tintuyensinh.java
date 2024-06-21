@@ -13,13 +13,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -40,18 +40,15 @@ public class Tintuyensinh implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
+    @NotNull(message = "{value.NullMsg}")
     private Integer id;
-    @Lob
-    @Size(max = 65535)
-    @Column(name = "tieude")
-    private String tieude;
     @JoinColumn(name = "loaituyensinh", referencedColumnName = "id")
-    @OneToOne(optional = false)
+    @ManyToOne(optional = false)
     private Loaituyensinh loaituyensinh;
     @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
     @OneToOne(optional = false)
     private Thongtin thongtin;
-    @OneToMany(mappedBy = "tintuyensinhId")
+    @OneToMany(mappedBy = "tintuyensinh")
     private Set<Binhluan> binhluanSet;
 
     public Tintuyensinh() {
@@ -67,14 +64,6 @@ public class Tintuyensinh implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getTieude() {
-        return tieude;
-    }
-
-    public void setTieude(String tieude) {
-        this.tieude = tieude;
     }
 
     public Loaituyensinh getLoaituyensinh() {

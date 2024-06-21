@@ -39,16 +39,16 @@ public class Khoa implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @NotNull
+    @NotNull(message = "{value.NullMsg}")
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 45)
+    @NotNull(message = "{value.NullMsg}")
+    @Size(min = 1, max = 45, message = "{value.SizeMsg}")
     @Column(name = "tenkhoa")
     private String tenkhoa;
     @Lob
-    @Size(max = 65535)
+    @Size(max = 65535, message = "{value.SizeMsg}")
     @Column(name = "video")
     private String video;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "khoa1")

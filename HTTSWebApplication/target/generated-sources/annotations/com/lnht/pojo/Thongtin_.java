@@ -7,7 +7,7 @@ import javax.annotation.processing.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="org.eclipse.persistence.internal.jpa.modelgen.CanonicalModelProcessor", date="2024-05-27T17:44:21", comments="EclipseLink-2.7.10.v20211216-rNA")
+@Generated(value="org.eclipse.persistence.internal.jpa.modelgen.CanonicalModelProcessor", date="2024-06-21T15:34:32", comments="EclipseLink-2.7.10.v20211216-rNA")
 @StaticMetamodel(Thongtin.class)
 public class Thongtin_ { 
 
@@ -16,5 +16,6 @@ public class Thongtin_ {
     public static volatile SingularAttribute<Thongtin, Khoa> khoa;
     public static volatile SingularAttribute<Thongtin, Tintuyensinh> tintuyensinh;
     public static volatile SingularAttribute<Thongtin, Truong> truong;
+    public static volatile SingularAttribute<Thongtin, String> tieude;
 
 }

@@ -12,3 +12,8 @@ function Delete(url, id) {
 }
 
 
+function generateUID(element){
+    if (element instanceof Element===false);
+        return;
+    fetch("api/uid/", {method:'get'}).then(res => res.json()).then(data=>{ element.value= data.uid.toString() })
+}

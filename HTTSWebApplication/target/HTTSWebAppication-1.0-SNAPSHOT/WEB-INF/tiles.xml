@@ -35,15 +35,67 @@ Software Foundation//DTD Tiles Configuration 3.0//EN"
         <put-attribute name="title" value="Trang khoa" />
         <put-attribute name="content"
                        value="/WEB-INF/pages/faculty.jsp" />
-    </definition>
-    <definition name="news" extends="baseLayout">
+    </definition>   
+    <definition name="admissionNews" extends="baseLayout">
         <put-attribute name="title" value="Trang tin tức" />
         <put-attribute name="content"
-                       value="/WEB-INF/pages/news.jsp" />
+                       value="/WEB-INF/pages/admissionNews.jsp" />
     </definition>
-    <definition name="detailUser" extends="baseLayout">
-        <put-attribute name="title" value="Trang chi tiết" />
+    <definition name="comment" extends="baseLayout">
+        <put-attribute name="title" value="Trang bình luận" />
         <put-attribute name="content"
-                       value="/WEB-INF/pages/detailUser.jsp" />
+                       value="/WEB-INF/pages/comment.jsp" />
     </definition>
+    <definition name="question" extends="baseLayout">
+        <put-attribute name="title" value="Trang câu hỏi" />
+        <put-attribute name="content"
+                       value="/WEB-INF/pages/question.jsp" />
+        </definition>
+        <definition name="detailUser" extends="baseLayout">
+            <put-attribute name="title" value="Trang chi tiết người dùng" />
+            <put-attribute name="content"
+                           value="/WEB-INF/pages/detailUser.jsp" />
+        </definition>
+        <definition name="detailAdmissionNews" extends="baseLayout">
+            <put-attribute name="title" value="Trang chi tiết tin tuyển sinh" />
+            <put-attribute name="content"
+                           value="/WEB-INF/pages/detailAdmissionNews.jsp" />
+        </definition>
+        <definition name="detailImage" extends="baseLayout">
+            <put-attribute name="title" value="Trang chi tiết ảnh" />
+            <put-attribute name="content"
+                           value="/WEB-INF/pages/detailImage.jsp" />
+        </definition>
+                <definition name="detailBanner" extends="baseLayout">
+            <put-attribute name="title" value="Trang chi tiết ảnh" />
+            <put-attribute name="content"
+                           value="/WEB-INF/pages/detailBanner.jsp" />
+        </definition>
+        <definition name="detailQuestion" extends="baseLayout">
+            <put-attribute name="title" value="Trang chi tiết câu " />
+            <put-attribute name="content"
+                           value="/WEB-INF/pages/detailQuestion.jsp" />
+        </definition>
+    
+        <definition name="detailComment" extends="baseLayout">
+            <put-attribute name="title" value="Trang chi tiết bình luận" />
+            <put-attribute name="content"
+                           value="/WEB-INF/pages/detailComment.jsp" />
+        </definition>
+        <definition name="detailMajor" extends="baseLayout">
+            <put-attribute name="title" value="Trang chi tiết ngành" />
+            <put-attribute name="content"
+                           value="/WEB-INF/pages/detailMajor.jsp" />
+        </definition>
+        <definition name="detailFaculty" extends="baseLayout">
+            <put-attribute name="title" value="Trang chi tiết khoa" />
+            <put-attribute name="content"
+                           value="/WEB-INF/pages/detailFaculty.jsp" />
+        </definition>
+        <definition name="detailEducationProgram" extends="baseLayout">
+            <put-attribute name="title" value="Trang chi tiết CTDT" />
+            <put-attribute name="content"
+                           value="/WEB-INF/pages/detailEducationProgram.jsp" />
+        </definition>
+        
 </tiles-definitions>

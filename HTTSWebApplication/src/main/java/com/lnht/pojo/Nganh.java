@@ -38,12 +38,12 @@ public class Nganh implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @NotNull
+    @NotNull(message = "{value.NullMsg}")
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 70)
+    @NotNull(message = "{value.NullMsg}")
+    @Size(min = 1, max = 70, message = "{value.SizeMsg}")
     @Column(name = "ten")
     private String ten;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "nganh1")
