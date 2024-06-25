@@ -5,6 +5,7 @@
 package com.lnht.service;
 
 import com.lnht.pojo.Chuongtrinhdaotao;
+import com.lnht.pojo.Diemtrungtuyen;
 import com.lnht.pojo.Khoa;
 import com.lnht.pojo.Nganh;
 import java.util.List;
@@ -22,14 +23,22 @@ public interface FacultyService {
     void postOrEditFaculty(Khoa f, Map<String,Object> params, HttpServletRequest request);
     void postOrEditMajor(Nganh f, Map<String,Object> params, HttpServletRequest request);
     void postOrEditEducationProgram(Chuongtrinhdaotao f, Map<String,Object> params, HttpServletRequest request);
+    void postOrEditAdmissionScore(Diemtrungtuyen d, Map<String, Object> params, HttpServletRequest request);
     void deleteFaculty(int id);
     void deleteMajor(int id);
     void deleteEducationProgram(int id);
-    List<Khoa> getAll();
-    List<Khoa> getAll(Map<String,String> params);
-    List<Nganh> getAllMajor(Map<String,String> params);
-    List<Chuongtrinhdaotao> getAllEducationProgram(Map<String,String> params);
+    void deleteAdmisisonScore(int id);
+    List<Khoa> getAllFaculty();
+        List<Nganh> getAllMajor();
+    List<Chuongtrinhdaotao> getAllEducationProgram();
+
+    List<Khoa> getAll(Map<String,Object> params);
+    List<Nganh> getAllMajor(Map<String,Object> params);
+    List<Chuongtrinhdaotao> getAllEducationProgram(Map<String,Object> params);
     int countFaculty();
     int countMajor();
     int countEducationProgram();
+    int countAdmissionScore();
+    List<Diemtrungtuyen> getAllAdmissionScore(Map<String,Object> params);
+    Diemtrungtuyen getAdmissionScoreById(int id);
 }

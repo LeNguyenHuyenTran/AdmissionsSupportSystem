@@ -5,6 +5,7 @@
 package com.lnht.pojo;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -36,6 +37,18 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Chuongtrinhdaotao.findByTen", query = "SELECT c FROM Chuongtrinhdaotao c WHERE c.ten = :ten")})
 public class Chuongtrinhdaotao implements Serializable {
 
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 70)
+    @Column(name = "ten")
+    private String ten;
+    @Lob
+    @Size(max = 2147483647)
+    @Column(name = "mota")
+    private String mota;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "chuongtrinhdaotao")
+    private Set<Diemtrungtuyen> diemtrungtuyenSet;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,17 +56,8 @@ public class Chuongtrinhdaotao implements Serializable {
     @Column(name = "id")
     @NotNull(message = "{value.NullMsg}")
     private Integer id;
-    @Basic(optional = false)
-    @NotNull(message = "{value.NullMsg}")
-    @Size(min = 1, max = 70)
-    @Column(name = "ten")
-    private String ten;
-    @Lob
-    @Size(min=1, max = 2147483647, message = "{value.SizeMsg}")
-    @Column(name = "mota")
-    private String mota;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "chuongtrinhdaotao1")
-    private Set<Diemtrungtuyen> diemtrungtuyenSet;
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "chuongtrinhdaotao1")
+//    private Set<Diemtrungtuyen> diemtrungtuyenSet;
 
     public Chuongtrinhdaotao() {
     }
@@ -73,6 +77,38 @@ public class Chuongtrinhdaotao implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+
+//    @XmlTransient
+//    public Set<Diemtrungtuyen> getDiemtrungtuyenSet() {
+//        return Collections.unmodifiableSet(diemtrungtuyenSet);
+//    }
+//
+//    public void setDiemtrungtuyenSet(Set<Diemtrungtuyen> diemtrungtuyenSet) {
+//        this.diemtrungtuyenSet = diemtrungtuyenSet;
+//    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Chuongtrinhdaotao)) {
+            return false;
+        }
+        Chuongtrinhdaotao other = (Chuongtrinhdaotao) object;
+        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
+    }
+
+    @Override
+    public String toString() {
+        return "com.lnht.pojo.Chuongtrinhdaotao[ id=" + id + " ]";
     }
 
     public String getTen() {
@@ -98,31 +134,6 @@ public class Chuongtrinhdaotao implements Serializable {
 
     public void setDiemtrungtuyenSet(Set<Diemtrungtuyen> diemtrungtuyenSet) {
         this.diemtrungtuyenSet = diemtrungtuyenSet;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Chuongtrinhdaotao)) {
-            return false;
-        }
-        Chuongtrinhdaotao other = (Chuongtrinhdaotao) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "com.lnht.pojo.Chuongtrinhdaotao[ id=" + id + " ]";
     }
     
 }

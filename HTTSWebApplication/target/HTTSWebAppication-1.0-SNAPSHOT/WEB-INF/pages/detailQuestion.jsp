@@ -9,10 +9,13 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 
-<c:url value="/questions" var="action"/>
+<c:url value="/question" var="action"/>
 <h2 class="px-5 mb-4 text-left text-body fw-bold">${title}</h2>
 
 <form:form  class="px-5" method="post" action="${action}" >
+      <c:if test="${not empty sessionScope.createQuestionMessage}">
+                                        <div class="mb-3 alert-info alert py-2">${sessionScope.createQuestionMessage}</div>
+                                    </c:if>
     <form:errors path="*" cssClass="text-danger mb-3" element="span"/>
 
     <div class="mb-3">
@@ -29,7 +32,7 @@
 
     <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Create</label>
-        <input   type="datetime-local" value="${question.thoidiem}" name="thoidiemdate" class="form-control" id="exampleFormControlInput1" placeholder="your content"/>
+        <input   type="datetime-local" value="${question.thoidiem}" name="thoidiem" class="form-control" id="exampleFormControlInput1" placeholder="your content"/>
     </div>
     <form:errors path="thoidiem" cssClass="text-danger mb-3" element="span"/>
     <div class="mb-3">
@@ -88,6 +91,11 @@
             </c:forEach>
         </select>
     </div>
+<c:if test="${not empty sessionScope.questionErrors}">
+                                            <c:forEach items="${sessionScope.questionErrors}" var="error">
+                                                <div class="text-danger alert alert-info p-2 mb-3">${error}</div>
+                                            </c:forEach>
+                                                </c:if>
     <div class="mb-3">
         <button type="submit" class="btn btn-dark">Create</button>
     </div>

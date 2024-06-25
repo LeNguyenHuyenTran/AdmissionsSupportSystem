@@ -5,6 +5,7 @@
 package com.lnht.pojo;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -49,6 +50,7 @@ public class Tintuyensinh implements Serializable {
     @OneToOne(optional = false)
     private Thongtin thongtin;
     @OneToMany(mappedBy = "tintuyensinh")
+    
     private Set<Binhluan> binhluanSet;
 
     public Tintuyensinh() {
@@ -84,7 +86,7 @@ public class Tintuyensinh implements Serializable {
 
     @XmlTransient
     public Set<Binhluan> getBinhluanSet() {
-        return binhluanSet;
+        return Collections.unmodifiableSet(binhluanSet);
     }
 
     public void setBinhluanSet(Set<Binhluan> binhluanSet) {

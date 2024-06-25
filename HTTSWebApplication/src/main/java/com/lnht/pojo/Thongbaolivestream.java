@@ -36,16 +36,16 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Thongbaolivestream.findByGiolivestream", query = "SELECT t FROM Thongbaolivestream t WHERE t.giolivestream = :giolivestream")})
 public class Thongbaolivestream implements Serializable {
 
+    @Column(name = "giolivestream")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date giolivestream;
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @NotNull(message = "{value.NullMsg}")
     @Column(name = "id")
     private Integer id;
-    @Column(name = "giolivestream")
-    @Temporal(TemporalType.TIMESTAMP)
-    @NotNull(message = "{value.NullMsg}")
-    private Date giolivestream;
     @JoinColumn(name = "nguoidangthongbao", referencedColumnName = "id")
     @ManyToOne
     private Nguoituvan nguoidangthongbao;
@@ -70,13 +70,6 @@ public class Thongbaolivestream implements Serializable {
         this.id = id;
     }
 
-    public Date getGiolivestream() {
-        return giolivestream;
-    }
-
-    public void setGiolivestream(Date giolivestream) {
-        this.giolivestream = giolivestream;
-    }
 
     public Nguoituvan getNguoidangthongbao() {
         return nguoidangthongbao;
@@ -126,6 +119,14 @@ public class Thongbaolivestream implements Serializable {
     @Override
     public String toString() {
         return "com.lnht.pojo.Thongbaolivestream[ id=" + id + " ]";
+    }
+
+    public Date getGiolivestream() {
+        return giolivestream;
+    }
+
+    public void setGiolivestream(Date giolivestream) {
+        this.giolivestream = giolivestream;
     }
     
 }

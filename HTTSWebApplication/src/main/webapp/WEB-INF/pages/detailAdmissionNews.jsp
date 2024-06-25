@@ -12,6 +12,9 @@
 <h2 class="mb-4 text-left text-body fw-bold px-5">${title}</h2>
 
 <form:form  class="px-5" method="post" name="admissionNews" action="${action}" >
+     <c:if test="${not empty sessionScope.createAdmissionNewsMessage}">
+                                        <div class="mb-3 alert-info alert py-2">${sessionScope.createAdmissionNewsMessage}</div>
+                                    </c:if>
     <form:errors path="*" cssClass="text-danger mb-3" element="span"/>
 
     <div class="mb-3">
@@ -51,7 +54,11 @@
             <textarea   class="form-control mb-3 ckeditor" id="tinyContent2" rows="10" cols="50" name="noidung" type="text" placeholder="your content">${admissionNews.thongtin.noidung}</textarea>
         </div>
         <form:errors path="noidung" cssClass="text-danger mb-3" element="span"/>
-
+<c:if test="${not empty sessionScope.admissionNewsErrors}">
+                                            <c:forEach items="${sessionScope.admissionNewsErrors}" var="error">
+                                                <div class="text-danger alert alert-info p-2 mb-3">${error}</div>
+                                            </c:forEach>
+                                                </c:if>
         <button type="submit" class="btn btn-dark mb-3">Update</button>
     </div>
 </form:form>

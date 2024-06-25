@@ -12,26 +12,22 @@ import javax.validation.constraints.Size;
  * @author minh-nguyen
  */
 public class CommentDTO {
-    @NotNull(message = "{value.NullMsg")
-    private Integer id;
-    @Size(min=5,max=40,message = "{value.SizeMsg}")
+    private String id;
     private String userid;
-    @Size(min=5,max=40,message = "{value.SizeMsg}")
     private String admissionnewsid;
-    @Size(min=5,max=40,message = "{value.SizeMsg}")
     private String binhluan;
 
     /**
      * @return the id
      */
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
     /**
      * @param id the id to set
      */
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

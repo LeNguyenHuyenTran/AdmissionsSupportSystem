@@ -61,9 +61,8 @@ public class QuestionServiceImpl implements QuestionService{
         
         b.setId(Integer.parseInt((String) params.get("id")));
         b.setNoidung((String) params.get("noidung"));
-//        b.setTintuyensinh(admissionNewsRepo.getById(Integer.parseInt((String) params.get("admissionnewsid"))));
         b.setThisinh(userRepo.getStudentById(Integer.parseInt((String) params.get("userid"))));
-        String dateTimeString = (String) params.get("thoidiemdate");
+        String dateTimeString = (String) params.get("thoidiem");
 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
 
 // Parse the string into a LocalDateTime

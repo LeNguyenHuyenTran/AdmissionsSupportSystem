@@ -33,6 +33,13 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Binhluan.findById", query = "SELECT b FROM Binhluan b WHERE b.id = :id")})
 public class Binhluan implements Serializable {
 
+    @Basic(optional = false)
+    @NotNull
+    @Lob
+    @Size(min = 1, max = 65535)
+    @Column(name = "binhluan")
+    private String binhluan;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,12 +47,6 @@ public class Binhluan implements Serializable {
     @Column(name = "id")
     @NotNull(message = "{value.NullMsg}")
     private Integer id;
-    @Basic(optional = false)
-    @NotNull(message = "{value.NullMsg}")
-    @Lob
-    @Size(min = 1, max = 65535, message = "{value.SizeMsg}")
-    @Column(name = "binhluan")
-    private String binhluan;
     @JoinColumn(name = "tintuyensinh", referencedColumnName = "id")
     @ManyToOne
     private Tintuyensinh tintuyensinh;
@@ -73,13 +74,6 @@ public class Binhluan implements Serializable {
         this.id = id;
     }
 
-    public String getBinhluan() {
-        return binhluan;
-    }
-
-    public void setBinhluan(String binhluan) {
-        this.binhluan = binhluan;
-    }
 
     public Tintuyensinh getTintuyensinh() {
         return tintuyensinh;
@@ -120,6 +114,14 @@ public class Binhluan implements Serializable {
     @Override
     public String toString() {
         return "com.lnht.pojo.Binhluan[ id=" + id + " ]";
+    }
+
+    public String getBinhluan() {
+        return binhluan;
+    }
+
+    public void setBinhluan(String binhluan) {
+        this.binhluan = binhluan;
     }
     
 }

@@ -15,30 +15,53 @@ import org.springframework.validation.Validator;
  *
  * @author minh-nguyen
  */
-@Component
-public class QuestionValidator implements Validator{
+public class QuestionValidator extends ValidatorTemp {
 
-    @Override
-    public boolean supports(Class<?> clazz) {
-        return QuestionDTO.class.isAssignableFrom(clazz);
+    public boolean validate(QuestionDTO target) {
+        Boolean hasErrors = false;
+
+        if (String.valueOf(target.getId()).isEmpty()==true) {
+            hasErrors = true;
+            this.setEmptyMsg(this.getEmptyMsg(), String.valueOf(target.getId()));
+            this.getErrors().add(this.getEmptyMsg());
+        }
+        if (target.getThoidiem().isEmpty() == true) {
+            this.setEmptyMsg(this.getEmptyMsg(), String.valueOf(target.getThoidiem()));
+            this.getErrors().add(this.getEmptyMsg());
+            hasErrors = true;
+        }
+        if (target.getNoidung().isEmpty() == true) {
+            this.setEmptyMsg(this.getEmptyMsg(), String.valueOf(target.getNoidung()));
+
+            this.getErrors().add(this.getEmptyMsg());
+            hasErrors = true;
+        }
+        if (target.getLivestreamnotifyid().isEmpty() == true) {
+            this.setEmptyMsg(this.getEmptyMsg(), String.valueOf(target.getLivestreamnotifyid()));
+
+            this.getErrors().add(this.getEmptyMsg());
+            hasErrors = true;
+
+        }
+        if (target.getUserid().isEmpty() == true) {
+
+            this.setEmptyMsg(this.getEmptyMsg(), String.valueOf(target.getUserid()));
+
+            this.getErrors().add(this.getEmptyMsg());
+            hasErrors = true;
+        }
+        if (target.getVideolivestreamid().isEmpty() == true) {
+
+            this.setEmptyMsg(this.getEmptyMsg(), String.valueOf(target.getVideolivestreamid()));
+
+            this.getErrors().add(this.getEmptyMsg());
+            hasErrors = true;
+        }
+        if (hasErrors == true) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
-    @Override
-    public void validate(Object target, Errors errors) {
-        QuestionDTO b = (QuestionDTO) target;
-        
-         if(b.getId()==null
-                ){
-            errors.rejectValue("hoten", "value.NullMsg");
-        }
-        if(b.getHoten().isEmpty()==true || b.getHoten()==null
-                ){
-            errors.rejectValue("hoten", "value.NullMsg");
-        }
-        if(b.getThoidiemdate().isEmpty()==true || b.getThoidiemdate()==null){
-            errors.rejectValue("thoidiemdate", "value.NullMsg");
-        }
-
-    }
-    
 }

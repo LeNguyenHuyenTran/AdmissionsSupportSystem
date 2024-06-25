@@ -5,6 +5,7 @@
 package com.lnht.pojo;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -35,19 +36,22 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Nganh.findByTen", query = "SELECT n FROM Nganh n WHERE n.ten = :ten")})
 public class Nganh implements Serializable {
 
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 70)
+    @Column(name = "ten")
+    private String ten;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "nganh")
+    private Set<Diemtrungtuyen> diemtrungtuyenSet;
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @NotNull(message = "{value.NullMsg}")
     @Column(name = "id")
     private Integer id;
-    @Basic(optional = false)
-    @NotNull(message = "{value.NullMsg}")
-    @Size(min = 1, max = 70, message = "{value.SizeMsg}")
-    @Column(name = "ten")
-    private String ten;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "nganh1")
-    private Set<Diemtrungtuyen> diemtrungtuyenSet;
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "nganh1")
+//    private Set<Diemtrungtuyen> diemtrungtuyenSet;
     @JoinColumn(name = "khoa", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Khoa khoa;
@@ -72,22 +76,15 @@ public class Nganh implements Serializable {
         this.id = id;
     }
 
-    public String getTen() {
-        return ten;
-    }
 
-    public void setTen(String ten) {
-        this.ten = ten;
-    }
-
-    @XmlTransient
-    public Set<Diemtrungtuyen> getDiemtrungtuyenSet() {
-        return diemtrungtuyenSet;
-    }
-
-    public void setDiemtrungtuyenSet(Set<Diemtrungtuyen> diemtrungtuyenSet) {
-        this.diemtrungtuyenSet = diemtrungtuyenSet;
-    }
+//    @XmlTransient
+//    public Set<Diemtrungtuyen> getDiemtrungtuyenSet() {
+//        return Collections.unmodifiableSet(diemtrungtuyenSet);
+//    }
+//
+//    public void setDiemtrungtuyenSet(Set<Diemtrungtuyen> diemtrungtuyenSet) {
+//        this.diemtrungtuyenSet = diemtrungtuyenSet;
+//    }
 
     public Khoa getKhoa() {
         return khoa;
@@ -111,15 +108,29 @@ public class Nganh implements Serializable {
             return false;
         }
         Nganh other = (Nganh) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
     }
 
     @Override
     public String toString() {
         return "com.lnht.pojo.Nganh[ id=" + id + " ]";
+    }
+
+    public String getTen() {
+        return ten;
+    }
+
+    public void setTen(String ten) {
+        this.ten = ten;
+    }
+
+    @XmlTransient
+    public Set<Diemtrungtuyen> getDiemtrungtuyenSet() {
+        return diemtrungtuyenSet;
+    }
+
+    public void setDiemtrungtuyenSet(Set<Diemtrungtuyen> diemtrungtuyenSet) {
+        this.diemtrungtuyenSet = diemtrungtuyenSet;
     }
     
 }

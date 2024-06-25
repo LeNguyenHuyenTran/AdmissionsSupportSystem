@@ -21,8 +21,10 @@ import com.lnht.repository.UserRoleRepository;
 import com.lnht.service.UserService;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
@@ -30,16 +32,26 @@ import javax.servlet.http.HttpSession;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
+
 
 /**
  *
  * @author minh-nguyen
  */
-@Service
+@Service("userDetailsService")
 public class UserServiceImpl implements UserService {
 
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    
     @Autowired
     private UserRepository userRepo;
 
@@ -62,11 +74,19 @@ public class UserServiceImpl implements UserService {
     public List<User> getUsers(Map<String, Object> params) {
         return userRepo.getUsers(params);
     }
-
+@Override
+    public User getUserByUsername(String username) {
+        return this.userRepo.getUserByUsername(username);
+    }
     @Override
     public void addOrUpdateUser(User user, HttpServletRequest request, Map<String, Object> params) {
         HttpSession session = request.getSession();
-
+        String pass = user.getPassword();
+        if(pass.length()<30)
+            user.setPassword(this.bCryptPasswordEncoder.encode(pass));
+        else{
+            user.setPassword(pass);
+        }
         user.setBinhluanSet(commentRepo.getAll());
         user.setBannerSet(imageRepo.getAllBannerWithSetType());
 
@@ -139,7 +159,6 @@ public class UserServiceImpl implements UserService {
         return this.userRepo.getUsers();
     }
 
-    
     @Override
     public int countUser() {
         return this.userRepo.countUser();
@@ -169,5 +188,45 @@ public class UserServiceImpl implements UserService {
     public void deleteUser(int id) {
         this.userRepo.deleteUser(id);
     }
+    @Override
+        public List<User> getUser(String username) {
+            return this.userRepo.getUser(username);
+        }
+    
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        List<User> users = this.getUser(username);
+        if (users.isEmpty()) {
+            throw new UsernameNotFoundException("Username does not exist!!!");
+        }
+        User user = users.get(0);
+        Set<GrantedAuthority> auth = new HashSet<>();
+        auth.add(new SimpleGrantedAuthority(user.getRole().getRole()));
+        
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), auth);
+    }
 
+    @Override
+    public boolean addUser(User user) {
+        String pass = user.getPassword();
+        user.setPassword(this.bCryptPasswordEncoder.encode(pass));
+        user.setRole(user.getRole());
+        this.userRepo.addUser(user);
+        if(user.getRole().getId().equals(1)){
+            Admin e = new Admin();
+            e.setId(user.getId());
+            e.setUser(user);
+            this.userRepo.addOrUpdateAdmin(e);
+            return true;
+        }else if(user.getRole().getId().equals(2)){
+            Nguoituvan e = new Nguoituvan();
+            e.setId(user.getId());
+            e.setUser(user);
+            this.userRepo.addOrUpdateInstructor(e);
+            return true;
+        }
+        return false;
+    }
+
+    
 }

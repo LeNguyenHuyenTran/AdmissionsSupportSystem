@@ -12,26 +12,30 @@
 <h2 class="px-5 mb-4 text-left text-body fw-bold">${title}</h2>
 
 
-<form:form class="px-5" name="faculty" method="post" action="${action}" enctype="multipart/form-data" >
-            <form:errors path="*" cssClass="text-danger mb-3" element="span"/>
-    <input type="hidden" name="major"/>
+                        
+
+<form:form class="px-5"  name="major" method="post" action="${action}" enctype="multipart/form-data" >
+    <c:if test="${not empty createMajorMessage}">
+    <div class="mb-3 alert-info alert py-2">${createMajorMessage}</div>
+</c:if>
     <input type="hidden" name="current-tab" value="major"/>
+    <form:errors path="*" cssClass="text-danger mb-3" element="span"/>
+    <input type="hidden" name="major"/>
 
     <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Id</label>
         <input value="${major.id}" readonly name="id" type="text" class="form-control mb-3" id="exampleFormControlInput1" placeholder="your id"/>
         <form:errors path="id" cssClass="text-danger mb-3" element="span"/>
 
-        <label for="exampleFormControlInput1" class="form-label">Major</label>
-        <input   value="${major.ten}" name="ten" type="text" class="form-control mb-3" id="exampleFormControlInput1" placeholder="your major name"/>
-        <!--<input name="tieude" type="hidden" class="form-control mb-3"/>-->
+        <label for="exampleFormControlInput1" class="form-label">Ten nganh</label>
+        <input value="${major.ten}"   name="ten" type="text" class="form-control mb-3" id="exampleFormControlInput1" placeholder="your title"/>
         <form:errors path="ten" cssClass="text-danger mb-3" element="span"/>
 
         <div class="mb-3">
-            <label for="exampleFormControlInput1" class="form-label">Faculty</label>
-            <select class="form-select" id="exampleFormControlInput1" name="khoaid" aria-label="Default select example">
+            <label for="exampleFormControlInput1" class="form-label">Khoa</label>
+            <select name="khoaid" class="form-select" id="exampleFormControlInput1"  aria-label="Default select example">
                 <c:forEach items="${faculties1}"  var="faculty">
-                    
+
                     <c:set var="mjId" value="${major.khoa.id}"/>
                     <c:set var="mjId2" value="${faculty.id}"/>
 
@@ -46,9 +50,16 @@
                 </c:forEach>
             </select>
         </div>
-
+        <c:choose>
+            <c:when test="${not empty sessionScope.majorErrors}">
+                <c:forEach items="${sessionScope.majorErrors}" var="error">
+                    <div class="text-danger alert alert-info p-2 mb-3">${error}</div>
+                </c:forEach>
+            </c:when>
+        </c:choose>
 
         <button type="submit" class="btn btn-dark mb-3">Create</button>
+
     </div>
 </form:form>
 

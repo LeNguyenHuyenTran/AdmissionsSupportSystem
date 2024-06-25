@@ -5,6 +5,26 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+        <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+       <c:url value="/" var="indexAction" />
+
+        <c:url value="/login" var="loginAction" />
+        <c:url value="/logout" var="logoutAction" />
+
+        <c:url value="/register" var="registerAction" />
+        <c:url value="/user" var="userAction" />
+        <c:url value="/images" var="imageAction" />
+        <c:url value="/images?image=banner" var="bannerAction" />
+
+        <c:url value="/faculty" var="facultyAction" />
+        <c:url value="/questions" var="questionAction" />
+        <c:url value="/comments" var="commentAction" />
+        <c:url value="/admission-news" var="admissionNewsAction" />
+        <c:url value="/faculty?current-tab=major" var="majorAction" />
+        <c:url value="/faculty?current-tab=educationProgram" var="educationProgramAction" />
+        <c:url value="/faculty?current-tab=admissionScore" var="admissionScoreAction" />
+
 <div class="sidebar sidebar-dark sidebar-fixed border-end" id="sidebar" datasqstyle="{&quot;top&quot;:null}" datasquuid="c3f2de4c-e8b3-4191-a44f-ef5f8c885813" datasqtop="40">
     <div class="sidebar-header border-bottom">
         <div class="sidebar-brand">
@@ -18,25 +38,33 @@
         <button class="btn-close d-lg-none" type="button" data-coreui-dismiss="offcanvas" data-coreui-theme="dark" aria-label="Close" onclick="coreui.Sidebar.getInstance(document.querySelector( & quot; #sidebar & quot; )).toggle()"></button>
     </div>
     <ul class="sidebar-nav simplebar-scrollable-y" data-coreui="navigation" data-simplebar="init"><div class="simplebar-wrapper" style="margin: -8px;"><div class="simplebar-height-auto-observer-wrapper"><div class="simplebar-height-auto-observer"></div></div><div class="simplebar-mask"><div class="simplebar-offset" style="right: 0px; bottom: 0px;"><div class="simplebar-content-wrapper" tabindex="0" role="region" aria-label="scrollable content" style="height: 100%; overflow: hidden scroll;"><div class="simplebar-content" style="padding: 8px;">
-                            <li class="nav-item"><a class="nav-link" href="index.html">
+                            <li class="nav-item"><a class="nav-link" href="${indexAction}">
                                     <i class="fa-solid fa-table-columns fa-lg me-3"></i>Dashboard</a></li>
                             <li class="nav-title">System</li>
-                            <li class="nav-item"><a class="nav-link" href="colors.html">
+                            <li class="nav-item"><a class="nav-link" href="${userAction}">
                                     <i class="fa-solid fa-users fa-lg me-3"></i>Users</a></li>
-                            <li class="nav-item"><a class="nav-link" href="colors.html">
-                                    <i class="fa-solid fa-building fa-lg me-3"></i>Faculty</a></li>
-                            <li class="nav-item"><a class="nav-link" href="colors.html">
-                                    <i class="fa-solid fa-newspaper fa-lg me-3"></i>News</a></li>
-                            <li class="nav-item"><a class="nav-link" href="colors.html">
+                            <li class="nav-item"><a class="nav-link" href="${admissionNewsAction}">
+                                    <i class="fa-solid fa-newspaper fa-lg me-3"></i>Admission News</a></li>
+                            <li class="nav-item"><a class="nav-link" href="${commentAction}">
                                     <i class="fa-solid fa-comments fa-lg me-3"></i>Comment</a></li>
-                            <li class="nav-group"><a class="nav-link nav-group-toggle" href="#">
-                            <i class="fa-solid fa-book-open me-3"></i>Education program</a>
-<!--                                <ul class="nav-group-items compact">
-                                    <li class="nav-item"><a class="nav-link" href="base/accordion.html"><span class="nav-icon"><span class="nav-icon-bullet"></span></span> Images</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="base/breadcrumb.html"><span class="nav-icon"><span class="nav-icon-bullet"></span></span> Avatar</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="base/breadcrumb.html"><span class="nav-icon"><span class="nav-icon-bullet"></span></span> Banner</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="base/breadcrumb.html"><span class="nav-icon"><span class="nav-icon-bullet"></span></span> Video</a></li>
-                                </ul>-->
+                                    <li class="nav-item"><a class="nav-link" href="${questionAction}">
+                                    <i class="fa-solid fa-circle-question me-3"></i>Question</a></li>
+                            <li class="nav-group"><a class="nav-link nav-group-toggle" href="${facultyAction}">
+                            <i class="fa-solid fa-book-open me-3"></i>Faculty</a>
+                                <ul class="nav-group-items compact">
+                                    <li class="nav-item"><a class="nav-link" href="${facultyAction}"><span class="nav-icon"><span class="nav-icon-bullet"></span></span> Faculty</a></li>
+
+                                    <li class="nav-item"><a class="nav-link" href="${majorAction}"><span class="nav-icon"><span class="nav-icon-bullet"></span></span> Major</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="${educationProgramAction}"><span class="nav-icon"><span class="nav-icon-bullet"></span></span> Education Program</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="${admissionScoreAction}"><span class="nav-icon"><span class="nav-icon-bullet"></span></span>Admission Score</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-group"><a class="nav-link nav-group-toggle" href="${imageAction}">
+                            <i class="fa-solid fa-image me-3"></i>Image</a>
+                                <ul class="nav-group-items compact">
+                                    <li class="nav-item"><a class="nav-link" href="${imageAction}"><span class="nav-icon"><span class="nav-icon-bullet"></span></span> Images</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="${bannerAction}"><span class="nav-icon"><span class="nav-icon-bullet"></span></span> Banner</a></li>
+                                </ul>
                             </li>
                         </div></div></div></div><div class="simplebar-placeholder" style="width: 255px; height: 823px;"></div></div><div class="simplebar-track simplebar-horizontal" style="visibility: hidden;"><div class="simplebar-scrollbar" style="width: 0px; display: none;"></div></div><div class="simplebar-track simplebar-vertical" style="visibility: visible;"><div class="simplebar-scrollbar" style="height: 25px; transform: translate3d(0px, 1px, 0px); display: block;"></div></div></ul>
     <div class="sidebar-footer border-top d-none d-md-flex">

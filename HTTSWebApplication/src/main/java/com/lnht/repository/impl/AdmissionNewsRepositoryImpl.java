@@ -22,6 +22,7 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import com.lnht.repository.AdmissionNewsRepository;
+import javax.persistence.criteria.Order;
 
 /**
  *
@@ -60,13 +61,11 @@ public class AdmissionNewsRepositoryImpl implements AdmissionNewsRepository {
     public void delete(int id) {
         Session session = this.factory.getObject().getCurrentSession();
         Tintuyensinh t = session.get(Tintuyensinh.class, id);
-        
+
         Thongtin q = session.get(Thongtin.class, id);
-        
+
         session.delete(t);
         session.delete(q);
-
-        
 
     }
 
@@ -91,11 +90,12 @@ public class AdmissionNewsRepositoryImpl implements AdmissionNewsRepository {
     }
 
     @Override
-    public List<Tintuyensinh> getAll(Map<String, String> params, String type) {
+    @SuppressWarnings("unchecked")
+    public List<Tintuyensinh> getAll(Map<String, Object> params, String type) {
 
         if (params != null) {
-            String tintucType = params.get("tintuc");
-            String page =  params.getOrDefault("page", String.valueOf(1));
+            String tintucType = (String)params.get("tintuc");
+            String page =(String) params.getOrDefault("page", String.valueOf(1));
             Session session = this.factory.getObject().getCurrentSession();
             CriteriaBuilder b = session.getCriteriaBuilder();
             CriteriaQuery q = null;
@@ -106,14 +106,25 @@ public class AdmissionNewsRepositoryImpl implements AdmissionNewsRepository {
                 root = q.from(Tintuyensinh.class);
                 q.select(root);
 
-                String kw = params.get("keyword");
+                String kw =(String) params.get("keyword");
 
                 if (kw != null && !kw.isEmpty()) {
                     kw = String.format("%%%s%%", kw);
-//                    Predicate p2 = b.like(root.get("tieude"), kw);
-//                    q = q.where(b.or(p2));
+                    Predicate p2 = b.like(root.get("id").as(String.class), kw);
+                    q = q.where(b.or(p2));
                 }
-
+                String sortType = (String) params.get("sort");
+                if (sortType != null && sortType.isEmpty() == false) {
+                    sortType = sortType.trim();
+                    if ("asc".equals(sortType) == true || sortType == "asc" || sortType.startsWith("asc") == true) {
+                        Order o1 = b.asc(root.get("id").as(String.class));
+                        q.orderBy(o1);
+                    }
+                    if ("desc".equals(sortType) == true || sortType == "desc" || sortType.startsWith("desc") == true) {
+                        Order o2 = b.desc(root.get("id").as(String.class));
+                        q.orderBy(o2);
+                    }
+                }
                 Query query = session.createQuery(q);
                 String p = page;
                 if (p != null && !p.isEmpty()) {
@@ -130,15 +141,27 @@ public class AdmissionNewsRepositoryImpl implements AdmissionNewsRepository {
                     root = q.from(Tintuyensinh.class);
                     q.select(root);
 
-                    String kw = params.get("keyword");
+                    String kw = (String) params.get("keyword");
 
                     if (kw != null && !kw.isEmpty()) {
                         kw = String.format("%%%s%%", kw);
 
-//                        Predicate p2 = b.like(root.get("tieude"), kw);
-//                        q = q.where(b.or(p2));
+                        Predicate p2 = b.like(root.get("id").as(String.class), kw);
+                        q = q.where(b.or(p2));
 
                     }
+                    String sortType = (String) params.get("sort");
+                if (sortType != null && sortType.isEmpty() == false) {
+                    sortType = sortType.trim();
+                    if ("asc".equals(sortType) == true || sortType == "asc" || sortType.startsWith("asc") == true) {
+                        Order o1 = b.asc(root.get("id").as(String.class));
+                        q.orderBy(o1);
+                    }
+                    if ("desc".equals(sortType) == true || sortType == "desc" || sortType.startsWith("desc") == true) {
+                        Order o2 = b.desc(root.get("id").as(String.class));
+                        q.orderBy(o2);
+                    }
+                }
                     Query query = session.createQuery(q);
                     String p = page;
                     if (p != null && !p.isEmpty()) {

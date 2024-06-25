@@ -10,42 +10,54 @@
 
 <c:url value="/faculty" var="action"/>
 <h2 class="px-5 mb-4 text-left text-body fw-bold">${title}</h2>
-
-
+                    
 <form:form class="px-5" name="faculty" method="post" action="${action}" enctype="multipart/form-data" >
-    <form:errors path="*" cssClass="text-danger mb-3" element="span"/>
-    <input type="hidden" name="faculty"/>
-        <input type="hidden" name="current-tab" value="faculty"/>
+    <c:if test="${not empty createFacultyMessage}">
+    <div class="mb-3 alert-info alert py-2">${createFacultyMessage}</div>
+</c:if>   
+    <form:errors path="id" cssClass="text-danger mb-3" element="span"/>
+    <input type="hidden" name="current-tab" value="faculty"/>
 
+    <input type="hidden" name="faculty"/>
     <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Id</label>
-        <input value="${faculty.id}" readonly name="id" type="text" class="form-control mb-3" id="exampleFormControlInput1" placeholder="your Id"/>
-    <form:errors path="id" cssClass="text-danger mb-3" element="span"/>
+        <input name="id"  value="${faculty.id}" readonly type="text" class="form-control mb-3" id="exampleFormControlInput1" placeholder="your Id"/>
+        <form:errors path="id" cssClass="text-danger mb-3" element="span"/>
 
         <label for="exampleFormControlInput1" class="form-label">Ten khoa</label>
-        <input   value="${faculty.tenkhoa}" name="tenkhoa" type="text" class="form-control mb-3" id="exampleFormControlInput1" placeholder="your faculty name"/>
-    <form:errors path="tenkhoa" cssClass="text-danger mb-3" element="span"/>
+        <input value="${faculty.tenkhoa}" name="tenkhoa" type="text" class="form-control mb-3" id="exampleFormControlInput1" placeholder="your faculty name"/>
+        <form:errors path="tenkhoa" cssClass="text-danger mb-3" element="span"/>
 
         <!--<input name="tieude" type="hidden" class="form-control mb-3"/>-->
         <div class="mb-3 d-flex flex-col gap-3">
             <label for="exampleFormControlInput1" class="form-label">Content</label>
-            <textarea   name="noidung" class="form-control mb-3 ckeditor" id="tinyContent1" rows="10" cols="100"  type="text" placeholder="your content">${faculty.thongtin.noidung}</textarea>
+            <textarea name="noidung" class="form-control mb-3 ckeditor" id="tinyContent1" rows="10" cols="50"  type="text" placeholder="your content">
+                ${faculty.thongtin.noidung}
+            </textarea>
         </div>
-            <form:errors path="noidung" cssClass="text-danger mb-3" element="span"/>
+        <form:errors path="noidung" cssClass="text-danger mb-3" element="span"/>
 
         <div class="mb-3 d-flex flex-col gap-3">
             <label for="exampleFormControlInput1" class="form-label">Video</label>
-            <textarea   class="form-control mb-3 ckeditor" id="tinyContent2" rows="10" cols="100" name="video" type="text" placeholder="your video content">
+            <textarea class="form-control mb-3 ckeditor" id="tinyContent2" rows="10" cols="50" name="video" type="text" placeholder="your video content">
                 ${faculty.video}
             </textarea>
         </div>
-            <form:errors path="video" cssClass="text-danger mb-3" element="span"/>
+        <form:errors path="video" cssClass="text-danger mb-3" element="span"/>
 
+        <c:choose>
+            <c:when test="${not empty sessionScope.facultyErrors}">
+                <c:forEach items="${sessionScope.facultyErrors}" var="error">
+                    <div class="text-danger alert alert-info p-2 mb-3">${error}</div>
+                </c:forEach>
+            </c:when>
+        </c:choose>
 
         <button type="submit" class="btn btn-dark mb-3">Create</button>
+
+
     </div>
 </form:form>
-
 
 <script src="https://cdn.tiny.cloud/1/${TinyMCE_Key}/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
 <!--                                            <script>

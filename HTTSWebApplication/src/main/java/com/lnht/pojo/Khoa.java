@@ -5,6 +5,7 @@
 package com.lnht.pojo;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -36,25 +37,30 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Khoa.findByTenkhoa", query = "SELECT k FROM Khoa k WHERE k.tenkhoa = :tenkhoa")})
 public class Khoa implements Serializable {
 
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
+    @Column(name = "tenkhoa")
+    private String tenkhoa;
+    @Lob
+    @Size(max = 65535)
+    @Column(name = "video")
+    private String video;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "khoa")
+    private Set<Diemtrungtuyen> diemtrungtuyenSet;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "khoa")
+    private Set<Nganh> nganhSet;
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @NotNull(message = "{value.NullMsg}")
     @Column(name = "id")
     private Integer id;
-    @Basic(optional = false)
-    @NotNull(message = "{value.NullMsg}")
-    @Size(min = 1, max = 45, message = "{value.SizeMsg}")
-    @Column(name = "tenkhoa")
-    private String tenkhoa;
-    @Lob
-    @Size(max = 65535, message = "{value.SizeMsg}")
-    @Column(name = "video")
-    private String video;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "khoa1")
-    private Set<Diemtrungtuyen> diemtrungtuyenSet;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "khoa")
-    private Set<Nganh> nganhSet;
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "khoa1")
+//    private Set<Diemtrungtuyen> diemtrungtuyenSet;
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "khoa")
+//    private Set<Nganh> nganhSet;
     @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
     @OneToOne(optional = false)
     private Thongtin thongtin;
@@ -77,6 +83,58 @@ public class Khoa implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+
+//    @XmlTransient
+//    public Set<Diemtrungtuyen> getDiemtrungtuyenSet() {
+//        return Collections.unmodifiableSet(diemtrungtuyenSet);
+//    }
+//
+//    public void setDiemtrungtuyenSet(Set<Diemtrungtuyen> diemtrungtuyenSet) {
+//        this.diemtrungtuyenSet = diemtrungtuyenSet;
+//    }
+//
+//    @XmlTransient
+//    public Set<Nganh> getNganhSet() {
+//        return Collections.unmodifiableSet(nganhSet);
+//    }
+//
+//    public void setNganhSet(Set<Nganh> nganhSet) {
+//        this.nganhSet = nganhSet;
+//    }
+
+    public Thongtin getThongtin() {
+        return thongtin;
+    }
+
+    public void setThongtin(Thongtin thongtin) {
+        this.thongtin = thongtin;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Khoa)) {
+            return false;
+        }
+        Khoa other = (Khoa) object;
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "com.lnht.pojo.Khoa[ id=" + id + " ]";
     }
 
     public String getTenkhoa() {
@@ -111,39 +169,6 @@ public class Khoa implements Serializable {
 
     public void setNganhSet(Set<Nganh> nganhSet) {
         this.nganhSet = nganhSet;
-    }
-
-    public Thongtin getThongtin() {
-        return thongtin;
-    }
-
-    public void setThongtin(Thongtin thongtin) {
-        this.thongtin = thongtin;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Khoa)) {
-            return false;
-        }
-        Khoa other = (Khoa) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "com.lnht.pojo.Khoa[ id=" + id + " ]";
     }
     
 }

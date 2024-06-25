@@ -35,6 +35,18 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Videolivestream.findByTieude", query = "SELECT v FROM Videolivestream v WHERE v.tieude = :tieude")})
 public class Videolivestream implements Serializable {
 
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
+    @Column(name = "tieude")
+    private String tieude;
+    @Basic(optional = false)
+    @NotNull
+    @Lob
+    @Size(min = 1, max = 65535)
+    @Column(name = "video")
+    private String video;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,17 +54,6 @@ public class Videolivestream implements Serializable {
     @Column(name = "id")
     @NotNull(message = "{value.NullMsg}")
     private Integer id;
-    @Basic(optional = false)
-    @NotNull(message = "{value.NullMsg}")
-    @Size(min = 1, max = 45, message = "{value.SizeMsg}")
-    @Column(name = "tieude")
-    private String tieude;
-    @Basic(optional = false)
-    @NotNull(message = "{value.NullMsg}")
-    @Lob
-    @Size(min = 1, max = 65535, message = "{value.SizeMsg}")
-    @Column(name = "video")
-    private String video;
     @OneToMany(mappedBy = "videolivestream")
     private Set<Thongbaolivestream> thongbaolivestreamSet;
     @OneToMany(mappedBy = "video")
@@ -79,21 +80,6 @@ public class Videolivestream implements Serializable {
         this.id = id;
     }
 
-    public String getTieude() {
-        return tieude;
-    }
-
-    public void setTieude(String tieude) {
-        this.tieude = tieude;
-    }
-
-    public String getVideo() {
-        return video;
-    }
-
-    public void setVideo(String video) {
-        this.video = video;
-    }
 
     @XmlTransient
     public Set<Thongbaolivestream> getThongbaolivestreamSet() {
@@ -136,6 +122,22 @@ public class Videolivestream implements Serializable {
     @Override
     public String toString() {
         return "com.lnht.pojo.Videolivestream[ id=" + id + " ]";
+    }
+
+    public String getTieude() {
+        return tieude;
+    }
+
+    public void setTieude(String tieude) {
+        this.tieude = tieude;
+    }
+
+    public String getVideo() {
+        return video;
+    }
+
+    public void setVideo(String video) {
+        this.video = video;
     }
     
 }

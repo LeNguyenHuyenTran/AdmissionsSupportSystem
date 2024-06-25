@@ -19,9 +19,13 @@
                         <c:url value="/faculty" var="actionFaculty"/>
                         <c:url value="/faculty/major" var="actionMajor"/>
                         <c:url value="/faculty/education-program" var="actionEducationProgram"/>
-                           <c:set value="faculty" var="faculty" />
-                            <c:set value="major" var="major" />
-                            <c:set value="educationProgram" var="educationProgram" />
+                        <c:url value="/faculty/admission-score" var="actionAdmissionScore"/>
+
+                        <c:set value="faculty" var="faculty" />
+                        <c:set value="major" var="major" />
+                        <c:set value="educationProgram" var="educationProgram" />
+                        <c:set value="admissionScore" var="admissionScore" />
+                        
 
                         <!--                        <div class="row d-flex justify-content-between flex-row">
                                                     <div class="col-8">
@@ -60,7 +64,7 @@
                         
                                                 </div>-->
                         <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
- 
+
                             <c:if test="${currentTab eq faculty}">
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link active" id="pills-home-tab" data-coreui-toggle="pill" data-coreui-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Faculty</button>
@@ -94,6 +98,18 @@
                                 </li>
                             </c:if>
 
+                            <c:if test="${currentTab eq admissionScore}">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="pills-contact-tab" data-coreui-toggle="pill" data-coreui-target="#pills-others" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Admission Score</button>
+                                </li>
+                            </c:if>
+                            <c:if test="${currentTab ne admissionScore}">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="pills-contact-tab" data-coreui-toggle="pill" data-coreui-target="#pills-others" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Admission Score</button>
+                                </li>
+                            </c:if>
+
+
                             <!--                            <li class="nav-item" role="presentation">
                                                             <button class="nav-link active" id="pills-home-tab" data-coreui-toggle="pill" data-coreui-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Faculty</button>
                                                         </li>-->
@@ -108,777 +124,1538 @@
 
 
                         <div class="tab-content" id="pills-tabContent">
-                            
                             <c:if test="${currentTab eq faculty}">
                                 <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" tabindex="0">
 
-                                <div class="row d-flex justify-content-between flex-row">
-                                    <div class="col-8">
-                                        <p class="d-inline-flex gap-1">
-                                            <a class="btn btn-dark" data-coreui-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-                                                Add Faculty
-                                            </a>
-                                        </p>
-                                        <div class="collapse mb-3" id="collapseExample">
-                                            <div class="card card-body container">
+                                    <div class="row d-flex justify-content-between flex-row">
 
-                                                <form:form name="faculty" method="post" action="${actionFaculty}" enctype="multipart/form-data" >
-                                                    <form:errors path="id" cssClass="text-danger mb-3" element="span"/>
-                                                    <input type="hidden" name="current-tab" value="${faculty}"/>
+                                        <%@ page import="org.springframework.security.core.Authentication" %>
+                                        <%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
+                                        <%@ page import="java.util.Collection" %>
+                                        <%@ page import="java.util.List"%>
+                                        <%@ page import="java.util.ArrayList"%>
+                                        <%@page import="org.springframework.security.core.GrantedAuthority"%>
+                                        <%
+                                            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+                                            if (auth != null && auth.isAuthenticated()) {
+                                                Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
+                                                String roleName = authorities.iterator().next().toString();
+                                                if (authorities.iterator().next().toString().equals("ROLE_ADMIN")) {
+                                        %>
+                                        <div class="col-8">
+                                            <p class="d-inline-flex gap-1">
+                                                <a class="btn btn-dark" data-coreui-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                                    Add Faculty
+                                                </a>
+                                            </p>
+                                            <c:if test="${not empty sessionScope.createFacultyMessage}">
+                                                <div class="mb-3 alert-info alert py-2">${sessionScope.createFacultyMessage}</div>
+                                            </c:if>
+                                            <div class="collapse mb-3" id="collapseExample">
+                                                <div class="card card-body container">
 
-                                                    <input type="hidden" name="faculty"/>
-                                                    <div class="mb-3">
-                                                        <label for="exampleFormControlInput1" class="form-label">Id</label>
-                                                        <input name="id"  value="${UID}" readonly type="text" class="form-control mb-3" id="exampleFormControlInput1" placeholder="your Id"/>
+                                                    <form:form name="faculty" method="post" action="${actionFaculty}" enctype="multipart/form-data" >
                                                         <form:errors path="id" cssClass="text-danger mb-3" element="span"/>
+                                                        <input type="hidden" name="current-tab" value="${faculty}"/>
 
-                                                        <label for="exampleFormControlInput1" class="form-label">Ten khoa</label>
-                                                        <input name="tenkhoa" type="text" class="form-control mb-3" id="exampleFormControlInput1" placeholder="your faculty name"/>
-                                                        <form:errors path="tenkhoa" cssClass="text-danger mb-3" element="span"/>
+                                                        <input type="hidden" name="faculty"/>
+                                                        <div class="mb-3">
+                                                            <label for="exampleFormControlInput1" class="form-label">Id</label>
+                                                            <input name="id"  value="${UID}" readonly type="text" class="form-control mb-3" id="exampleFormControlInput1" placeholder="your Id"/>
+                                                            <form:errors path="id" cssClass="text-danger mb-3" element="span"/>
 
-                                                        <!--<input name="tieude" type="hidden" class="form-control mb-3"/>-->
-                                                        <div class="mb-3 d-flex flex-col gap-3">
-                                                            <label for="exampleFormControlInput1" class="form-label">Content</label>
-                                                            <textarea name="noidung" class="form-control mb-3 ckeditor" id="tinyContent1" rows="10" cols="50"  type="text" placeholder="your content"></textarea>
+                                                            <label for="exampleFormControlInput1" class="form-label">Ten khoa</label>
+                                                            <input name="tenkhoa" type="text" class="form-control mb-3" id="exampleFormControlInput1" placeholder="your faculty name"/>
+                                                            <form:errors path="tenkhoa" cssClass="text-danger mb-3" element="span"/>
+
+                                                            <!--<input name="tieude" type="hidden" class="form-control mb-3"/>-->
+                                                            <div class="mb-3 d-flex flex-col gap-3">
+                                                                <label for="exampleFormControlInput1" class="form-label">Content</label>
+                                                                <textarea name="noidung" class="form-control mb-3 ckeditor" id="tinyContent1" rows="10" cols="50"  type="text" placeholder="your content"></textarea>
+                                                            </div>
+                                                            <form:errors path="noidung" cssClass="text-danger mb-3" element="span"/>
+
+                                                            <div class="mb-3 d-flex flex-col gap-3">
+                                                                <label for="exampleFormControlInput1" class="form-label">Video</label>
+                                                                <textarea class="form-control mb-3 ckeditor" id="tinyContent2" rows="10" cols="50" name="video" type="text" placeholder="your video content"></textarea>
+                                                            </div>
+                                                            <form:errors path="video" cssClass="text-danger mb-3" element="span"/>
+
+                                                            <c:choose>
+                                                                <c:when test="${not empty sessionScope.facultyErrors}">
+                                                                    <c:forEach items="${sessionScope.facultyErrors}" var="error">
+                                                                        <div class="text-danger alert alert-info p-2 mb-3">${error}</div>
+                                                                    </c:forEach>
+                                                                </c:when>
+                                                            </c:choose>
+
+                                                            <button type="submit" class="btn btn-dark mb-3">Create</button>
+
+
                                                         </div>
-                                                        <form:errors path="noidung" cssClass="text-danger mb-3" element="span"/>
+                                                    </form:form>
+                                                </div>
 
-                                                        <div class="mb-3 d-flex flex-col gap-3">
-                                                            <label for="exampleFormControlInput1" class="form-label">Video</label>
-                                                            <textarea class="form-control mb-3 ckeditor" id="tinyContent2" rows="10" cols="50" name="video" type="text" placeholder="your video content"></textarea>
-                                                        </div>
-                                                        <form:errors path="video" cssClass="text-danger mb-3" element="span"/>
-
-
-                                                        <button type="submit" class="btn btn-dark mb-3">Create</button>
-
-
-                                                    </div>
-                                                </form:form>
                                             </div>
-
                                         </div>
+                                        <%      } else {
+                                        %>
+                                        <div class="col-8">
+                                            <h3>👋&nbsp;Welcome,&nbsp;<%= auth.getName()%>!</h3>
+                                        </div>
+                                        <%
+                                                }
+                                            }
+                                        %>
+
+
+
                                     </div>
 
-                                </div>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <form action="${actionFaculty}" class="btn-group mb-3" role="group" aria-label="Basic outlined example">
+                                            <input type="hidden" name="current-tab" value="${faculty}"/>
 
-                                <div class="d-flex">
-                                    <form action="${actionFaculty}" class="btn-group mb-3" role="group" aria-label="Basic outlined example">
-                                        <input type="hidden" name="current-tab" value="${faculty}"/>
+                                            <input type="text" name="facultyKeyword" placeholder="Search" class="form-control"></input>
+                                            <button type="submit" class="btn btn-outline-primary">Search</button>
+                                        </form>
+                                            <form  action="${action}" class="btn-group mb-3" role="group" aria-label="Basic outlined example">
+                                                <c:set value="default" var="def"/>
+                                                <c:set value="asc" var="asc"/>
+                                                <c:set value="desc" var="desc"/>
 
-                                        <input type="text" name="facultyKeyword" placeholder="Search" class="form-control"></input>
-                                        <button type="submit" class="btn btn-outline-primary">Search</button>
-                                    </form>
-                                </div>
+                                                <select onchange="Sort('${action}', this)" name="sort" class="form-select" id="exampleFormControlInput1"  aria-label="Default select example">
+                                                    <c:if test="${sortType eq def}">
 
-                                <div class="table-responsive">
-                                    <table class="table border mb-0">
-                                        <thead class="fw-semibold text-nowrap">
-                                            <tr class="align-middle">
-                                                <th class="bg-body-secondary">
-                                                    Id
-                                                </th>
-                                                <th class="bg-body-secondary">Name</th>
-                                                <th class="bg-body-secondary">Content</th>
-                                                <th class="bg-body-secondary">Video</th>
+                                                        <option value="" selected="">Default    </option>
+                                                        <option value="asc">Ascending</option>
+                                                        <<option value="desc">Descending</option>
+                                                    </c:if>
 
-                                                <th class="bg-body-secondary"></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <c:forEach items="${faculties}" var="faculty" >
-                                                <c:url value="/faculty/${faculty.id}" var="url" />
-                                                <c:url value="faculty/delete/${faculty.id}" var="deleteUrl" />
-                                                <tr class="align-middle"> 
-                                                    <td>
-                                                        <div class="text-nowrap">${faculty.id}</div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="text-wrap">${faculty.tenkhoa}</div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="text-nowrap">${faculty.thongtin.noidung}</div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="text-nowrap">${faculty.video}</div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="dropdown">
-                                                            <button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                <i class="icon bi bi-three-dots-vertical"></i>
-                                                            </button>
-                                                            <div class="dropdown-menu dropdown-menu-end">
-                                                                <a class="dropdown-item" href="${url}">Info</a>
-                                                                <a class="dropdown-item" href="${url}">Edit</a>
 
-                                                                <buttom onclick="Delete('${deleteUrl}', '${faculty.id}')" class="dropdown-item text-danger" type="submit">Delete</button>
+                                                    <c:if test="${sortType eq asc}">
 
-                                                            </div>
-                                                        </div>
-                                                    </td>
+                                                        <option value="">Default    </option>
+                                                        <option value="asc" selected="">Ascending</option>
+                                                        <<option value="desc">Descending</option>
+                                                    </c:if>
+                                                    <c:if test="${sortType eq desc}">
+                                                        <option value="" >Default    </option>
+                                                        <option value="asc">Ascending</option>
+                                                        <<option value="desc" selected="">Descending</option>
+                                                    </c:if>
+                                                </select>
+                                            </form>
+                                    </div>
+                                                    <div class="mb-3">Quantity:&nbsp;${facultyQ}</div>
+                                    <div class="table-responsive">
+                                        <table class="table border mb-0">
+                                            <thead class="fw-semibold text-nowrap">
+                                                <tr class="align-middle">
+                                                    <th class="bg-body-secondary">
+                                                        Id
+                                                    </th>
+                                                    <th class="bg-body-secondary">Name</th>
+                                                    <th class="bg-body-secondary">Content</th>
+                                                    <th class="bg-body-secondary">Video</th>
+
+                                                    <th class="bg-body-secondary"></th>
                                                 </tr>
+                                            </thead>
+                                            <tbody>
+                                                <c:forEach items="${faculties}" var="faculty" >
+                                                    <c:url value="/faculty/${faculty.id}" var="url" />
+                                                    <c:url value="faculty/delete/${faculty.id}" var="deleteUrl" />
+                                                    <tr class="align-middle"> 
+                                                        <td>
+                                                            <div class="text-nowrap">${faculty.id}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="text-wrap">${faculty.tenkhoa}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="text-nowrap">${faculty.thongtin.noidung}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="text-nowrap">${faculty.video}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="dropdown">
+                                                                <button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                    <i class="icon bi bi-three-dots-vertical"></i>
+                                                                </button>
+                                                                <div class="dropdown-menu dropdown-menu-end">
+                                                                    <a class="dropdown-item" href="${url}">Info</a>
+                                                                    <a class="dropdown-item" href="${url}">Edit</a>
+                                                                    <%
+                                                                        if (auth
+                                                                                != null && auth.isAuthenticated()) {
+                                                                            Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
+                                                                            String roleName = authorities.iterator().next().toString();
+                                                                            if (authorities.iterator().next().toString().equals("ROLE_ADMIN")) {
+                                                                    %>
+                                                                    <buttom onclick="Delete('${deleteUrl}', '${faculty.id}')" class="dropdown-item text-danger" type="submit">Delete</button>
+
+
+                                                                        <%      } else {
+                                                                        %>
+                                                                        <%
+                                                                                }
+                                                                            }
+                                                                        %>
+
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </c:forEach>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <nav class="mt-3" aria-label="Page navigation example">
+                                        <ul class="pagination">
+
+                                            <c:forEach begin="1" end="${facultyQuantity}" var="i">
+                                                <c:url value="/faculty" var="pageAction">
+                                                    <c:param name="faculty-page" value="${i}"/>
+                                                    <c:param name="current-tab" value="faculty"/>
+                                                </c:url>
+                                                <c:if test="${fn:contains(currentFacultyPage,i)==true}">
+                                                    <li class="page-item"><a class="page-link active" href="${pageAction}">${i}</a></li>
+                                                    </c:if>
+                                                    <c:if test="${fn:contains(currentFacultyPage,i)==false}">
+                                                    <li class="page-item"><a class="page-link" href="${pageAction}">${i}</a></li>
+                                                    </c:if>
+
                                             </c:forEach>
-                                        </tbody>
-                                    </table>
+                                        </ul>
+                                    </nav>   
+
                                 </div>
-
-                                <nav aria-label="Page navigation example">
-                                    <ul class="pagination">
-
-                                        <c:forEach begin="1" end="${facultyQuantity}" var="i">
-                                            <c:url value="/faculty" var="pageAction">
-                                                <c:param name="faculty-page" value="${i}"/>
-                                                <c:param name="current-tab" value="faculty"/>
-                                            </c:url>
-                                            <c:if test="${fn:contains(currentFacultyPage,i)==true}">
-                                                <li class="page-item"><a class="page-link active" href="${pageAction}">${i}</a></li>
-                                                </c:if>
-                                                <c:if test="${fn:contains(currentFacultyPage,i)==false}">
-                                                <li class="page-item"><a class="page-link" href="${pageAction}">${i}</a></li>
-                                                </c:if>
-
-                                        </c:forEach>
-                                    </ul>
-                                </nav>   
-
-                            </div>
                             </c:if>
+
+
                             <c:if test="${currentTab ne faculty}">
+                                <c:set value="true" var="yes"/>
+
                                 <div class="tab-pane fade" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" tabindex="0">
 
-                                <div class="row d-flex justify-content-between flex-row">
-                                    <div class="col-8">
-                                        <p class="d-inline-flex gap-1">
-                                            <a class="btn btn-dark" data-coreui-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-                                                Add Faculty
-                                            </a>
-                                        </p>
-                                        <div class="collapse mb-3" id="collapseExample">
-                                            <div class="card card-body container">
+                                    <div class="row d-flex justify-content-between flex-row">
+                                        <c:choose>
+                                            <c:when test="${currentAdminRole eq yes}">
+                                                <div class="col-8">
+                                                    <p class="d-inline-flex gap-1">
+                                                        <a class="btn btn-dark" data-coreui-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                                            Add Faculty
+                                                        </a>
+                                                    </p>  <c:if test="${not empty sessionScope.createFacultyMessage}">
+                                                        <div class="mb-3 alert-info alert py-2">${sessionScope.createFacultyMessage}</div>
+                                                    </c:if>
+                                                    <div class="collapse mb-3" id="collapseExample">
+                                                        <div class="card card-body container">
 
-                                                <form:form name="faculty" method="post" action="${actionFaculty}" enctype="multipart/form-data" >
-                                                    <form:errors path="id" cssClass="text-danger mb-3" element="span"/>
-                                                    <input type="hidden" name="current-tab" value="${faculty}"/>
+                                                            <form:form name="faculty" method="post" action="${actionFaculty}" enctype="multipart/form-data" >
+                                                                <form:errors path="id" cssClass="text-danger mb-3" element="span"/>
+                                                                <input type="hidden" name="current-tab" value="${faculty}"/>
 
-                                                    <input type="hidden" name="faculty"/>
-                                                    <div class="mb-3">
-                                                        <label for="exampleFormControlInput1" class="form-label">Id</label>
-                                                        <input name="id"  value="${UID}" readonly type="text" class="form-control mb-3" id="exampleFormControlInput1" placeholder="your Id"/>
-                                                        <form:errors path="id" cssClass="text-danger mb-3" element="span"/>
+                                                                <input type="hidden" name="faculty"/>
+                                                                <div class="mb-3">
+                                                                    <label for="exampleFormControlInput1" class="form-label">Id</label>
+                                                                    <input name="id"  value="${UID}" readonly type="text" class="form-control mb-3" id="exampleFormControlInput1" placeholder="your Id"/>
+                                                                    <form:errors path="id" cssClass="text-danger mb-3" element="span"/>
 
-                                                        <label for="exampleFormControlInput1" class="form-label">Ten khoa</label>
-                                                        <input name="tenkhoa" type="text" class="form-control mb-3" id="exampleFormControlInput1" placeholder="your faculty name"/>
-                                                        <form:errors path="tenkhoa" cssClass="text-danger mb-3" element="span"/>
+                                                                    <label for="exampleFormControlInput1" class="form-label">Ten khoa</label>
+                                                                    <input name="tenkhoa" type="text" class="form-control mb-3" id="exampleFormControlInput1" placeholder="your faculty name"/>
+                                                                    <form:errors path="tenkhoa" cssClass="text-danger mb-3" element="span"/>
 
-                                                        <!--<input name="tieude" type="hidden" class="form-control mb-3"/>-->
-                                                        <div class="mb-3 d-flex flex-col gap-3">
-                                                            <label for="exampleFormControlInput1" class="form-label">Content</label>
-                                                            <textarea name="noidung" class="form-control mb-3 ckeditor" id="tinyContent1" rows="10" cols="50"  type="text" placeholder="your content"></textarea>
+                                                                    <!--<input name="tieude" type="hidden" class="form-control mb-3"/>-->
+                                                                    <div class="mb-3 d-flex flex-col gap-3">
+                                                                        <label for="exampleFormControlInput1" class="form-label">Content</label>
+                                                                        <textarea name="noidung" class="form-control mb-3 ckeditor" id="tinyContent1" rows="10" cols="50"  type="text" placeholder="your content"></textarea>
+                                                                    </div>
+                                                                    <form:errors path="noidung" cssClass="text-danger mb-3" element="span"/>
+
+                                                                    <div class="mb-3 d-flex flex-col gap-3">
+                                                                        <label for="exampleFormControlInput1" class="form-label">Video</label>
+                                                                        <textarea class="form-control mb-3 ckeditor" id="tinyContent2" rows="10" cols="50" name="video" type="text" placeholder="your video content"></textarea>
+                                                                    </div>
+                                                                    <form:errors path="video" cssClass="text-danger mb-3" element="span"/>
+                                                                    <c:choose>
+                                                                        <c:when test="${not empty sessionScope.facultyErrors}">
+                                                                            <c:forEach items="${sessionScope.facultyErrors}" var="error">
+                                                                                <div class="text-danger alert alert-info p-2 mb-3">${error}</div>
+                                                                            </c:forEach>
+                                                                        </c:when>
+                                                                    </c:choose>
+
+                                                                    <button type="submit" class="btn btn-dark mb-3">Create</button>
+
+
+                                                                </div>
+                                                            </form:form>
                                                         </div>
-                                                        <form:errors path="noidung" cssClass="text-danger mb-3" element="span"/>
-
-                                                        <div class="mb-3 d-flex flex-col gap-3">
-                                                            <label for="exampleFormControlInput1" class="form-label">Video</label>
-                                                            <textarea class="form-control mb-3 ckeditor" id="tinyContent2" rows="10" cols="50" name="video" type="text" placeholder="your video content"></textarea>
-                                                        </div>
-                                                        <form:errors path="video" cssClass="text-danger mb-3" element="span"/>
-
-
-                                                        <button type="submit" class="btn btn-dark mb-3">Create</button>
-
 
                                                     </div>
-                                                </form:form>
-                                            </div>
+                                                </div>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <div class="col-8">
+                                                    <h3>👋&nbsp;Welcome,&nbsp;${currentUserName}!</h3>
+                                                </div>
+                                            </c:otherwise>
+                                        </c:choose>                         
 
-                                        </div>
+
+
                                     </div>
 
-                                </div>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <form action="${actionFaculty}" class="btn-group mb-3" role="group" aria-label="Basic outlined example">
+                                            <input type="hidden" name="current-tab" value="${faculty}"/>
 
-                                <div class="d-flex">
-                                    <form action="${actionFaculty}" class="btn-group mb-3" role="group" aria-label="Basic outlined example">
-                                        <input type="hidden" name="current-tab" value="${faculty}"/>
+                                            <input type="text" name="facultyKeyword" placeholder="Search" class="form-control"></input>
+                                            <button type="submit" class="btn btn-outline-primary">Search</button>
+                                        </form>
+                                        <form  action="${action}" class="btn-group mb-3" role="group" aria-label="Basic outlined example">
+                                            <c:set value="default" var="def"/>
+                                            <c:set value="asc" var="asc"/>
+                                            <c:set value="desc" var="desc"/>
 
-                                        <input type="text" name="facultyKeyword" placeholder="Search" class="form-control"></input>
-                                        <button type="submit" class="btn btn-outline-primary">Search</button>
-                                    </form>
-                                </div>
+                                            <select onchange="Sort('${action}', this)" name="sort" class="form-select" id="exampleFormControlInput1"  aria-label="Default select example">
+                                                <c:if test="${sortType eq def}">
 
-                                <div class="table-responsive">
-                                    <table class="table border mb-0">
-                                        <thead class="fw-semibold text-nowrap">
-                                            <tr class="align-middle">
-                                                <th class="bg-body-secondary">
-                                                    Id
-                                                </th>
-                                                <th class="bg-body-secondary">Name</th>
-                                                <th class="bg-body-secondary">Content</th>
-                                                <th class="bg-body-secondary">Video</th>
+                                                    <option value="" selected="">Default    </option>
+                                                    <option value="asc">Ascending</option>
+                                                    <<option value="desc">Descending</option>
+                                                </c:if>
 
-                                                <th class="bg-body-secondary"></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <c:forEach items="${faculties}" var="faculty" >
-                                                <c:url value="/faculty/${faculty.id}" var="url" />
-                                                <c:url value="faculty/delete/${faculty.id}" var="deleteUrl" />
-                                                <tr class="align-middle"> 
-                                                    <td>
-                                                        <div class="text-nowrap">${faculty.id}</div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="text-wrap">${faculty.tenkhoa}</div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="text-nowrap">${faculty.thongtin.noidung}</div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="text-nowrap">${faculty.video}</div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="dropdown">
-                                                            <button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                <i class="icon bi bi-three-dots-vertical"></i>
-                                                            </button>
-                                                            <div class="dropdown-menu dropdown-menu-end">
-                                                                <a class="dropdown-item" href="${url}">Info</a>
-                                                                <a class="dropdown-item" href="${url}">Edit</a>
 
-                                                                <buttom onclick="Delete('${deleteUrl}', '${faculty.id}')" class="dropdown-item text-danger" type="submit">Delete</button>
+                                                <c:if test="${sortType eq asc}">
 
-                                                            </div>
-                                                        </div>
-                                                    </td>
+                                                    <option value="">Default    </option>
+                                                    <option value="asc" selected="">Ascending</option>
+                                                    <<option value="desc">Descending</option>
+                                                </c:if>
+                                                <c:if test="${sortType eq desc}">
+                                                    <option value="" >Default    </option>
+                                                    <option value="asc">Ascending</option>
+                                                    <<option value="desc" selected="">Descending</option>
+                                                </c:if>
+                                            </select>
+                                        </form>
+                                    </div>
+                                                    <div class="mb-3">Quantity:&nbsp;${facultyQ}</div>
+
+                                    <div class="table-responsive">
+                                        <table class="table border mb-0">
+                                            <thead class="fw-semibold text-nowrap">
+                                                <tr class="align-middle">
+                                                    <th class="bg-body-secondary">
+                                                        Id
+                                                    </th>
+                                                    <th class="bg-body-secondary">Name</th>
+                                                    <th class="bg-body-secondary">Content</th>
+                                                    <th class="bg-body-secondary">Video</th>
+
+                                                    <th class="bg-body-secondary"></th>
                                                 </tr>
+                                            </thead>
+                                            <tbody>
+                                                <c:forEach items="${faculties}" var="faculty" >
+                                                    <c:url value="/faculty/${faculty.id}" var="url" />
+                                                    <c:url value="faculty/delete/${faculty.id}" var="deleteUrl" />
+                                                    <tr class="align-middle"> 
+                                                        <td>
+                                                            <div class="text-nowrap">${faculty.id}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="text-wrap">${faculty.tenkhoa}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="text-nowrap">${faculty.thongtin.noidung}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="text-nowrap">${faculty.video}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="dropdown">
+                                                                <button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                    <i class="icon bi bi-three-dots-vertical"></i>
+                                                                </button>
+                                                                <div class="dropdown-menu dropdown-menu-end">
+                                                                    <a class="dropdown-item" href="${url}">Info</a>
+                                                                    <a class="dropdown-item" href="${url}">Edit</a>
+                                                                    <c:choose>
+                                                                        <c:when test="${currentAdminRole eq yes}">
+                                                                            <buttom onclick="Delete('${deleteUrl}', '${faculty.id}')" class="dropdown-item text-danger" type="submit">Delete</button>
+                                                                            </c:when>
+                                                                        </c:choose>
+
+
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </c:forEach>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <nav class="mt-3" aria-label="Page navigation example">
+                                        <ul class="pagination">
+
+                                            <c:forEach begin="1" end="${facultyQuantity}" var="i">
+                                                <c:url value="/faculty" var="pageAction">
+                                                    <c:param name="faculty-page" value="${i}"/>
+                                                    <c:param name="current-tab" value="faculty"/>
+
+                                                </c:url>
+                                                <c:if test="${fn:contains(currentFacultyPage,i)==true}">
+                                                    <li class="page-item"><a class="page-link active" href="${pageAction}">${i}</a></li>
+                                                    </c:if>
+                                                    <c:if test="${fn:contains(currentFacultyPage,i)==false}">
+                                                    <li class="page-item"><a class="page-link" href="${pageAction}">${i}</a></li>
+                                                    </c:if>
+
                                             </c:forEach>
-                                        </tbody>
-                                    </table>
-                                </div>
+                                        </ul>
+                                    </nav>   
 
-                                <nav aria-label="Page navigation example">
-                                    <ul class="pagination">
-
-                                        <c:forEach begin="1" end="${facultyQuantity}" var="i">
-                                            <c:url value="/faculty" var="pageAction">
-                                                <c:param name="faculty-page" value="${i}"/>
-                                                                                                <c:param name="current-tab" value="faculty"/>
-
-                                            </c:url>
-                                            <c:if test="${fn:contains(currentFacultyPage,i)==true}">
-                                                <li class="page-item"><a class="page-link active" href="${pageAction}">${i}</a></li>
-                                                </c:if>
-                                                <c:if test="${fn:contains(currentFacultyPage,i)==false}">
-                                                <li class="page-item"><a class="page-link" href="${pageAction}">${i}</a></li>
-                                                </c:if>
-
-                                        </c:forEach>
-                                    </ul>
-                                </nav>   
-
-                            </div>
+                                </div>    
                             </c:if>
+
+
 
                             <c:if test="${currentTab eq major}">
                                 <div class="tab-pane fade show active" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab" tabindex="0">
 
-                                <div class="row d-flex justify-content-between flex-row">
-                                    <div class="col-8">
-                                        <p class="d-inline-flex gap-1">
-                                            <a class="btn btn-dark" data-coreui-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-                                                Add Major
-                                            </a>
-                                        </p>
-                                        <div class="collapse mb-3" id="collapseExample">
-                                            <div class="card card-body container">
+                                    <div class="row d-flex justify-content-between flex-row">
+                                        <c:choose>
+                                            <c:when test="${currentAdminRole eq yes}">
+                                                <div class="col-8">
+                                                    <p class="d-inline-flex gap-1">
+                                                        <a class="btn btn-dark" data-coreui-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                                            Add Major
+                                                        </a>
+                                                    </p>  <c:if test="${not empty sessionScope.createMajorMessage}">
+                                                        <div class="mb-3 alert-info alert py-2">${sessionScope.createMajorMessage}</div>
+                                                    </c:if>
+                                                    <div class="collapse mb-3" id="collapseExample">
+                                                        <div class="card card-body container">
 
-                                                <form:form  name="major" method="post" action="${actionMajor}" enctype="multipart/form-data" >
-                                                    <input type="hidden" name="current-tab" value="${major}"/>
-                                                    <form:errors path="*" cssClass="text-danger mb-3" element="span"/>
-                                                    <input type="hidden" name="major"/>
+                                                            <form:form  name="major" method="post" action="${actionMajor}" enctype="multipart/form-data" >
+                                                                <input type="hidden" name="current-tab" value="${major}"/>
+                                                                <form:errors path="*" cssClass="text-danger mb-3" element="span"/>
+                                                                <input type="hidden" name="major"/>
 
-                                                    <div class="mb-3">
-                                                        <label for="exampleFormControlInput1" class="form-label">Id</label>
-                                                        <input value="${UID}" readonly name="id" type="text" class="form-control mb-3" id="exampleFormControlInput1" placeholder="your id"/>
-                                                        <form:errors path="id" cssClass="text-danger mb-3" element="span"/>
+                                                                <div class="mb-3">
+                                                                    <label for="exampleFormControlInput1" class="form-label">Id</label>
+                                                                    <input value="${UID}" readonly name="id" type="text" class="form-control mb-3" id="exampleFormControlInput1" placeholder="your id"/>
+                                                                    <form:errors path="id" cssClass="text-danger mb-3" element="span"/>
 
-                                                        <label for="exampleFormControlInput1" class="form-label">Ten nganh</label>
-                                                        <input  name="ten" type="text" class="form-control mb-3" id="exampleFormControlInput1" placeholder="your title"/>
-                                                        <form:errors path="ten" cssClass="text-danger mb-3" element="span"/>
+                                                                    <label for="exampleFormControlInput1" class="form-label">Ten nganh</label>
+                                                                    <input  name="ten" type="text" class="form-control mb-3" id="exampleFormControlInput1" placeholder="your title"/>
+                                                                    <form:errors path="ten" cssClass="text-danger mb-3" element="span"/>
 
-                                                        <div class="mb-3">
-                                                            <label for="exampleFormControlInput1" class="form-label">Khoa</label>
-                                                            <select name="khoaid" class="form-select" id="exampleFormControlInput1"  aria-label="Default select example">
-                                                                <c:forEach items="${faculties1}" var="n">
-                                                                    <option value="${n.id}">${n.tenkhoa}</option>
-                                                                </c:forEach>
-                                                            </select>
+                                                                    <div class="mb-3">
+                                                                        <label for="exampleFormControlInput1" class="form-label">Khoa</label>
+                                                                        <select name="khoaid" class="form-select" id="exampleFormControlInput1"  aria-label="Default select example">
+                                                                            <c:forEach items="${faculties1}" var="n">
+                                                                                <option value="${n.id}">${n.tenkhoa}</option>
+                                                                            </c:forEach>
+                                                                        </select>
+                                                                    </div>
+                                                                    <c:choose>
+                                                                        <c:when test="${not empty sessionScope.majorErrors}">
+                                                                            <c:forEach items="${sessionScope.majorErrors}" var="error">
+                                                                                <div class="text-danger alert alert-info p-2 mb-3">${error}</div>
+                                                                            </c:forEach>
+                                                                        </c:when>
+                                                                    </c:choose>
+
+                                                                    <button type="submit" class="btn btn-dark mb-3">Create</button>
+
+                                                                </div>
+                                                            </form:form>
                                                         </div>
-                                                        <button type="submit" class="btn btn-dark mb-3">Create</button>
 
                                                     </div>
-                                                </form:form>
-                                            </div>
+                                                </div>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <div class="col-8">
+                                                    <h3>👋&nbsp;Welcome,&nbsp;${currentUserName}!</h3>
+                                                </div>
 
-                                        </div>
+                                            </c:otherwise>
+                                        </c:choose>
+
+
+
+
                                     </div>
 
-                                </div>
+                                    <div class="d-flex  justify-content-between align-items-center">
+                                        <form action="${actionFaculty}" class="btn-group mb-3" role="group" aria-label="Basic outlined example">
+                                            <input type="hidden" name="current-tab" value="${major}"/>
 
-                                <div class="d-flex">
-                                    <form action="${actionFaculty}" class="btn-group mb-3" role="group" aria-label="Basic outlined example">
-                                        <input type="hidden" name="current-tab" value="${major}"/>
+                                            <input type="text" name="majorKeyword" placeholder="Search" class="form-control"></input>
+                                            <button type="submit" class="btn btn-outline-primary">Search</button>
+                                        </form>
+                                        <form  action="${action}" class="btn-group mb-3" role="group" aria-label="Basic outlined example">
+                                            <c:set value="default" var="def"/>
+                                            <c:set value="asc" var="asc"/>
+                                            <c:set value="desc" var="desc"/>
 
-                                        <input type="text" name="majorKeyword" placeholder="Search" class="form-control"></input>
-                                        <button type="submit" class="btn btn-outline-primary">Search</button>
-                                    </form>
-                                </div>
+                                            <select onchange="Sort('${action}', this)" name="sort" class="form-select" id="exampleFormControlInput1"  aria-label="Default select example">
+                                                <c:if test="${sortType eq def}">
 
-                                <div class="table-responsive">
-                                    <table class="table border mb-0">
-                                        <thead class="fw-semibold text-nowrap">
-                                            <tr class="align-middle">
-                                                <th class="bg-body-secondary">
-                                                    Id
-                                                </th>
-                                                <th class="bg-body-secondary">Name</th>
-                                                <th class="bg-body-secondary">Faculty</th>
+                                                    <option value="" selected="">Default    </option>
+                                                    <option value="asc">Ascending</option>
+                                                    <<option value="desc">Descending</option>
+                                                </c:if>
 
-                                                <th class="bg-body-secondary"></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <c:forEach items="${majors}" var="major" >
-                                                <c:url value="/faculty/major/${major.id}" var="url" />
-                                                <c:url value="faculty/major/delete/${major.id}" var="deleteUrl" />
-                                                <tr class="align-middle"> 
-                                                    <td>
-                                                        <div class="text-nowrap">${major.id}</div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="text-wrap">${major.ten}</div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="text-nowrap">${major.khoa.tenkhoa}</div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="dropdown">
-                                                            <button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                <i class="icon bi bi-three-dots-vertical"></i>
-                                                            </button>
-                                                            <div class="dropdown-menu dropdown-menu-end">
-                                                                <a class="dropdown-item" href="${url}">Info</a>
-                                                                <a class="dropdown-item" href="${url}">Edit</a>
 
-                                                                <buttom onclick="Delete('${deleteUrl}', '${major.id}')" class="dropdown-item text-danger" type="submit">Delete</button>
+                                                <c:if test="${sortType eq asc}">
 
-                                                            </div>
-                                                        </div>
-                                                    </td>
+                                                    <option value="">Default    </option>
+                                                    <option value="asc" selected="">Ascending</option>
+                                                    <<option value="desc">Descending</option>
+                                                </c:if>
+                                                <c:if test="${sortType eq desc}">
+                                                    <option value="" >Default    </option>
+                                                    <option value="asc">Ascending</option>
+                                                    <<option value="desc" selected="">Descending</option>
+                                                </c:if>
+                                            </select>
+                                        </form>
+                                    </div>
+                                                    <div class="mb-3">Quantity:&nbsp;${majorQ}</div>
+
+                                    <div class="table-responsive">
+                                        <table class="table border mb-0">
+                                            <thead class="fw-semibold text-nowrap">
+                                                <tr class="align-middle">
+                                                    <th class="bg-body-secondary">
+                                                        Id
+                                                    </th>
+                                                    <th class="bg-body-secondary">Name</th>
+                                                    <th class="bg-body-secondary">Faculty</th>
+
+                                                    <th class="bg-body-secondary"></th>
                                                 </tr>
+                                            </thead>
+                                            <tbody>
+                                                <c:forEach items="${majors}" var="major" >
+                                                    <c:url value="/faculty/major/${major.id}" var="url" />
+                                                    <c:url value="faculty/major/delete/${major.id}" var="deleteUrl" />
+                                                    <tr class="align-middle"> 
+                                                        <td>
+                                                            <div class="text-nowrap">${major.id}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="text-wrap">${major.ten}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="text-nowrap">${major.khoa.tenkhoa}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="dropdown">
+                                                                <button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                    <i class="icon bi bi-three-dots-vertical"></i>
+                                                                </button>
+                                                                <div class="dropdown-menu dropdown-menu-end">
+                                                                    <a class="dropdown-item" href="${url}">Info</a>
+                                                                    <a class="dropdown-item" href="${url}">Edit</a>
+
+
+                                                                    <buttom onclick="Delete('${deleteUrl}', '${major.id}')" class="dropdown-item text-danger" type="submit">Delete</button>
+
+
+
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </c:forEach>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <nav class="mt-3" aria-label="Page navigation example">
+                                        <ul class="pagination">
+                                            <c:forEach begin="1" end="${majorQuantity}" var="i">
+                                                <c:url value="/faculty" var="pageAction">
+                                                    <c:param name="major-page" value="${i}"/>
+                                                    <c:param name="current-tab" value="major"/>
+
+                                                </c:url>
+                                                <c:if test="${fn:contains(currentMajorPage,i)==true}">
+                                                    <li class="page-item"><a class="page-link active" href="${pageAction}">${i}</a></li>
+                                                    </c:if>
+                                                    <c:if test="${fn:contains(currentMajorPage,i)==false}">
+                                                    <li class="page-item"><a class="page-link" href="${pageAction}">${i}</a></li>
+                                                    </c:if>
+
                                             </c:forEach>
-                                        </tbody>
-                                    </table>
+                                        </ul>
+                                    </nav> 
+
+
                                 </div>
-                                <nav aria-label="Page navigation example">
-                                    <ul class="pagination">
-                                        <c:forEach begin="1" end="${majorQuantity}" var="i">
-                                            <c:url value="/faculty" var="pageAction">
-                                                <c:param name="major-page" value="${i}"/>
-                                                                                                <c:param name="current-tab" value="major"/>
-
-                                            </c:url>
-                                            <c:if test="${fn:contains(currentMajorPage,i)==true}">
-                                                <li class="page-item"><a class="page-link active" href="${pageAction}">${i}</a></li>
-                                                </c:if>
-                                                <c:if test="${fn:contains(currentMajorPage,i)==false}">
-                                                <li class="page-item"><a class="page-link" href="${pageAction}">${i}</a></li>
-                                                </c:if>
-
-                                        </c:forEach>
-                                    </ul>
-                                </nav> 
-
-
-                            </div>
                             </c:if>
+
+
                             <c:if test="${currentTab ne major}">
                                 <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab" tabindex="0">
 
-                                <div class="row d-flex justify-content-between flex-row">
-                                    <div class="col-8">
-                                        <p class="d-inline-flex gap-1">
-                                            <a class="btn btn-dark" data-coreui-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-                                                Add Major
-                                            </a>
-                                        </p>
-                                        <div class="collapse mb-3" id="collapseExample">
-                                            <div class="card card-body container">
+                                    <div class="row d-flex justify-content-between flex-row">
+                                        <c:choose>
+                                            <c:when test="${currentAdminRole eq yes}">
+                                                <div class="col-8">
+                                                    <p class="d-inline-flex gap-1">
+                                                        <a class="btn btn-dark" data-coreui-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                                            Add Major
+                                                        </a>
+                                                    </p>  <c:if test="${not empty sessionScope.createMajorMessage}">
+                                                        <div class="mb-3 alert-info alert py-2">${sessionScope.createMajorMessage}</div>
+                                                    </c:if>
+                                                    <div class="collapse mb-3" id="collapseExample">
+                                                        <div class="card card-body container">
 
-                                                <form:form  name="major" method="post" action="${actionMajor}" enctype="multipart/form-data" >
-                                                    <input type="hidden" name="current-tab" value="${major}"/>
-                                                    <form:errors path="*" cssClass="text-danger mb-3" element="span"/>
-                                                    <input type="hidden" name="major"/>
+                                                            <form:form  name="major" method="post" action="${actionMajor}" enctype="multipart/form-data" >
+                                                                <input type="hidden" name="current-tab" value="${major}"/>
+                                                                <form:errors path="*" cssClass="text-danger mb-3" element="span"/>
+                                                                <input type="hidden" name="major"/>
 
-                                                    <div class="mb-3">
-                                                        <label for="exampleFormControlInput1" class="form-label">Id</label>
-                                                        <input value="${UID}" readonly name="id" type="text" class="form-control mb-3" id="exampleFormControlInput1" placeholder="your id"/>
-                                                        <form:errors path="id" cssClass="text-danger mb-3" element="span"/>
+                                                                <div class="mb-3">
+                                                                    <label for="exampleFormControlInput1" class="form-label">Id</label>
+                                                                    <input value="${UID}" readonly name="id" type="text" class="form-control mb-3" id="exampleFormControlInput1" placeholder="your id"/>
+                                                                    <form:errors path="id" cssClass="text-danger mb-3" element="span"/>
 
-                                                        <label for="exampleFormControlInput1" class="form-label">Ten nganh</label>
-                                                        <input  name="ten" type="text" class="form-control mb-3" id="exampleFormControlInput1" placeholder="your title"/>
-                                                        <form:errors path="ten" cssClass="text-danger mb-3" element="span"/>
+                                                                    <label for="exampleFormControlInput1" class="form-label">Ten nganh</label>
+                                                                    <input  name="ten" type="text" class="form-control mb-3" id="exampleFormControlInput1" placeholder="your title"/>
+                                                                    <form:errors path="ten" cssClass="text-danger mb-3" element="span"/>
 
-                                                        <div class="mb-3">
-                                                            <label for="exampleFormControlInput1" class="form-label">Khoa</label>
-                                                            <select name="khoaid" class="form-select" id="exampleFormControlInput1"  aria-label="Default select example">
-                                                                <c:forEach items="${faculties1}" var="n">
-                                                                    <option value="${n.id}">${n.tenkhoa}</option>
-                                                                </c:forEach>
-                                                            </select>
+                                                                    <div class="mb-3">
+                                                                        <label for="exampleFormControlInput1" class="form-label">Khoa</label>
+                                                                        <select name="khoaid" class="form-select" id="exampleFormControlInput1"  aria-label="Default select example">
+                                                                            <c:forEach items="${faculties1}" var="n">
+                                                                                <option value="${n.id}">${n.tenkhoa}</option>
+                                                                            </c:forEach>
+                                                                        </select>
+                                                                    </div>
+                                                                    <c:choose>
+                                                                        <c:when test="${not empty sessionScope.majorErrors}">
+                                                                            <c:forEach items="${sessionScope.majorErrors}" var="error">
+                                                                                <div class="text-danger alert alert-info p-2 mb-3">${error}</div>
+                                                                            </c:forEach>
+                                                                        </c:when>
+                                                                    </c:choose>
+                                                                    <button type="submit" class="btn btn-dark mb-3">Create</button>
+
+                                                                </div>
+                                                            </form:form>
                                                         </div>
-                                                        <button type="submit" class="btn btn-dark mb-3">Create</button>
 
                                                     </div>
-                                                </form:form>
-                                            </div>
-
-                                        </div>
+                                                </div>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <div class="col-8">
+                                                    <h3>👋&nbsp;Welcome,&nbsp;${currentUserName}!</h3>
+                                                </div>
+                                            </c:otherwise>
+                                        </c:choose>
                                     </div>
 
-                                </div>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <form action="${actionFaculty}" class="btn-group mb-3" role="group" aria-label="Basic outlined example">
+                                            <input type="hidden" name="current-tab" value="${major}"/>
 
-                                <div class="d-flex">
-                                    <form action="${actionFaculty}" class="btn-group mb-3" role="group" aria-label="Basic outlined example">
-                                        <input type="hidden" name="current-tab" value="${major}"/>
+                                            <input type="text" name="majorKeyword" placeholder="Search" class="form-control"></input>
+                                            <button type="submit" class="btn btn-outline-primary">Search</button>
+                                        </form>
+                                        <form  action="${action}" class="btn-group mb-3" role="group" aria-label="Basic outlined example">
+                                            <c:set value="default" var="def"/>
+                                            <c:set value="asc" var="asc"/>
+                                            <c:set value="desc" var="desc"/>
 
-                                        <input type="text" name="majorKeyword" placeholder="Search" class="form-control"></input>
-                                        <button type="submit" class="btn btn-outline-primary">Search</button>
-                                    </form>
-                                </div>
+                                            <select onchange="Sort('${action}', this)" name="sort" class="form-select" id="exampleFormControlInput1"  aria-label="Default select example">
+                                                <c:if test="${sortType eq def}">
 
-                                <div class="table-responsive">
-                                    <table class="table border mb-0">
-                                        <thead class="fw-semibold text-nowrap">
-                                            <tr class="align-middle">
-                                                <th class="bg-body-secondary">
-                                                    Id
-                                                </th>
-                                                <th class="bg-body-secondary">Name</th>
-                                                <th class="bg-body-secondary">Faculty</th>
+                                                    <option value="" selected="">Default    </option>
+                                                    <option value="asc">Ascending</option>
+                                                    <<option value="desc">Descending</option>
+                                                </c:if>
 
-                                                <th class="bg-body-secondary"></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <c:forEach items="${majors}" var="major" >
-                                                <c:url value="/faculty/major/${major.id}" var="url" />
-                                                <c:url value="faculty/major/delete/${major.id}" var="deleteUrl" />
-                                                <tr class="align-middle"> 
-                                                    <td>
-                                                        <div class="text-nowrap">${major.id}</div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="text-wrap">${major.ten}</div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="text-nowrap">${major.khoa.tenkhoa}</div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="dropdown">
-                                                            <button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                <i class="icon bi bi-three-dots-vertical"></i>
-                                                            </button>
-                                                            <div class="dropdown-menu dropdown-menu-end">
-                                                                <a class="dropdown-item" href="${url}">Info</a>
-                                                                <a class="dropdown-item" href="${url}">Edit</a>
 
-                                                                <buttom onclick="Delete('${deleteUrl}', '${major.id}')" class="dropdown-item text-danger" type="submit">Delete</button>
+                                                <c:if test="${sortType eq asc}">
 
-                                                            </div>
-                                                        </div>
-                                                    </td>
+                                                    <option value="">Default    </option>
+                                                    <option value="asc" selected="">Ascending</option>
+                                                    <<option value="desc">Descending</option>
+                                                </c:if>
+                                                <c:if test="${sortType eq desc}">
+                                                    <option value="" >Default    </option>
+                                                    <option value="asc">Ascending</option>
+                                                    <<option value="desc" selected="">Descending</option>
+                                                </c:if>
+                                            </select>
+                                        </form>
+                                    </div>
+                                                    <div class="mb-3">Quantity:&nbsp;${majorQ}</div>
+
+                                    <div class="table-responsive">
+                                        <table class="table border mb-0">
+                                            <thead class="fw-semibold text-nowrap">
+                                                <tr class="align-middle">
+                                                    <th class="bg-body-secondary">
+                                                        Id
+                                                    </th>
+                                                    <th class="bg-body-secondary">Name</th>
+                                                    <th class="bg-body-secondary">Faculty</th>
+
+                                                    <th class="bg-body-secondary"></th>
                                                 </tr>
+                                            </thead>
+                                            <tbody>
+                                                <c:forEach items="${majors}" var="major" >
+                                                    <c:url value="/faculty/major/${major.id}" var="url" />
+                                                    <c:url value="faculty/major/delete/${major.id}" var="deleteUrl" />
+                                                    <tr class="align-middle"> 
+                                                        <td>
+                                                            <div class="text-nowrap">${major.id}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="text-wrap">${major.ten}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="text-nowrap">${major.khoa.tenkhoa}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="dropdown">
+                                                                <button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                    <i class="icon bi bi-three-dots-vertical"></i>
+                                                                </button>
+                                                                <div class="dropdown-menu dropdown-menu-end">
+                                                                    <a class="dropdown-item" href="${url}">Info</a>
+                                                                    <a class="dropdown-item" href="${url}">Edit</a>
+                                                                    <c:choose>
+                                                                        <c:when test="${currentAdminRole eq yes}">
+                                                                            <buttom onclick="Delete('${deleteUrl}', '${major.id}')" class="dropdown-item text-danger" type="submit">Delete</button>
+                                                                            </c:when>
+                                                                        </c:choose>
+
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </c:forEach>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <nav class="mt-3" aria-label="Page navigation example">
+                                        <ul class="pagination">
+                                            <c:forEach begin="1" end="${majorQuantity}" var="i">
+                                                <c:url value="/faculty" var="pageAction">
+                                                    <c:param name="major-page" value="${i}"/>
+                                                    <c:param name="current-tab" value="major"/>
+                                                </c:url>
+                                                <c:if test="${fn:contains(currentMajorPage,i)==true}">
+                                                    <li class="page-item"><a class="page-link active" href="${pageAction}">${i}</a></li>
+                                                    </c:if>
+                                                    <c:if test="${fn:contains(currentMajorPage,i)==false}">
+                                                    <li class="page-item"><a class="page-link" href="${pageAction}">${i}</a></li>
+                                                    </c:if>
+
                                             </c:forEach>
-                                        </tbody>
-                                    </table>
+                                        </ul>
+                                    </nav> 
+
+
                                 </div>
-                                <nav aria-label="Page navigation example">
-                                    <ul class="pagination">
-                                        <c:forEach begin="1" end="${majorQuantity}" var="i">
-                                            <c:url value="/faculty" var="pageAction">
-                                                <c:param name="major-page" value="${i}"/>
-                                                <c:param name="current-tab" value="major"/>
-                                            </c:url>
-                                            <c:if test="${fn:contains(currentMajorPage,i)==true}">
-                                                <li class="page-item"><a class="page-link active" href="${pageAction}">${i}</a></li>
-                                                </c:if>
-                                                <c:if test="${fn:contains(currentMajorPage,i)==false}">
-                                                <li class="page-item"><a class="page-link" href="${pageAction}">${i}</a></li>
-                                                </c:if>
-
-                                        </c:forEach>
-                                    </ul>
-                                </nav> 
-
-
-                            </div>
                             </c:if>
+
+
+
+
 
                             <c:if test="${currentTab eq educationProgram}">
                                 <div class="tab-pane fade show active" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab" tabindex="0">
 
-                                <div class="row d-flex justify-content-between flex-row">
-                                    <div class="col-8">
-                                        <p class="d-inline-flex gap-1">
-                                            <a class="btn btn-dark" data-coreui-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-                                                Add Education Program
-                                            </a>
-                                        </p>
-                                        <div class="collapse mb-3" id="collapseExample">
-                                            <div class="card card-body container">
-                                                <form:form  name="eduProgram" method="post" action="${actionEducationProgram}" enctype="multipart/form-data" >
-                                                    <input type="hidden" name="current-tab" value="${educationProgram}"/>
+                                    <div class="row d-flex justify-content-between flex-row">
+                                        <c:choose>
+                                            <c:when test="${currentAdminRole eq yes}">
+                                                <div class="col-8">
+                                                    <p class="d-inline-flex gap-1">
+                                                        <a class="btn btn-dark" data-coreui-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                                            Add Education Program
+                                                        </a>
+                                                    </p>  <c:if test="${not empty sessionScope.createEducationProgramMessage}">
+                                                        <div class="mb-3 alert-info alert py-2">${sessionScope.createEducationProgramMessage}</div>
+                                                    </c:if>
+                                                    <div class="collapse mb-3" id="collapseExample">
+                                                        <div class="card card-body container">
+                                                            <form:form  name="eduProgram" method="post" action="${actionEducationProgram}" enctype="multipart/form-data" >
+                                                                <input type="hidden" name="current-tab" value="${educationProgram}"/>
 
-                                                    <form:errors path="*" cssClass="text-danger mb-3" element="span"/>
-                                                    <input type="hidden" name="educationProgram"/>
+                                                                <form:errors path="*" cssClass="text-danger mb-3" element="span"/>
+                                                                <input type="hidden" name="educationProgram"/>
 
-                                                    <div class="mb-3">
-                                                        <label for="exampleFormControlInput1" class="form-label">Id</label>
-                                                        <input value="${UID}" readonly name="id" type="text" class="form-control mb-3" id="exampleFormControlInput1" placeholder="your Id"/>
-                                                        <form:errors path="id" cssClass="text-danger mb-3" element="span"/>
+                                                                <div class="mb-3">
+                                                                    <label for="exampleFormControlInput1" class="form-label">Id</label>
+                                                                    <input value="${UID}" readonly name="id" type="text" class="form-control mb-3" id="exampleFormControlInput1" placeholder="your Id"/>
+                                                                    <form:errors path="id" cssClass="text-danger mb-3" element="span"/>
 
-                                                        <label for="exampleFormControlInput1" class="form-label">Ten Education Program</label>
-                                                        <input  name="ten" type="text" class="form-control mb-3" id="exampleFormControlInput1" placeholder="your educaiton program name"/>
-                                                        <form:errors path="ten" cssClass="text-danger mb-3" element="span"/>
+                                                                    <label for="exampleFormControlInput1" class="form-label">Ten Education Program</label>
+                                                                    <input  name="ten" type="text" class="form-control mb-3" id="exampleFormControlInput1" placeholder="your educaiton program name"/>
+                                                                    <form:errors path="ten" cssClass="text-danger mb-3" element="span"/>
 
-                                                        <div class="mb-3 d-flex flex-col gap-3">
-                                                            <label for="exampleFormControlInput1" class="form-label">Content</label>
-                                                            <textarea   name="mota" class="form-control mb-3 ckeditor" id="tinyContent1" rows="10" cols="50"  type="text" placeholder="your content"></textarea>
+                                                                    <div class="mb-3 d-flex flex-col gap-3">
+                                                                        <label for="exampleFormControlInput1" class="form-label">Content</label>
+                                                                        <textarea   name="mota" class="form-control mb-3 ckeditor" id="tinyContent1" rows="10" cols="50"  type="text" placeholder="your content"></textarea>
+                                                                    </div>
+                                                                    <form:errors path="mota" cssClass="text-danger mb-3" element="span"/>
+                                                                    <c:choose>
+                                                                        <c:when test="${not empty sessionScope.educationProgramErrors}">
+                                                                            <c:forEach items="${sessionScope.educationProgramErrors}" var="error">
+                                                                                <div class="text-danger alert alert-info p-2 mb-3">${error}</div>
+                                                                            </c:forEach>
+                                                                        </c:when>
+                                                                    </c:choose>
+
+
+                                                                    <button type="submit" class="btn btn-dark mb-3">Create</button>
+
+                                                                </div>
+                                                            </form:form>
                                                         </div>
-                                                        <form:errors path="mota" cssClass="text-danger mb-3" element="span"/>
-
-                                                        <button type="submit" class="btn btn-dark mb-3">Create</button>
 
                                                     </div>
-                                                </form:form>
-                                            </div>
+                                                </div>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <div class="col-8">
+                                                    <h3>👋&nbsp;Welcome,&nbsp;${currentUserName}!</h3>
+                                                </div>
+                                            </c:otherwise>
+                                        </c:choose>
 
-                                        </div>
+
+
+
                                     </div>
 
-                                </div>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <form action="${actionFaculty}" class="btn-group mb-3" role="group" aria-label="Basic outlined example">
+                                            <input type="hidden" name="current-tab" value="${educationProgram}"/>
+                                            <input type="text" name="educationProgramKeyword" placeholder="Search" class="form-control"></input>
+                                            <button type="submit" class="btn btn-outline-primary">Search</button>
+                                        </form>
+                                        <form  action="${action}" class="btn-group mb-3" role="group" aria-label="Basic outlined example">
+                                            <c:set value="default" var="def"/>
+                                            <c:set value="asc" var="asc"/>
+                                            <c:set value="desc" var="desc"/>
 
-                                <div class="d-flex">
-                                    <form action="${actionFaculty}" class="btn-group mb-3" role="group" aria-label="Basic outlined example">
-                                        <input type="hidden" name="current-tab" value="${educationProgram}"/>
-                                        <input type="text" name="educationProgramKeyword" placeholder="Search" class="form-control"></input>
-                                        <button type="submit" class="btn btn-outline-primary">Search</button>
-                                    </form>
-                                </div>
+                                            <select onchange="Sort('${action}', this)" name="sort" class="form-select" id="exampleFormControlInput1"  aria-label="Default select example">
+                                                <c:if test="${sortType eq def}">
 
-                                <div class="table-responsive">
-                                    <table class="table border mb-0">
-                                        <thead class="fw-semibold text-nowrap">
-                                            <tr class="align-middle">
-                                                <th class="bg-body-secondary">
-                                                    Id
-                                                </th>
-                                                <th class="bg-body-secondary">Name</th>
-                                                <th class="bg-body-secondary">Content</th>
+                                                    <option value="" selected="">Default    </option>
+                                                    <option value="asc">Ascending</option>
+                                                    <<option value="desc">Descending</option>
+                                                </c:if>
 
-                                                <th class="bg-body-secondary"></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <c:forEach items="${educationPrograms}" var="educationProgram" >
-                                                <c:url value="/faculty/education-program/${educationProgram.id}" var="url" />
-                                                <c:url value="faculty/education-program/delete/${educationProgram.id}" var="deleteUrl" />
-                                                <tr class="align-middle"> 
-                                                    <td>
-                                                        <div class="text-nowrap">${educationProgram.id}</div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="text-wrap">${educationProgram.ten}</div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="text-nowrap">${educationProgram.mota}</div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="dropdown">
-                                                            <button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                <i class="icon bi bi-three-dots-vertical"></i>
-                                                            </button>
-                                                            <div class="dropdown-menu dropdown-menu-end">
-                                                                <a class="dropdown-item" href="${url}">Info</a>
-                                                                <a class="dropdown-item" href="${url}">Edit</a>
 
-                                                                <buttom onclick="Delete('${deleteUrl}', '${educationProgram.id}')" class="dropdown-item text-danger" type="submit">Delete</button>
+                                                <c:if test="${sortType eq asc}">
 
-                                                            </div>
-                                                        </div>
-                                                    </td>
+                                                    <option value="">Default    </option>
+                                                    <option value="asc" selected="">Ascending</option>
+                                                    <<option value="desc">Descending</option>
+                                                </c:if>
+                                                <c:if test="${sortType eq desc}">
+                                                    <option value="" >Default    </option>
+                                                    <option value="asc">Ascending</option>
+                                                    <<option value="desc" selected="">Descending</option>
+                                                </c:if>
+                                            </select>
+                                        </form>
+                                    </div>
+                                                    <div class="mb-3">Quantity:&nbsp;${educationProgramQ}</div>
+
+                                    <div class="table-responsive">
+                                        <table class="table border mb-0">
+                                            <thead class="fw-semibold text-nowrap">
+                                                <tr class="align-middle">
+                                                    <th class="bg-body-secondary">
+                                                        Id
+                                                    </th>
+                                                    <th class="bg-body-secondary">Name</th>
+                                                    <th class="bg-body-secondary">Content</th>
+
+                                                    <th class="bg-body-secondary"></th>
                                                 </tr>
+                                            </thead>
+                                            <tbody>
+                                                <c:forEach items="${educationPrograms}" var="educationProgram" >
+                                                    <c:url value="/faculty/education-program/${educationProgram.id}" var="url" />
+                                                    <c:url value="faculty/education-program/delete/${educationProgram.id}" var="deleteUrl" />
+                                                    <tr class="align-middle"> 
+                                                        <td>
+                                                            <div class="text-nowrap">${educationProgram.id}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="text-wrap">${educationProgram.ten}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="text-nowrap">${educationProgram.mota}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="dropdown">
+                                                                <button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                    <i class="icon bi bi-three-dots-vertical"></i>
+                                                                </button>
+                                                                <div class="dropdown-menu dropdown-menu-end">
+                                                                    <a class="dropdown-item" href="${url}">Info</a>
+                                                                    <a class="dropdown-item" href="${url}">Edit</a>
+                                                                    <c:choose>
+                                                                        <c:when test="${currentAdminRole eq yes}">
+                                                                            <buttom onclick="Delete('${deleteUrl}', '${educationProgram.id}')" class="dropdown-item text-danger" type="submit">Delete</button>
+                                                                            </c:when>
+                                                                        </c:choose>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </c:forEach>
+                                            </tbody>
+                                        </table>
+
+
+                                    </div>
+
+                                    <nav class="mt-3" aria-label="Page navigation example">
+                                        <ul class="pagination">
+
+                                            <c:forEach begin="1" end="${educationProgramQuantity}" var="i">
+                                                <c:url value="/faculty" var="pageAction">
+                                                    <c:param name="education-program-page" value="${i}"/>
+                                                    <c:param name="current-tab" value="educationProgram"/>
+
+                                                </c:url>
+                                                <c:if test="${fn:contains(currentEducationProgramPage,i)==true}">
+                                                    <li class="page-item"><a class="page-link active" href="${pageAction}">${i}</a></li>
+                                                    </c:if>
+                                                    <c:if test="${fn:contains(currentEducationProgramPage,i)==false}">
+                                                    <li class="page-item"><a class="page-link" href="${pageAction}">${i}</a></li>
+                                                    </c:if>
+
                                             </c:forEach>
-                                        </tbody>
-                                    </table>
-
-
+                                        </ul>
+                                    </nav>
                                 </div>
-
-                                <nav aria-label="Page navigation example">
-                                    <ul class="pagination">
-
-                                        <c:forEach begin="1" end="${educationProgramQuantity}" var="i">
-                                            <c:url value="/faculty" var="pageAction">
-                                                <c:param name="education-program-page" value="${i}"/>
-                                                                                                <c:param name="current-tab" value="educationProgram"/>
-
-                                            </c:url>
-                                            <c:if test="${fn:contains(currentEducationProgramPage,i)==true}">
-                                                <li class="page-item"><a class="page-link active" href="${pageAction}">${i}</a></li>
-                                                </c:if>
-                                                <c:if test="${fn:contains(currentEducationProgramPage,i)==false}">
-                                                <li class="page-item"><a class="page-link" href="${pageAction}">${i}</a></li>
-                                                </c:if>
-
-                                        </c:forEach>
-                                    </ul>
-                                </nav>
-                            </div>
                             </c:if>
+
                             <c:if test="${currentTab ne educationProgram}">
                                 <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab" tabindex="0">
 
-                                <div class="row d-flex justify-content-between flex-row">
-                                    <div class="col-8">
-                                        <p class="d-inline-flex gap-1">
-                                            <a class="btn btn-dark" data-coreui-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-                                                Add Education Program
-                                            </a>
-                                        </p>
-                                        <div class="collapse mb-3" id="collapseExample">
-                                            <div class="card card-body container">
-                                                <form:form  name="eduProgram" method="post" action="${actionEducationProgram}" enctype="multipart/form-data" >
-                                                    <input type="hidden" name="current-tab" value="${educationProgram}"/>
+                                    <div class="row d-flex justify-content-between flex-row">
+                                        <c:choose>
+                                            <c:when test="${currentAdminRole eq yes}">
+                                                <div class="col-8">
+                                                    <p class="d-inline-flex gap-1">
+                                                        <a class="btn btn-dark" data-coreui-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                                            Add Education Program
+                                                        </a>
+                                                    </p>  <c:if test="${not empty sessionScope.createEducationProgramMessage}">
+                                                        <div class="mb-3 alert-info alert py-2">${sessionScope.createEducationProgramMessage}</div>
+                                                    </c:if>
+                                                    <div class="collapse mb-3" id="collapseExample">
+                                                        <div class="card card-body container">
+                                                            <form:form  name="eduProgram" method="post" action="${actionEducationProgram}" enctype="multipart/form-data" >
+                                                                <input type="hidden" name="current-tab" value="${educationProgram}"/>
 
-                                                    <form:errors path="*" cssClass="text-danger mb-3" element="span"/>
-                                                    <input type="hidden" name="educationProgram"/>
+                                                                <form:errors path="*" cssClass="text-danger mb-3" element="span"/>
+                                                                <input type="hidden" name="educationProgram"/>
 
-                                                    <div class="mb-3">
-                                                        <label for="exampleFormControlInput1" class="form-label">Id</label>
-                                                        <input value="${UID}" readonly name="id" type="text" class="form-control mb-3" id="exampleFormControlInput1" placeholder="your Id"/>
-                                                        <form:errors path="id" cssClass="text-danger mb-3" element="span"/>
+                                                                <div class="mb-3">
+                                                                    <label for="exampleFormControlInput1" class="form-label">Id</label>
+                                                                    <input value="${UID}" readonly name="id" type="text" class="form-control mb-3" id="exampleFormControlInput1" placeholder="your Id"/>
+                                                                    <form:errors path="id" cssClass="text-danger mb-3" element="span"/>
 
-                                                        <label for="exampleFormControlInput1" class="form-label">Ten Education Program</label>
-                                                        <input  name="ten" type="text" class="form-control mb-3" id="exampleFormControlInput1" placeholder="your educaiton program name"/>
-                                                        <form:errors path="ten" cssClass="text-danger mb-3" element="span"/>
+                                                                    <label for="exampleFormControlInput1" class="form-label">Ten Education Program</label>
+                                                                    <input  name="ten" type="text" class="form-control mb-3" id="exampleFormControlInput1" placeholder="your educaiton program name"/>
+                                                                    <form:errors path="ten" cssClass="text-danger mb-3" element="span"/>
 
-                                                        <div class="mb-3 d-flex flex-col gap-3">
-                                                            <label for="exampleFormControlInput1" class="form-label">Content</label>
-                                                            <textarea   name="mota" class="form-control mb-3 ckeditor" id="tinyContent1" rows="10" cols="50"  type="text" placeholder="your content"></textarea>
+                                                                    <div class="mb-3 d-flex flex-col gap-3">
+                                                                        <label for="exampleFormControlInput1" class="form-label">Content</label>
+                                                                        <textarea   name="mota" class="form-control mb-3 ckeditor" id="tinyContent1" rows="10" cols="50"  type="text" placeholder="your content"></textarea>
+                                                                    </div>
+                                                                    <form:errors path="mota" cssClass="text-danger mb-3" element="span"/>
+                                                                    <c:choose>
+                                                                        <c:when test="${not empty sessionScope.educationProgramErrors}">
+                                                                            <c:forEach items="${sessionScope.educationProgramErrors}" var="error">
+                                                                                <div class="text-danger alert alert-info p-2 mb-3">${error}</div>
+                                                                            </c:forEach>
+                                                                        </c:when>
+                                                                    </c:choose>
+                                                                    <button type="submit" class="btn btn-dark mb-3">Create</button>
+
+                                                                </div>
+                                                            </form:form>
                                                         </div>
-                                                        <form:errors path="mota" cssClass="text-danger mb-3" element="span"/>
-
-                                                        <button type="submit" class="btn btn-dark mb-3">Create</button>
 
                                                     </div>
-                                                </form:form>
-                                            </div>
+                                                </div>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <div class="col-8">
+                                                    <h3>👋&nbsp;Welcome,&nbsp;${currentUserName}!</h3>
+                                                </div>
+                                            </c:otherwise>
+                                        </c:choose>
 
-                                        </div>
+
+
+
                                     </div>
 
-                                </div>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <form action="${actionFaculty}" class="btn-group mb-3" role="group" aria-label="Basic outlined example">
+                                            <input type="hidden" name="current-tab" value="${educationProgram}"/>
+                                            <input type="text" name="educationProgramKeyword" placeholder="Search" class="form-control"></input>
+                                            <button type="submit" class="btn btn-outline-primary">Search</button>
+                                        </form>
+                                        <form  action="${action}" class="btn-group mb-3" role="group" aria-label="Basic outlined example">
+                                            <c:set value="default" var="def"/>
+                                            <c:set value="asc" var="asc"/>
+                                            <c:set value="desc" var="desc"/>
 
-                                <div class="d-flex">
-                                    <form action="${actionFaculty}" class="btn-group mb-3" role="group" aria-label="Basic outlined example">
-                                        <input type="hidden" name="current-tab" value="${educationProgram}"/>
-                                        <input type="text" name="educationProgramKeyword" placeholder="Search" class="form-control"></input>
-                                        <button type="submit" class="btn btn-outline-primary">Search</button>
-                                    </form>
-                                </div>
+                                            <select onchange="Sort('${action}', this)" name="sort" class="form-select" id="exampleFormControlInput1"  aria-label="Default select example">
+                                                <c:if test="${sortType eq def}">
 
-                                <div class="table-responsive">
-                                    <table class="table border mb-0">
-                                        <thead class="fw-semibold text-nowrap">
-                                            <tr class="align-middle">
-                                                <th class="bg-body-secondary">
-                                                    Id
-                                                </th>
-                                                <th class="bg-body-secondary">Name</th>
-                                                <th class="bg-body-secondary">Content</th>
+                                                    <option value="" selected="">Default    </option>
+                                                    <option value="asc">Ascending</option>
+                                                    <<option value="desc">Descending</option>
+                                                </c:if>
 
-                                                <th class="bg-body-secondary"></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <c:forEach items="${educationPrograms}" var="educationProgram" >
-                                                <c:url value="/faculty/education-program/${educationProgram.id}" var="url" />
-                                                <c:url value="faculty/education-program/delete/${educationProgram.id}" var="deleteUrl" />
-                                                <tr class="align-middle"> 
-                                                    <td>
-                                                        <div class="text-nowrap">${educationProgram.id}</div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="text-wrap">${educationProgram.ten}</div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="text-nowrap">${educationProgram.mota}</div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="dropdown">
-                                                            <button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                <i class="icon bi bi-three-dots-vertical"></i>
-                                                            </button>
-                                                            <div class="dropdown-menu dropdown-menu-end">
-                                                                <a class="dropdown-item" href="${url}">Info</a>
-                                                                <a class="dropdown-item" href="${url}">Edit</a>
 
-                                                                <buttom onclick="Delete('${deleteUrl}', '${educationProgram.id}')" class="dropdown-item text-danger" type="submit">Delete</button>
+                                                <c:if test="${sortType eq asc}">
 
-                                                            </div>
-                                                        </div>
-                                                    </td>
+                                                    <option value="">Default    </option>
+                                                    <option value="asc" selected="">Ascending</option>
+                                                    <<option value="desc">Descending</option>
+                                                </c:if>
+                                                <c:if test="${sortType eq desc}">
+                                                    <option value="" >Default    </option>
+                                                    <option value="asc">Ascending</option>
+                                                    <<option value="desc" selected="">Descending</option>
+                                                </c:if>
+                                            </select>
+                                        </form>
+                                    </div>
+                                                    <div class="mb-3">Quantity:&nbsp;${educationProgramQ}</div>
+
+                                    <div class="table-responsive">
+                                        <table class="table border mb-0">
+                                            <thead class="fw-semibold text-nowrap">
+                                                <tr class="align-middle">
+                                                    <th class="bg-body-secondary">
+                                                        Id
+                                                    </th>
+                                                    <th class="bg-body-secondary">Name</th>
+                                                    <th class="bg-body-secondary">Content</th>
+
+                                                    <th class="bg-body-secondary"></th>
                                                 </tr>
+                                            </thead>
+                                            <tbody>
+                                                <c:forEach items="${educationPrograms}" var="educationProgram" >
+                                                    <c:url value="/faculty/education-program/${educationProgram.id}" var="url" />
+                                                    <c:url value="faculty/education-program/delete/${educationProgram.id}" var="deleteUrl" />
+                                                    <tr class="align-middle"> 
+                                                        <td>
+                                                            <div class="text-nowrap">${educationProgram.id}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="text-wrap">${educationProgram.ten}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="text-nowrap">${educationProgram.mota}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="dropdown">
+                                                                <button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                    <i class="icon bi bi-three-dots-vertical"></i>
+                                                                </button>
+                                                                <div class="dropdown-menu dropdown-menu-end">
+                                                                    <a class="dropdown-item" href="${url}">Info</a>
+                                                                    <a class="dropdown-item" href="${url}">Edit</a>
+
+                                                                    <c:choose>
+                                                                        <c:when test="${currentAdminRole eq yes}">
+                                                                            <buttom onclick="Delete('${deleteUrl}', '${educationProgram.id}')" class="dropdown-item text-danger" type="submit">Delete</button>
+                                                                            </c:when>
+                                                                        </c:choose>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </c:forEach>
+                                            </tbody>
+                                        </table>
+
+
+                                    </div>
+                                    <nav class="mt-3" aria-label="Page navigation example">
+                                        <ul class="pagination">
+
+                                            <c:forEach begin="1" end="${educationProgramQuantity}" var="i">
+                                                <c:url value="/faculty" var="pageAction">
+                                                    <c:param name="education-program-page" value="${i}"/>
+                                                    <c:param name="current-tab" value="educationProgram"/>
+
+                                                </c:url>
+                                                <c:if test="${fn:contains(currentEducationProgramPage,i)==true}">
+                                                    <li class="page-item"><a class="page-link active" href="${pageAction}">${i}</a></li>
+                                                    </c:if>
+                                                    <c:if test="${fn:contains(currentEducationProgramPage,i)==false}">
+                                                    <li class="page-item"><a class="page-link" href="${pageAction}">${i}</a></li>
+                                                    </c:if>
+
                                             </c:forEach>
-                                        </tbody>
-                                    </table>
-
-
+                                        </ul>
+                                    </nav>
                                 </div>
-                                <nav aria-label="Page navigation example">
-                                    <ul class="pagination">
-
-                                        <c:forEach begin="1" end="${educationProgramQuantity}" var="i">
-                                            <c:url value="/faculty" var="pageAction">
-                                                <c:param name="education-program-page" value="${i}"/>
-                                                        <c:param name="current-tab" value="educationProgram"/>
-
-                                            </c:url>
-                                            <c:if test="${fn:contains(currentEducationProgramPage,i)==true}">
-                                                <li class="page-item"><a class="page-link active" href="${pageAction}">${i}</a></li>
-                                                </c:if>
-                                                <c:if test="${fn:contains(currentEducationProgramPage,i)==false}">
-                                                <li class="page-item"><a class="page-link" href="${pageAction}">${i}</a></li>
-                                                </c:if>
-
-                                        </c:forEach>
-                                    </ul>
-                                </nav>
-                            </div>
                             </c:if>
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
+
+
+                            <c:if test="${currentTab eq admissionScore}">
+                                <div class="tab-pane fade show active" id="pills-others" role="tabpanel" aria-labelledby="pills-contact-tab" tabindex="0">
+
+                                    <div class="row d-flex justify-content-between flex-row">
+                                        <c:choose>
+                                            <c:when test="${currentAdminRole eq yes}">
+                                                <div class="col-8">
+                                                    <p class="d-inline-flex gap-1">
+                                                        <a class="btn btn-dark" data-coreui-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                                            Add Admission Score
+                                                        </a>
+                                                    </p>  <c:if test="${not empty sessionScope.createAdmissionScoreMessage}">
+                                                        <div class="mb-3 alert-info alert py-2">${sessionScope.createAdmissionScoreMessage}</div>
+                                                    </c:if>
+                                                    <div class="collapse mb-3" id="collapseExample">
+                                                        <div class="card card-body container">
+                                                            <form:form  name="eduProgram" method="post" action="${actionAdmissionScore}" enctype="multipart/form-data" >
+                                                                <input type="hidden" name="current-tab" value="${admissionScore}"/>
+
+                                                                <form:errors path="*" cssClass="text-danger mb-3" element="span"/>
+                                                                <input type="hidden" name="admissionScore"/>
+
+                                                                <div class="mb-3">
+                                                                    <label for="exampleFormControlInput1" class="form-label">Id</label>
+                                                                    <input value="${UID}" readonly name="id" type="text" class="form-control mb-3" id="exampleFormControlInput1" placeholder="your Id"/>
+                                                                    <form:errors path="id" cssClass="text-danger mb-3" element="span"/>
+
+                                                                    <label for="exampleFormControlInput1" class="form-label">Score</label>
+                                                                    <input  name="diem" type="text" class="form-control mb-3" id="exampleFormControlInput1" placeholder="your admission score"/>
+                                                                    <form:errors path="diem" cssClass="text-danger mb-3" element="span"/>
+
+                                                                    <label for="exampleFormControlInput1" class="form-label">Year</label>
+                                                                    <input  name="namhoc" type="text" class="form-control mb-3" id="exampleFormControlInput1" placeholder="your year"/>
+                                                                    <form:errors path="namhoc" cssClass="text-danger mb-3" element="span"/>
+
+                                                                    <div class="mb-3">
+                                                                        <label for="exampleFormControlInput1" class="form-label">Faculty</label>
+                                                                        <select name="khoaid" class="form-select" id="exampleFormControlInput1"  aria-label="Default select example">
+                                                                            <c:forEach items="${faculties1}" var="n">
+                                                                                <option value="${n.id}">${n.tenkhoa}</option>
+                                                                            </c:forEach>
+                                                                        </select>
+                                                                    </div>
+
+                                                                    <div class="mb-3">
+                                                                        <label for="exampleFormControlInput1" class="form-label">Education program</label>
+                                                                        <select name="chuongtrinhdaotaoid" class="form-select" id="exampleFormControlInput1"  aria-label="Default select example">
+                                                                            <c:forEach items="${educationPrograms1}" var="n">
+                                                                                <option value="${n.id}">${n.ten}</option>
+                                                                            </c:forEach>
+                                                                        </select>
+                                                                    </div>
+
+                                                                    <div class="mb-3">
+                                                                        <label for="exampleFormControlInput1" class="form-label">Major</label>
+                                                                        <select name="nganhid" class="form-select" id="exampleFormControlInput1"  aria-label="Default select example">
+                                                                            <c:forEach items="${majors1}" var="n">
+                                                                                <option value="${n.id}">${n.ten}</option>
+                                                                            </c:forEach>
+                                                                        </select>
+                                                                    </div>
+                                                                        <c:choose>
+                                                                        <c:when test="${not empty sessionScope.admissionScoreErrors}">
+                                                                            <c:forEach items="${sessionScope.admissionScoreErrors}" var="error">
+                                                                                <div class="text-danger alert alert-info p-2 mb-3">${error}</div>
+                                                                            </c:forEach>
+                                                                        </c:when>
+                                                                    </c:choose>
+                                                                    <button type="submit" class="btn btn-dark mb-3">Create</button>
+
+                                                                </div>
+                                                            </form:form>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <div class="col-8">
+                                                    <h3>👋&nbsp;Welcome,&nbsp;${currentUserName}!</h3>
+                                                </div>
+                                            </c:otherwise>
+                                        </c:choose>
+
+
+
+
+                                    </div>
+
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <form action="${actionFaculty}" class="btn-group mb-3" role="group" aria-label="Basic outlined example">
+                                            <input type="hidden" name="current-tab" value="${admissionScore}"/>
+                                            <input type="text" name="admissionScoreKeyword" placeholder="Search" class="form-control"></input>
+                                            <button type="submit" class="btn btn-outline-primary">Search</button>
+                                        </form>
+
+                                        <form  action="${action}" class="btn-group mb-3" role="group" aria-label="Basic outlined example">
+                                            <c:set value="default" var="def"/>
+                                            <c:set value="asc" var="asc"/>
+                                            <c:set value="desc" var="desc"/>
+
+                                            <select onchange="Sort('${action}', this)" name="sort" class="form-select" id="exampleFormControlInput1"  aria-label="Default select example">
+                                                <c:if test="${sortType eq def}">
+
+                                                    <option value="" selected="">Default    </option>
+                                                    <option value="asc">Ascending</option>
+                                                    <<option value="desc">Descending</option>
+                                                </c:if>
+
+
+                                                <c:if test="${sortType eq asc}">
+
+                                                    <option value="">Default    </option>
+                                                    <option value="asc" selected="">Ascending</option>
+                                                    <<option value="desc">Descending</option>
+                                                </c:if>
+                                                <c:if test="${sortType eq desc}">
+                                                    <option value="" >Default    </option>
+                                                    <option value="asc">Ascending</option>
+                                                    <<option value="desc" selected="">Descending</option>
+                                                </c:if>
+                                            </select>
+                                        </form>
+
+                                    </div>
+                                                    <div class="mb-3">Quantity:&nbsp;${admissionScoreQ}</div>
+
+                                    <div class="table-responsive">
+                                        <table class="table border mb-0">
+                                            <thead class="fw-semibold text-nowrap">
+                                                <tr class="align-middle">
+                                                    <th class="bg-body-secondary">
+                                                        Id
+                                                    </th>
+                                                    <th class="bg-body-secondary">Score</th>
+                                                    <th class="bg-body-secondary">Year</th>
+                                                    <th class="bg-body-secondary">Faculty</th>
+                                                    <th class="bg-body-secondary">Major</th>
+                                                    <th class="bg-body-secondary">Education Program</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <c:forEach items="${admissionScores}" var="admissionScore" >
+                                                    <c:url value="/faculty/admission-score/${admissionScore.id}" var="url" />
+                                                    <c:url value="faculty/admission-score/delete/${admissionScore.id}" var="deleteUrl" />
+                                                    <tr class="align-middle"> 
+                                                        <td>
+                                                            <div class="text-nowrap">${admissionScore.id}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="text-wrap">${admissionScore.diem}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="text-nowrap">${admissionScore.namhoc}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="text-nowrap">${admissionScore.khoa.tenkhoa}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="text-nowrap">${admissionScore.nganh.ten}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="text-nowrap">${admissionScore.chuongtrinhdaotao.ten}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="dropdown">
+                                                                <button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                    <i class="icon bi bi-three-dots-vertical"></i>
+                                                                </button>
+                                                                <div class="dropdown-menu dropdown-menu-end">
+                                                                    <a class="dropdown-item" href="${url}">Info</a>
+                                                                    <a class="dropdown-item" href="${url}">Edit</a>
+                                                                    <c:choose>
+                                                                        <c:when test="${currentAdminRole eq yes}">
+                                                                            <buttom onclick="Delete('${deleteUrl}', '${admissionScore.id}')" class="dropdown-item text-danger" type="submit">Delete</button>
+                                                                            </c:when>
+                                                                        </c:choose>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </c:forEach>
+                                            </tbody>
+                                        </table>
+
+
+                                    </div>
+
+                                    <nav class="mt-3" aria-label="Page navigation example">
+                                        <ul class="pagination">
+
+                                            <c:forEach begin="1" end="${admissionScoreQuantity}" var="i">
+                                                <c:url value="/faculty" var="pageAction">
+                                                    <c:param name="admission-score-page" value="${i}"/>
+                                                    <c:param name="current-tab" value="admissionScore"/>
+
+                                                </c:url>
+                                                <c:if test="${fn:contains(currentAdmissionScorePage,i)==true}">
+                                                    <li class="page-item"><a class="page-link active" href="${pageAction}">${i}</a></li>
+                                                    </c:if>
+                                                    <c:if test="${fn:contains(currentAdmissionScorePage,i)==false}">
+                                                    <li class="page-item"><a class="page-link" href="${pageAction}">${i}</a></li>
+                                                    </c:if>
+
+                                            </c:forEach>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </c:if>
+                            <c:if test="${currentTab ne educationProgram}">
+                                <div class="tab-pane fade" id="pills-others" role="tabpanel" aria-labelledby="pills-contact-tab" tabindex="0">
+
+                                    <div class="row d-flex justify-content-between flex-row">
+                                        <c:choose>
+                                            <c:when test="${currentAdminRole eq yes}">
+                                                <div class="col-8">
+                                                    <p class="d-inline-flex gap-1">
+                                                        <a class="btn btn-dark" data-coreui-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                                            Add Admission Score
+                                                        </a>
+                                                    </p>  <c:if test="${not empty sessionScope.createAdmissionScoreMessage}">
+                                                        <div class="mb-3 alert-info alert py-2">${sessionScope.createAdmissionScoreMessage}</div>
+                                                    </c:if>
+                                                    <div class="collapse mb-3" id="collapseExample">
+                                                        <div class="card card-body container">
+                                                            <form:form  name="eduProgram" method="post" action="${actionAdmissionScore}" enctype="multipart/form-data" >
+                                                                <input type="hidden" name="current-tab" value="${admissionScore}"/>
+
+                                                                <form:errors path="*" cssClass="text-danger mb-3" element="span"/>
+                                                                <input type="hidden" name="admissionScore"/>
+
+                                                                <div class="mb-3">
+                                                                    <label for="exampleFormControlInput1" class="form-label">Id</label>
+                                                                    <input value="${UID}" readonly name="id" type="text" class="form-control mb-3" id="exampleFormControlInput1" placeholder="your Id"/>
+                                                                    <form:errors path="id" cssClass="text-danger mb-3" element="span"/>
+
+                                                                    <label for="exampleFormControlInput1" class="form-label">Score</label>
+                                                                    <input  name="diem" type="text" class="form-control mb-3" id="exampleFormControlInput1" placeholder="your educaiton program name"/>
+                                                                    <form:errors path="diem" cssClass="text-danger mb-3" element="span"/>
+
+                                                                    <div class="mb-3 d-flex flex-col gap-3">
+                                                                        <label for="exampleFormControlInput1" class="form-label">Year</label>
+                                                                        <input  name="namhoc" type="text" class="form-control mb-3" id="exampleFormControlInput1" placeholder="your educaiton program name"/>
+                                                                    </div>
+                                                                    <form:errors path="namhoc" cssClass="text-danger mb-3" element="span"/>
+
+                                                                    <div class="mb-3">
+                                                                        <label for="exampleFormControlInput1" class="form-label">Faculty</label>
+                                                                        <select name="khoaid" class="form-select" id="exampleFormControlInput1"  aria-label="Default select example">
+                                                                            <c:forEach items="${faculties1}" var="n">
+                                                                                <option value="${n.id}">${n.tenkhoa}</option>
+                                                                            </c:forEach>
+                                                                        </select>
+                                                                    </div>
+
+                                                                    <div class="mb-3">
+                                                                        <label for="exampleFormControlInput1" class="form-label">Education program</label>
+                                                                        <select name="chuongtrinhdaotaoid" class="form-select" id="exampleFormControlInput1"  aria-label="Default select example">
+                                                                            <c:forEach items="${educationPrograms1}" var="n">
+                                                                                <option value="${n.id}">${n.ten}</option>
+                                                                            </c:forEach>
+                                                                        </select>
+                                                                    </div>
+
+                                                                    <div class="mb-3">
+                                                                        <label for="exampleFormControlInput1" class="form-label">Major</label>
+                                                                        <select name="nganhid" class="form-select" id="exampleFormControlInput1"  aria-label="Default select example">
+                                                                            <c:forEach items="${majors1}" var="n">
+                                                                                <option value="${n.id}">${n.ten}</option>
+                                                                            </c:forEach>
+                                                                        </select>
+                                                                    </div>
+                                                                    <c:choose>
+                                                                        <c:when test="${not empty sessionScope.admissionScoreErrors}">
+                                                                            <c:forEach items="${sessionScope.admissionScoreErrors}" var="error">
+                                                                                <div class="text-danger alert alert-info p-2 mb-3">${error}</div>
+                                                                            </c:forEach>
+                                                                        </c:when>
+                                                                    </c:choose>
+                                                                    <button type="submit" class="btn btn-dark mb-3">Create</button>
+
+                                                                </div>
+                                                            </form:form>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <div class="col-8">
+                                                    <h3>👋&nbsp;Welcome,&nbsp;${currentUserName}!</h3>
+                                                </div>
+                                            </c:otherwise>
+                                        </c:choose>
+
+
+
+
+                                    </div>
+
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <form action="${actionFaculty}" class="btn-group mb-3" role="group" aria-label="Basic outlined example">
+                                            <input type="hidden" name="current-tab" value="${admissionScore}"/>
+                                            <input type="text" name="admissionScoreKeyword" placeholder="Search" class="form-control"></input>
+                                            <button type="submit" class="btn btn-outline-primary">Search</button>
+                                        </form>
+
+                                        <form  action="${action}" class="btn-group mb-3" role="group" aria-label="Basic outlined example">
+                                            <c:set value="default" var="def"/>
+                                            <c:set value="asc" var="asc"/>
+                                            <c:set value="desc" var="desc"/>
+
+                                            <select onchange="Sort('${action}', this)" name="sort" class="form-select" id="exampleFormControlInput1"  aria-label="Default select example">
+                                                <c:if test="${sortType eq def}">
+
+                                                    <option value="" selected="">Default    </option>
+                                                    <option value="asc">Ascending</option>
+                                                    <<option value="desc">Descending</option>
+                                                </c:if>
+
+
+                                                <c:if test="${sortType eq asc}">
+
+                                                    <option value="">Default    </option>
+                                                    <option value="asc" selected="">Ascending</option>
+                                                    <<option value="desc">Descending</option>
+                                                </c:if>
+                                                <c:if test="${sortType eq desc}">
+                                                    <option value="" >Default    </option>
+                                                    <option value="asc">Ascending</option>
+                                                    <<option value="desc" selected="">Descending</option>
+                                                </c:if>
+                                            </select>
+                                        </form>
+
+                                    </div>
+                                                    <div class="mb-3">Quantity:&nbsp;${admissionScoreQ}</div>
+
+                                    <div class="table-responsive">
+                                        <table class="table border mb-0">
+                                            <thead class="fw-semibold text-nowrap">
+                                                <tr class="align-middle">
+                                                    <th class="bg-body-secondary">
+                                                        Id
+                                                    </th>
+                                                    <th class="bg-body-secondary">Score</th>
+                                                    <th class="bg-body-secondary">Year</th>
+                                                    <th class="bg-body-secondary">Faculty</th>
+                                                    <th class="bg-body-secondary">Major</th>
+                                                    <th class="bg-body-secondary">Education Program</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <c:forEach items="${admissionScores}" var="admissionScore" >
+                                                    <c:url value="/faculty/admission-score/${admissionScore.id}" var="url" />
+                                                    <c:url value="faculty/admission-score/delete/${admissionScore.id}" var="deleteUrl" />
+                                                    <tr class="align-middle"> 
+                                                        <td>
+                                                            <div class="text-nowrap">${admissionScore.id}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="text-wrap">${admissionScore.diem}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="text-nowrap">${admissionScore.namhoc}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="text-nowrap">${admissionScore.khoa.tenkhoa}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="text-nowrap">${admissionScore.nganh.ten}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="text-nowrap">${admissionScore.chuongtrinhdaotao.ten}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="dropdown">
+                                                                <button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                    <i class="icon bi bi-three-dots-vertical"></i>
+                                                                </button>
+                                                                <div class="dropdown-menu dropdown-menu-end">
+                                                                    <a class="dropdown-item" href="${url}">Info</a>
+                                                                    <a class="dropdown-item" href="${url}">Edit</a>
+                                                                    <c:choose>
+                                                                        <c:when test="${currentAdminRole eq yes}">
+                                                                            <buttom onclick="Delete('${deleteUrl}', '${admissionScore.id}')" class="dropdown-item text-danger" type="submit">Delete</button>
+
+                                                                            </c:when>
+                                                                        </c:choose>
+
+
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </c:forEach>
+                                            </tbody>
+                                        </table>
+
+
+                                    </div>
+                                    <nav class="mt-3" aria-label="Page navigation example">
+                                        <ul class="pagination">
+
+                                            <c:forEach begin="1" end="${admissionScoreQuantity}" var="i">
+                                                <c:url value="/faculty" var="pageAction">
+                                                    <c:param name="admission-score-page" value="${i}"/>
+                                                    <c:param name="current-tab" value="admissionScore"/>
+
+                                                </c:url>
+                                                <c:if test="${fn:contains(currentAdmissionScorePage,i)==true}">
+                                                    <li class="page-item"><a class="page-link active" href="${pageAction}">${i}</a></li>
+                                                    </c:if>
+                                                    <c:if test="${fn:contains(currentAdmissionScorePage,i)==false}">
+                                                    <li class="page-item"><a class="page-link" href="${pageAction}">${i}</a></li>
+                                                    </c:if>
+
+                                            </c:forEach>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </c:if>
+
+
                         </div>
 
                         <!--                        <div class="table-responsive">

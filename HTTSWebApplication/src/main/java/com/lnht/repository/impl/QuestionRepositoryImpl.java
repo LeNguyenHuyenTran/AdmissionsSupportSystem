@@ -13,6 +13,7 @@ import java.util.Set;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import org.hibernate.Session;
@@ -89,11 +90,26 @@ public class QuestionRepositoryImpl implements QuestionRepository{
             if (kw != null && !kw.isEmpty()) {
                 kw = String.format("%%%s%%", kw);
                 Predicate p2 = b.like(root.get("noidung"), kw);
-//                Predicate p3 = b.like(root.get("thoidiem"), kw);
+                Predicate p3 = b.like(root.get("id").as(String.class), kw);
 //                        Predicate p3 = b.like(root.get("tintuyensinhId").get("id"), kw);
 
-                q = q.where(b.or(p2));
+                q = q.where(b.or(p2,p3));
             }
+            
+            
+            String sortType = (String) params.get("sort");
+            if(sortType!=null&&sortType.isEmpty()==false){
+                sortType = sortType.trim();
+                if("asc".equals(sortType)==true||sortType=="asc"||sortType.startsWith("asc")==true){
+                    Order o1 = b.asc(root.get("id").as(String.class));
+                    q.orderBy(o1);
+                }
+                if("desc".equals(sortType)==true||sortType=="desc"||sortType.startsWith("desc")==true){
+                    Order o2 = b.desc(root.get("id").as(String.class));
+                    q.orderBy(o2);
+                }
+            }
+            
             Query query = session.createQuery(q);
             String p = page;
             if (p != null && !p.isEmpty()) {

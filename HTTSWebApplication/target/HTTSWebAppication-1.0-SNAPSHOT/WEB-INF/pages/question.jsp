@@ -1,7 +1,7 @@
 <%-- 
-    Document   : comment
-    Created on : 27 May 2024, 20:16:27
-    Author     : minh-nguyen
+Document   : comment
+Created on : 27 May 2024, 20:16:27
+Author     : minh-nguyen
 --%>
 
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
@@ -25,61 +25,137 @@
                     <div class="card-body">
                         <!-- /.row-->
 
-                        <c:url value="/question" var="action"/>
+
                         <div class="row d-flex justify-content-between flex-row">
+                            <%@ page import="org.springframework.security.core.Authentication" %>
+                            <%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
+                            <%@ page import="java.util.Collection" %>
+                            <%@page import="org.springframework.security.core.GrantedAuthority"%>
+                            <%
+                                Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+                                if (auth != null && auth.isAuthenticated()) {
+                                    Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
+                                    String roleName = authorities.iterator().next().toString();
+                                    if (authorities.iterator().next().toString().equals("ROLE_ADMIN")) {
+                            %>
                             <div class="col-4">
                                 <p class="d-inline-flex gap-1">
                                     <a class="btn btn-dark" data-coreui-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
                                         Add Questions
                                     </a>
                                 </p>
+                                  <c:if test="${not empty sessionScope.createQuestionMessage}">
+                                        <div class="mb-3 alert-info alert py-2">${sessionScope.createQuestionMessage}</div>
+                                    </c:if>
                                 <div class="collapse mb-3 " id="collapseExample">
                                     <div class="card card-body container">
+                                        <c:url value="/question" var="action"/>
+                                        <c:url value="/questions" var="action1"/>
 
-                                        <form:form modelAttribute="question" name="question" method="post" action="${action}" >
-                                            <form:errors path="*" cssClass="text-danger alert alert-danger p-2 mb-3" element="span"/>
-
+                                        <form method="post" action="${action}" >
                                             <div class="mb-3">
                                                 <label for="exampleFormControlInput1" class="form-label">Id</label>
                                                 <input value ="${UID}" type="text" name="id" class="form-control" id="exampleFormControlInput1" placeholder="your id"/>
                                             </div>
-                                            <form:errors path="id" cssClass="text-danger alert alert-danger p-2 mb-3" element="span"/>
-
-                                            
-
                                             <div class="mb-3">
                                                 <label for="exampleFormControlInput5" class="form-label">Content</label>
-                                                <input name="hoten" class="form-control" id="exampleFormControlInput5" placeholder="your content"/>
+                                                <input name="noidung" class="form-control" id="exampleFormControlInput5" placeholder="your content"/>
                                             </div>
-                                            <form:errors path="hoten" cssClass="text-danger alert alert-danger p-2 mb-3" element="span"/>
-
-                                            
                                             <div class="mb-3">
-                                                <label for="exampleFormControlInput2" class="form-label">Content</label>
-                                                <input type="datetime-local" name="thoidiemdate" class="form-control" id="exampleFormControlInput2" placeholder="your content"/>
+                                                <label for="exampleFormControlInput2" class="form-label">Create</label>
+                                                <input type="datetime-local" name="thoidiem" class="form-control" id="exampleFormControlInput2"/>
                                             </div>
-                                            <form:errors path="thoidiemdate" cssClass="text-danger alert alert-danger p-2 mb-3" element="span"/>
-                                            
-                                            
+                                            <div class="mb-3">
+                                                <label for="exampleFormControlInput1" class="form-label">Author</label>
+                                                <select name="userid" class="form-select" id="exampleFormControlInput3" aria-label="Default select example">
+                                                    <c:forEach items="${users}" var="u">
+                                                        <c:if test="${fn:contains(u.role.id, 3)==true}" >
+                                                            <option value="${u.id}">${u.hoten}</option>
+                                                        </c:if>
+                                                    </c:forEach>
+                                                </select>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="exampleFormControlInput1" class="form-label">Live stream notify</label>
+                                                <select name="livestreamnotifyid" class="form-select" id="exampleFormControlInput1"  aria-label="Default select example">
+                                                    <c:forEach items="${livestreamNotifies}" var="n">
+                                                        <option value="${n.id}">${n.giolivestream}</option>
+                                                    </c:forEach>
+                                                </select>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="exampleFormControlInput1" class="form-label">Video live stream</label>
+                                                <select name="videolivestreamid" class="form-select" id="exampleFormControlInput2" aria-label="Default select example">
+                                                    <c:forEach items="${videoLivestream}" var="n">
+                                                        <option value="${n.id}">${n.tieude}</option>
+                                                    </c:forEach>
+                                                </select>
+                                            </div>
+                                                <c:if test="${not empty sessionScope.questionErrors}">
+                                            <c:forEach items="${sessionScope.questionErrors}" var="error">
+                                                <div class="text-danger alert alert-info p-2 mb-3">${error}</div>
+                                            </c:forEach>
+                                                </c:if>
                                             <div class="mb-3">
                                                 <button type="submit" class="btn btn-dark">Create</button>
                                             </div>
-                                        </form:form>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-8">
+                            <%      } else {
+                            %>
+                            <div class="col-4">
+                                <h3>👋&nbsp;Welcome,&nbsp;<%= auth.getName()%>!</h3>
+                            </div>
+                            <%
+                                    }
+                                }
+                            %>
+
+                            <div class="col-4">
                                 <div class="d-flex justify-content-end">
-                                    <form action="${action}" class="btn-group mb-3" role="group" aria-label="Basic outlined example">
+                                    <form action="${action1}" class="btn-group mb-3" role="group" aria-label="Basic outlined example">
                                         <input type="text" name="keyword" placeholder="Search" class="form-control"></input>
                                         <button type="submit" class="btn btn-secondary">Search</button>
                                     </form>
+
+
                                 </div>
                                 <div class="d-flex justify-content-end">
+                                    <div class="mb-3">
+                                        <form  action="${action1}" class="btn-group mb-3" role="group" aria-label="Basic outlined example">
+                                            <c:set value="default" var="def"/>
+                                            <c:set value="asc" var="asc"/>
+                                            <c:set value="desc" var="desc"/>
 
+                                            <select onchange="Sort('${action}', this)" name="sort" class="form-select" id="exampleFormControlInput1"  aria-label="Default select example">
+                                                <c:if test="${sortType eq def}">
+
+                                                    <option value="" selected="">Default    </option>
+                                                    <option value="asc">Ascending</option>
+                                                    <<option value="desc">Descending</option>
+                                                </c:if>
+
+
+                                                <c:if test="${sortType eq asc}">
+
+                                                    <option value="">Default    </option>
+                                                    <option value="asc" selected="">Ascending</option>
+                                                    <<option value="desc">Descending</option>
+                                                </c:if>
+                                                <c:if test="${sortType eq desc}">
+                                                    <option value="" >Default    </option>
+                                                    <option value="asc">Ascending</option>
+                                                    <<option value="desc" selected="">Descending</option>
+                                                </c:if>
+                                            </select>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                                                <div class="mb-3">Quantity:&nbsp;${questionQ}</div>
                         <div class="table-responsive">
                             <table class="table border mb-0">
                                 <thead class="fw-semibold text-nowrap">
@@ -129,8 +205,20 @@
                                                     <div class="dropdown-menu dropdown-menu-end">
                                                         <a class="dropdown-item" href="${url}">Info</a>
                                                         <a class="dropdown-item" href="${url}">Edit</a>
-
+                                                        <%
+                                                            if (auth
+                                                                    != null && auth.isAuthenticated()) {
+                                                                Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
+                                                                String roleName = authorities.iterator().next().toString();
+                                                                if (authorities.iterator().next().toString().equals("ROLE_ADMIN")) {
+                                                        %>
                                                         <buttom onclick="Delete('${deleteUrl}', '${question.id}')" class="dropdown-item text-danger" type="submit">Delete</button>
+                                                            <%      } else {
+                                                            %>
+                                                            <%
+                                                                    }
+                                                                }
+                                                            %>
 
                                                     </div>
                                                 </div>

@@ -15,19 +15,16 @@ import javax.validation.constraints.Size;
 public class UserDTO {
     @NotNull(message = "{value.NulMsg}")
     private Integer id;
-    @Size(min=2, max = 45, message = "{value.SizeMsg}")
+    @Size(min=2, max = 100, message = "{value.SizeMsg}")
     private String hoten;
-    @Size(min=5, max = 50, message = "{value.SizeMsg}")
+    @Size(min=5, max = 100, message = "{value.SizeMsg}")
     private String username;
-    @Size(min=5, max = 50, message = "{value.SizeMsg}")
+    @Size(min=5, max = 65535, message = "{value.SizeMsg}")
     private String password;
     @NotNull(message = "{value.NulMsg}")
     private String roleid;
-    @NotNull(message = "{value.NullMsg")
-    private LocalDateTime date;
-    @Size(min=5,max=100,message = "{value.SizeMsg}")
-    private String noidung;
-    
+    @Size(min=5, max = 65535, message = "{value.SizeMsg}")
+    private String confirmPassword;
     /**
      * @return the id
      */
@@ -98,31 +95,18 @@ public class UserDTO {
         this.roleid = roleid;
     }
 
+
     /**
-     * @return the date
+     * @return the confirmPassword
      */
-    public LocalDateTime getDate() {
-        return date;
+    public String getConfirmPassword() {
+        return confirmPassword;
     }
 
     /**
-     * @param date the date to set
+     * @param confirmPassword the confirmPassword to set
      */
-    public void setDate(LocalDateTime date) {
-        this.date = date;
-    }
-
-    /**
-     * @return the noidung
-     */
-    public String getNoidung() {
-        return noidung;
-    }
-
-    /**
-     * @param noidung the noidung to set
-     */
-    public void setNoidung(String noidung) {
-        this.noidung = noidung;
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
     }
 }

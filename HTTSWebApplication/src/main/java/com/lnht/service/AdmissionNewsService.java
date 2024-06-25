@@ -18,7 +18,7 @@ public interface AdmissionNewsService {
 
     public Tintuyensinh getById(int id);
 
-    public List<Tintuyensinh> getAll(Map<String, String> params, String type);
+    public List<Tintuyensinh> getAll(Map<String, Object> params, String type);
     
     public List<Tintuyensinh> getAll();
     

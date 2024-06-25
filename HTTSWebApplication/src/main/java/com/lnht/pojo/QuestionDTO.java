@@ -5,6 +5,7 @@
 package com.lnht.pojo;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -14,18 +15,12 @@ import javax.validation.constraints.Size;
  */
 public class QuestionDTO {
 
-    @NotBlank(message = "{value.NullMsg}")
     private Integer id;
-    @NotBlank(message = "{value.NullMsg}")
-    private String hoten;
-//    @NotNull(message = "{value.NullMsg}")
-//    private String userid;
-//    @NotNull(message = "{value.NullMsg}")
-//    private String livestreamnotifyid;
-//    @NotNull(message = "{value.NullMsg}")
-//    private String videolivestreamid;
-    @NotBlank(message = "{value.NullMsg}")
-    private String thoidiemdate;
+    private String noidung;
+    private String userid;
+    private String livestreamnotifyid;
+    private String videolivestreamid;
+    private String thoidiem;
 
     /**
      * @return the id
@@ -41,83 +36,77 @@ public class QuestionDTO {
         this.id = id;
     }
 
+
+
+    /**
+     * @return the userid
+     */
+    public String getUserid() {
+        return userid;
+    }
+
+    /**
+     * @param userid the userid to set
+     */
+    public void setUserid(String userid) {
+        this.userid = userid;
+    }
+
+    /**
+     * @return the livestreamnotifyid
+     */
+    public String getLivestreamnotifyid() {
+        return livestreamnotifyid;
+    }
+
+    /**
+     * @param livestreamnotifyid the livestreamnotifyid to set
+     */
+    public void setLivestreamnotifyid(String livestreamnotifyid) {
+        this.livestreamnotifyid = livestreamnotifyid;
+    }
+
+    /**
+     * @return the videolivestreamid
+     */
+    public String getVideolivestreamid() {
+        return videolivestreamid;
+    }
+
+    /**
+     * @param videolivestreamid the videolivestreamid to set
+     */
+    public void setVideolivestreamid(String videolivestreamid) {
+        this.videolivestreamid = videolivestreamid;
+    }
+
     /**
      * @return the noidung
      */
-//
-//
-//    /**
-//     * @return the userid
-//     */
-//    public String getUserid() {
-//        return userid;
-//    }
-//
-//    /**
-//     * @param userid the userid to set
-//     */
-//    public void setUserid(String userid) {
-//        this.userid = userid;
-//    }
-//
-//    /**
-//     * @return the livestreamnotifyid
-//     */
-//    public String getLivestreamnotifyid() {
-//        return livestreamnotifyid;
-//    }
-//
-//    /**
-//     * @param livestreamnotifyid the livestreamnotifyid to set
-//     */
-//    public void setLivestreamnotifyid(String livestreamnotifyid) {
-//        this.livestreamnotifyid = livestreamnotifyid;
-//    }
-//
-//    /**
-//     * @return the videolivestreamid
-//     */
-//    public String getVideolivestreamid() {
-//        return videolivestreamid;
-//    }
-//
-//    /**
-//     * @param videolivestreamid the videolivestreamid to set
-//     */
-//    public void setVideolivestreamid(String videolivestreamid) {
-//        this.videolivestreamid = videolivestreamid;
-//    }
-    /**
-     * @return the thoidiemdate
-     */
-    public String getThoidiemdate() {
-        return thoidiemdate;
+    public String getNoidung() {
+        return noidung;
     }
 
     /**
-     * @param thoidiemdate the thoidiemdate to set
+     * @param noidung the noidung to set
      */
-    public void setThoidiemdate(String thoidiemdate) {
-        this.thoidiemdate = thoidiemdate;
+    public void setNoidung(String noidung) {
+        this.noidung = noidung;
     }
 
     /**
-     * @return the hoten
+     * @return the thoidiem
      */
-    public String getHoten() {
-        return hoten;
+    public String getThoidiem() {
+        return thoidiem;
     }
 
     /**
-     * @param hoten the hoten to set
+     * @param thoidiem the thoidiem to set
      */
-    public void setHoten(String hoten) {
-        this.hoten = hoten;
+    public void setThoidiem(String thoidiem) {
+        this.thoidiem = thoidiem;
     }
-
-    /**
-     * @return the content
-     */
 
 
 }

@@ -34,6 +34,14 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Thongtin.findByTieude", query = "SELECT t FROM Thongtin t WHERE t.tieude = :tieude")})
 public class Thongtin implements Serializable {
 
+    @Size(max = 200)
+    @Column(name = "tieude")
+    private String tieude;
+    @Lob
+    @Size(max = 2147483647)
+    @Column(name = "noidung")
+    private String noidung;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,13 +49,6 @@ public class Thongtin implements Serializable {
     @Column(name = "id")
     @NotNull(message = "{value.NullMsg}")
     private Integer id;
-    @Size(min=1,max = 200,message = "{value.SizeMsg}")
-    @Column(name = "tieude")
-    private String tieude;
-    @Lob
-    @Size(min=1, max = 2147483647,message = "{value.SizeMsg}")
-    @Column(name = "noidung")
-    private String noidung;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "thongtin")
     private Tintuyensinh tintuyensinh;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "thongtin")
@@ -70,21 +71,6 @@ public class Thongtin implements Serializable {
         this.id = id;
     }
 
-    public String getTieude() {
-        return tieude;
-    }
-
-    public void setTieude(String tieude) {
-        this.tieude = tieude;
-    }
-
-    public String getNoidung() {
-        return noidung;
-    }
-
-    public void setNoidung(String noidung) {
-        this.noidung = noidung;
-    }
 
     public Tintuyensinh getTintuyensinh() {
         return tintuyensinh;
@@ -133,6 +119,22 @@ public class Thongtin implements Serializable {
     @Override
     public String toString() {
         return "com.lnht.pojo.Thongtin[ id=" + id + " ]";
+    }
+
+    public String getTieude() {
+        return tieude;
+    }
+
+    public void setTieude(String tieude) {
+        this.tieude = tieude;
+    }
+
+    public String getNoidung() {
+        return noidung;
+    }
+
+    public void setNoidung(String noidung) {
+        this.noidung = noidung;
     }
     
 }

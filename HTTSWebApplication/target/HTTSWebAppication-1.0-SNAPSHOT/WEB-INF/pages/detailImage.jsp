@@ -12,7 +12,11 @@
 
 <h2 class="px-5 mb-4 text-lef text-body fw-bold">${title}
 </h2>
+
 <form:form method="post" class="px-5" name="image" action="${actionImage}" enctype="multipart/form-data" >
+      <c:if test="${not empty sessionScope.createImageMessage}">
+                                        <div class="row mb-3 alert-info alert py-2">${sessionScope.createImageMessage}</div>
+                                    </c:if>
     <form:errors path="*" cssClass="text-danger mb-3" element="span"/>
     <input type="hidden" name="image"/>
 
@@ -22,26 +26,19 @@
     </div>
     <form:errors path="id" cssClass="text-danger mb-3" element="span"/>
 
+    ${image.nguoidang.id}
     <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Author</label>
-        <!--            <select path="user_id" class="form-select" id="exampleFormControlInput1" name="userid" aria-label="Default select example">
-                        <:forEach items="{users}"  var="user">
-                            <:if test="{fn:contains(user.role, 'admin')==true}">
-                                <option value="{user.id}">{user.fullname}</option>
-                            </:if>
-                        </:forEach>
-                    </select>-->
+                
         <select class="form-select" id="exampleFormControlInput1" name="userid" aria-label="Default select example">
             <c:forEach items="${users}"  var="user">
                 <c:choose>
-                    <c:set var="u1" value="${user.id}"/>
-                    <c:set var="u2" value="${image.nguoidang.id}"/>
-                    <c:when test="${fn:contains(u1,u2)==true}">
-                        <option value="${image.nguoidang.id}" selected>${image.nguoidang.hoten}</option>
+                    <c:when test="${fn:contains(user.id,image.nguoidang.id)==true}">
+                        <option value="${user.id}" selected>${user.hoten}</option>
                     </c:when>
                     <c:otherwise>
                         <c:if test="${fn:contains(user.role.id,3)==false}">
-                            <option value="${image.nguoidang.id}">${image.nguoidang.hoten}</option>
+                            <option value="${user.id}">${user.hoten}</option>
                         </c:if>
                     </c:otherwise>
                 </c:choose>
@@ -62,7 +59,11 @@
     <div class="mb-3">
         <input name="file" type="file" class="form-control" id="exampleFormControlInput1"/>
     </div>
-
+<c:if test="${not empty sessionScope.imageErrors}">
+                                            <c:forEach items="${sessionScope.imageErrors}" var="error">
+                                                <div class="text-danger alert alert-info p-2 mb-3">${error}</div>
+                                            </c:forEach>
+                                                </c:if>
     <button type="submit" class="btn btn-dark mb-3">Update</button>
 </form:form>
 

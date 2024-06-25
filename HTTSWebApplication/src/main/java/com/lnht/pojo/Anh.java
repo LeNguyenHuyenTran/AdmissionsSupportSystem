@@ -35,6 +35,13 @@ import org.springframework.web.multipart.MultipartFile;
     @NamedQuery(name = "Anh.findById", query = "SELECT a FROM Anh a WHERE a.id = :id")})
 public class Anh implements Serializable {
 
+    @Basic(optional = false)
+    @NotNull
+    @Lob
+    @Size(min = 1, max = 65535)
+    @Column(name = "anh")
+    private String anh;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,12 +49,6 @@ public class Anh implements Serializable {
     @Column(name = "id")
     @NotNull(message = "{value.NullMsg}")
     private Integer id;
-    @Basic(optional = false)
-    @NotNull(message = "{value.NullMsg}")
-    @Lob
-    @Size(min = 1, max = 65535, message = "{value.SizeMsg}")
-    @Column(name = "anh")
-    private String anh;
     @JoinColumn(name = "nguoidang", referencedColumnName = "id")
     @ManyToOne
     private Admin nguoidang;
@@ -75,13 +76,6 @@ public class Anh implements Serializable {
         this.id = id;
     }
 
-    public String getAnh() {
-        return anh;
-    }
-
-    public void setAnh(String anh) {
-        this.anh = anh;
-    }
 
     public Admin getNguoidang() {
         return nguoidang;
@@ -128,6 +122,14 @@ public class Anh implements Serializable {
      */
     public void setFile(MultipartFile file) {
         this.file = file;
+    }
+
+    public String getAnh() {
+        return anh;
+    }
+
+    public void setAnh(String anh) {
+        this.anh = anh;
     }
     
 }

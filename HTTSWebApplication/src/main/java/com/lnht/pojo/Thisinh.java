@@ -36,15 +36,16 @@ import org.springframework.web.multipart.MultipartFile;
     @NamedQuery(name = "Thisinh.findByAvatar", query = "SELECT t FROM Thisinh t WHERE t.avatar = :avatar")})
 public class Thisinh implements Serializable {
 
+    @Size(max = 150)
+    @Column(name = "avatar")
+    private String avatar;
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @NotNull(message = "{value.NullMsg}")
     @Column(name = "id")
     private Integer id;
-    @Size(max = 150, message = "{value.SizeMsg}")
-    @Column(name = "avatar")
-    private String avatar;
     @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
     @OneToOne(optional = false)
     private User user;
@@ -69,13 +70,6 @@ public class Thisinh implements Serializable {
         this.id = id;
     }
 
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
 
     public User getUser() {
         return user;
@@ -131,6 +125,14 @@ public class Thisinh implements Serializable {
      */
     public void setFile(MultipartFile file) {
         this.file = file;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
     
 }

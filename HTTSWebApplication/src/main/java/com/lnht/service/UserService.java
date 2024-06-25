@@ -11,15 +11,14 @@ import com.lnht.pojo.User;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
-
+import org.springframework.security.core.userdetails.UserDetailsService;
 /**
  *
  * @author minh-nguyen
  */
-public interface UserService {
+public interface UserService extends UserDetailsService{
     List<User> getUsers(Map<String, Object> params);
-        List<User> getUsers();
-
+    List<User> getUsers();
     void addOrUpdateUser(User user, HttpServletRequest request, Map<String,Object> params);
     int countUser();
     User getUserById(int id);
@@ -27,4 +26,6 @@ public interface UserService {
     Nguoituvan getInstructorById(int id);
     Thisinh getStudentById(int id);
     void deleteUser(int id);
+    boolean addUser(User user);List<User> getUser(String username);
+    User getUserByUsername(String username);
 }

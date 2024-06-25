@@ -13,7 +13,11 @@
 
 <h2 class="px-5 mb-4 text-lef text-body fw-bold">${title}
 </h2>
+
 <form:form method="post" class="px-5" name="banner" modelAttribute="banner" action="${actionBanner}" enctype="multipart/form-data" >
+      <c:if test="${not empty sessionScope.createBannerMessage}">
+                                        <div class="mb-3 alert-info alert py-2">${sessionScope.createBannerMessage}</div>
+                                    </c:if>
     <input type="hidden" name="banner"/>
         <form:errors path="*" cssClass="text-danger mb-3" element="span"/>
         
@@ -46,7 +50,11 @@
             <div class="mb-3">
                 <input name="file" type="file" class="form-control" id="exampleFormControlInput1"/>
             </div>
-
+<c:if test="${not empty sessionScope.bannerErrors}">
+                                            <c:forEach items="${sessionScope.bannerErrors}" var="error">
+                                                <div class="text-danger alert alert-info p-2 mb-3">${error}</div>
+                                            </c:forEach>
+                                                </c:if>
             <button type="submit" class="btn btn-dark mb-3">Update</button>
 
     </form:form>

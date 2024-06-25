@@ -29,11 +29,31 @@
 
                             <div class="row d-flex justify-content-between flex-row">
 
-                                <div class="col-8"><p class="d-inline-flex gap-1">
+
+                                <%@ page import="org.springframework.security.core.Authentication" %>
+                                <%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
+                                <%@ page import="java.util.Collection" %>
+                                <%@page import="org.springframework.security.core.GrantedAuthority"%>
+                                <%
+                                    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+                                    if (auth != null && auth.isAuthenticated()) {
+                                        Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
+                                        String roleName = authorities.iterator().next().toString();
+                                        if (authorities.iterator().next().toString().equals("ROLE_ADMIN")) {
+                                %>
+                                <c:if test="${not empty sessionScope.createImageMessage}">
+                                        <div class="mb-3 alert-info alert py-2">${sessionScope.createImageMessage}</div>
+                                    </c:if>
+                                        <c:if test="${not empty sessionScope.createBannerMessage}">
+                                        <div class="mb-3 alert-info alert py-2">${sessionScope.createBannerMessage}</div>
+                                    </c:if>
+                                <div class="col-8">
+                                    <p class="d-inline-flex gap-1">
                                         <a class="btn btn-dark" data-coreui-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
                                             Add Banner
                                         </a>
                                     </p>
+                                      
                                     <div class="collapse mb-3 " id="collapseExample">
                                         <div class="card card-body container">
                                             <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
@@ -60,7 +80,7 @@
                                                                 <label for="exampleFormControlInput1" class="form-label">Author</label>
                                                                 <select class="form-select" id="exampleFormControlInput1" name="userid" aria-label="Default select example">
                                                                     <c:forEach items="${users}"  var="user">
-                                                                        <c:if test="${fn:contains(user.role.role, 'admin')==true}">
+                                                                        <c:if test="${fn:contains(user.role.role, 'ROLE_ADMIN')==true}">
                                                                             <option value="${user.id}">${user.hoten}</option>
                                                                         </c:if>
                                                                     </c:forEach>
@@ -71,7 +91,11 @@
                                                                 <label for="exampleFormControlInput1" class="form-label">Image</label>
                                                                 <input name="file" type="file" class="form-control" id="exampleFormControlInput1"/>
                                                             </div>
-
+                                                            <c:if test="${not empty sessionScope.imageErrors}">
+                                            <c:forEach items="${sessionScope.imageErrors}" var="error">
+                                                <div class="text-danger alert alert-info p-2 mb-3">${error}</div>
+                                            </c:forEach>
+                                                </c:if>
                                                             <button type="submit" class="btn btn-dark">Create</button>
                                                         </div>
                                                     </form:form>
@@ -92,7 +116,7 @@
                                                                 <label for="exampleFormControlInput1" class="form-label">Role</label>
                                                                 <select path="user_id" class="form-select" id="exampleFormControlInput1" name="userid" aria-label="Default select example">
                                                                     <c:forEach items="${users}"  var="user">
-                                                                        <c:if test="${fn:contains(user.role.role, 'admin')==true}">
+                                                                        <c:if test="${fn:contains(user.role.role, 'ROLE_ADMIN')==true}">
                                                                             <option value="${user.id}">${user.hoten}</option>
                                                                         </c:if>
                                                                     </c:forEach>
@@ -103,7 +127,11 @@
                                                                 <label for="exampleFormControlInput1" class="form-label">Image</label>
                                                                 <input name="file" type="file" class="form-control" id="exampleFormControlInput1"/>
                                                             </div>
-
+<c:if test="${not empty sessionScope.bannerErrors}">
+                                            <c:forEach items="${sessionScope.bannerErrors}" var="error">
+                                                <div class="text-danger alert alert-info p-2 mb-3">${error}</div>
+                                            </c:forEach>
+                                                </c:if>
                                                             <button type="submit" class="btn btn-dark">Create</button>
                                                         </div>
                                                     </form:form>
@@ -111,7 +139,22 @@
 
                                             </div>
                                         </div>
-                                    </div></div>
+                                    </div>
+                                </div>
+                                <%      } else {
+                                %>
+                                <div class="col-8">
+                                    <h3>👋&nbsp;Welcome,&nbsp;<%= auth.getName()%>!</h3>
+                                </div>
+                                <%
+                                        }
+                                    }
+                                %>
+
+
+
+
+
                                 <div class="col-4"><div class="d-flex justify-content-end">
 
                                         <form action="${action}" class="btn-group mb-3" role="group" aria-label="Basic outlined example">
@@ -137,7 +180,37 @@
                                             <button type="submit" class="ms-1 btn btn-dark">Filter</button>
 
                                         </form>
-                                    </div></div>
+
+                                    </div><div class="mb-3 d-flex justify-content-end">
+                                        <form  action="${action}" class="btn-group mb-3" role="group" aria-label="Basic outlined example">
+                                            <c:set value="default" var="def"/>
+                                            <c:set value="asc" var="asc"/>
+                                            <c:set value="desc" var="desc"/>
+
+                                            <select onchange="Sort('${action}', this)" name="sort" class="form-select" id="exampleFormControlInput1"  aria-label="Default select example">
+                                                <c:if test="${sortType eq def}">
+
+                                                    <option value="" selected="">Default    </option>
+                                                    <option value="asc">Ascending</option>
+                                                    <<option value="desc">Descending</option>
+                                                </c:if>
+
+
+                                                <c:if test="${sortType eq asc}">
+
+                                                    <option value="">Default    </option>
+                                                    <option value="asc" selected="">Ascending</option>
+                                                    <<option value="desc">Descending</option>
+                                                </c:if>
+                                                <c:if test="${sortType eq desc}">
+                                                    <option value="" >Default    </option>
+                                                    <option value="asc">Ascending</option>
+                                                    <<option value="desc" selected="">Descending</option>
+                                                </c:if>
+                                            </select>
+                                        </form>
+                                    </div>
+                                </div>
 
 
 
@@ -147,7 +220,7 @@
 
 
                             </div>
-
+                                                <div class="mb-3">Quantity:&nbsp;${imageQ}</div>
                             <div class="table-responsive">
                                 <table class="table border mb-0">
                                     <thead class="fw-semibold text-nowrap">
@@ -187,8 +260,22 @@
                                                         <div class="dropdown-menu dropdown-menu-end">
                                                             <a class="dropdown-item" href="${url}">Info</a>
                                                             <a class="dropdown-item" href="${url}">Edit</a>
-
+                                                            <%
+                                                                if (auth
+                                                                        != null && auth.isAuthenticated()) {
+                                                                    Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
+                                                                    String roleName = authorities.iterator().next().toString();
+                                                                    if (authorities.iterator().next().toString().equals("ROLE_ADMIN")) {
+                                                            %>
                                                             <buttom onclick="Delete('${deleteUrl}', '${image.id}')" class="dropdown-item text-danger" type="submit">Delete</button>
+
+
+                                                                <%      } else {
+                                                                %>
+                                                                <%
+                                                                        }
+                                                                    }
+                                                                %>
 
                                                         </div>
                                                     </div>
@@ -198,21 +285,21 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <nav aria-label="Page navigation example">
+                            <nav class="mt-3" aria-label="Page navigation example">
                                 <ul class="pagination">
                                     <!--<:url value="/images" var="allPageAction"/>-->
-<!--                                    <:if test="$:contains(currentPage,0)==true}">
-                                        <li class="page-item"><a class="page-link active" href="$allPageAction}">All</a></li>
-                                        </:if>
-                                        <:if test="$:contains(currentPage,0)==false}">
-                                        <li class="page-item"><a class="page-link" href="$allPageAction}">All</a></li>
-                                        </:if>-->
-                                        <c:forEach begin="1" end="${imageQuantity}" var="i">
-                                            <c:url value="/images" var="pageAction">
-                                                <c:param name="page" value="${i}"/>
-                                                <c:param name="image" value="${imageType}"/>
-                                            </c:url>
-                                            <c:if test="${fn:contains(currentPage,i)==true}">
+                                    <!--                                    <:if test="$:contains(currentPage,0)==true}">
+                                                                            <li class="page-item"><a class="page-link active" href="$allPageAction}">All</a></li>
+                                                                            </:if>
+                                                                            <:if test="$:contains(currentPage,0)==false}">
+                                                                            <li class="page-item"><a class="page-link" href="$allPageAction}">All</a></li>
+                                                                            </:if>-->
+                                    <c:forEach begin="1" end="${imageQuantity}" var="i">
+                                        <c:url value="/images" var="pageAction">
+                                            <c:param name="page" value="${i}"/>
+                                            <c:param name="image" value="${imageType}"/>
+                                        </c:url>
+                                        <c:if test="${fn:contains(currentPage,i)==true}">
                                             <li class="page-item"><a class="page-link active" href="${pageAction}">${i}</a></li>
                                             </c:if>
                                             <c:if test="${fn:contains(currentPage,i)==false}">

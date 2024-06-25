@@ -31,7 +31,7 @@ public class ApiAdmissionNews {
     
     @GetMapping(path="/admission-news", produces = MediaType.APPLICATION_JSON_VALUE)
     @CrossOrigin
-    public ResponseEntity<List<Tintuyensinh>> get(@RequestParam Map<String,String> params){
+    public ResponseEntity<List<Tintuyensinh>> get(@RequestParam Map<String,Object> params){
         
         return new ResponseEntity<>(admisisonService.getAll(params, "tintuyensinh"),HttpStatus.OK);
     }

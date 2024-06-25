@@ -5,6 +5,7 @@
 package com.lnht.service.impl;
 
 import com.lnht.pojo.Chuongtrinhdaotao;
+import com.lnht.pojo.Diemtrungtuyen;
 import com.lnht.pojo.Khoa;
 import com.lnht.pojo.Nganh;
 import com.lnht.pojo.Thongtin;
@@ -144,20 +145,29 @@ public class FacultyServiceImpl implements FacultyService {
     }
 
     @Override
-    public List<Khoa> getAll(Map<String, String> params) {
+    public List<Khoa> getAll(Map<String, Object> params) {
         return facultyRepo.getAll(params);
     }
     @Override
-    public List<Khoa> getAll() {
-        return facultyRepo.getAll();
+    public List<Khoa> getAllFaculty() {
+        return facultyRepo.getAllFaculty();
     }
     @Override
-    public List<Nganh> getAllMajor(Map<String, String> params) {
+    public List<Nganh> getAllMajor() {
+        return facultyRepo.getAllMajor();
+    }
+    @Override
+    public List<Chuongtrinhdaotao> getAllEducationProgram() {
+        return facultyRepo.getAllEducationProgram();
+    }
+    
+    @Override
+    public List<Nganh> getAllMajor(Map<String, Object> params) {
         return facultyRepo.getAllMajor(params);
     }
 
     @Override
-    public List<Chuongtrinhdaotao> getAllEducationProgram(Map<String, String> params) {
+    public List<Chuongtrinhdaotao> getAllEducationProgram(Map<String, Object> params) {
         return facultyRepo.getAllEducationProgram(params);
     }
 
@@ -174,6 +184,39 @@ public class FacultyServiceImpl implements FacultyService {
     @Override
     public int countEducationProgram() {
         return facultyRepo.countEducationProgram();
+    }
+
+    @Override
+    public void postOrEditAdmissionScore(Diemtrungtuyen d, Map<String, Object> params, HttpServletRequest request) {
+            Diemtrungtuyen w = d;
+        w.setChuongtrinhdaotao(this.getEducationProgramById(Integer.parseInt((String)  params.get("chuongtrinhdaotaoid"))));
+        w.setKhoa(this.getFacultyById(Integer.parseInt((String) params.get("khoaid"))));
+        w.setNganh(this.getMajorById(Integer.parseInt((String) params.get("nganhid"))));
+        w.setDiem(d.getDiem());
+        w.setNamhoc(d.getNamhoc());
+        w.setId(d.getId());
+        
+        
+        facultyRepo.postOrEditAdmissionScore(w);
+    }
+
+    @Override
+    public void deleteAdmisisonScore(int id) {
+        facultyRepo.deleteAdmissionScore(id);
+    }
+
+    @Override
+    public Diemtrungtuyen getAdmissionScoreById(int id){
+        return facultyRepo.getAdmissionScoreById(id);
+    }
+    @Override
+    public int countAdmissionScore() {
+        return facultyRepo.countAdmissionScore();
+    }
+
+    @Override
+    public List<Diemtrungtuyen> getAllAdmissionScore(Map<String, Object> params) {
+        return facultyRepo.getAdmissionScore(params);
     }
 
 }

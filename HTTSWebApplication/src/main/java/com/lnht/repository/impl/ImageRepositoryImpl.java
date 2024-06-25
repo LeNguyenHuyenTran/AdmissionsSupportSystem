@@ -15,6 +15,7 @@ import java.util.Set;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import org.hibernate.Session;
@@ -34,15 +35,15 @@ import org.springframework.transaction.annotation.Transactional;
 @PropertySource("classpath:configs.properties")
 public class ImageRepositoryImpl implements ImageRepository {
 
-        @Autowired
+    @Autowired
     private Environment env;
 
     @Autowired
     private LocalSessionFactoryBean factory;
-    
+
     @Override
     public void postOrEdit(Anh t) {
-            Session session = this.factory.getObject().getCurrentSession();
+        Session session = this.factory.getObject().getCurrentSession();
         Anh T = session.get(Anh.class, t.getId());
         if (T != null) {
             session.clear();
@@ -54,7 +55,7 @@ public class ImageRepositoryImpl implements ImageRepository {
 
     @Override
     public void postOrEdit(Banner t) {
-            Session session = this.factory.getObject().getCurrentSession();
+        Session session = this.factory.getObject().getCurrentSession();
         Banner T = session.get(Banner.class, t.getId());
         if (T != null) {
             session.clear();
@@ -78,26 +79,27 @@ public class ImageRepositoryImpl implements ImageRepository {
     }
 
     @Override
-    public Set<Anh> getAllImageWithSetType(){
+    public Set<Anh> getAllImageWithSetType() {
         Session session = this.factory.getObject().getCurrentSession();
-            CriteriaBuilder b = session.getCriteriaBuilder();
-            CriteriaQuery<Anh> q = b.createQuery(Anh.class);
-                Root root = q.from(Anh.class);
-                q.select(root);
-                Query query = session.createQuery(q);
-                return new HashSet<>(query.getResultList());
+        CriteriaBuilder b = session.getCriteriaBuilder();
+        CriteriaQuery<Anh> q = b.createQuery(Anh.class);
+        Root root = q.from(Anh.class);
+        q.select(root);
+        Query query = session.createQuery(q);
+        return new HashSet<>(query.getResultList());
     }
+
     @Override
-    public Set<Banner> getAllBannerWithSetType(){
-                Session session = this.factory.getObject().getCurrentSession();
-            CriteriaBuilder b = session.getCriteriaBuilder();
-            CriteriaQuery<Banner> q = b.createQuery(Banner.class);
-                Root root = q.from(Banner.class);
-                q.select(root);
-                Query query = session.createQuery(q);
-                return new HashSet<>(query.getResultList());
+    public Set<Banner> getAllBannerWithSetType() {
+        Session session = this.factory.getObject().getCurrentSession();
+        CriteriaBuilder b = session.getCriteriaBuilder();
+        CriteriaQuery<Banner> q = b.createQuery(Banner.class);
+        Root root = q.from(Banner.class);
+        q.select(root);
+        Query query = session.createQuery(q);
+        return new HashSet<>(query.getResultList());
     }
-    
+
     @Override
     public List<Object> getAll(Map<String, Object> params) {
         if (params != null) {
@@ -109,7 +111,18 @@ public class ImageRepositoryImpl implements ImageRepository {
                 CriteriaQuery<Anh> q = b.createQuery(Anh.class);
                 Root root = q.from(Anh.class);
                 q.select(root);
-
+                String sortType = (String) params.get("sort");
+                if (sortType != null && sortType.isEmpty() == false) {
+                    sortType = sortType.trim();
+                    if ("asc".equals(sortType) == true || sortType == "asc" || sortType.startsWith("asc") == true) {
+                        Order o1 = b.asc(root.get("id").as(String.class));
+                        q.orderBy(o1);
+                    }
+                    if ("desc".equals(sortType) == true || sortType == "desc" || sortType.startsWith("desc") == true) {
+                        Order o2 = b.desc(root.get("id").as(String.class));
+                        q.orderBy(o2);
+                    }
+                }
                 Query query = session.createQuery(q);
                 String p = page;
                 if (p != null && !p.isEmpty()) {
@@ -124,6 +137,18 @@ public class ImageRepositoryImpl implements ImageRepository {
                 CriteriaQuery<Banner> q = b.createQuery(Banner.class);
                 Root root = q.from(Banner.class);
                 q.select(root);
+                String sortType = (String) params.get("sort");
+                if (sortType != null && sortType.isEmpty() == false) {
+                    sortType = sortType.trim();
+                    if ("asc".equals(sortType) == true || sortType == "asc" || sortType.startsWith("asc") == true) {
+                        Order o1 = b.asc(root.get("id").as(String.class));
+                        q.orderBy(o1);
+                    }
+                    if ("desc".equals(sortType) == true || sortType == "desc" || sortType.startsWith("desc") == true) {
+                        Order o2 = b.desc(root.get("id").as(String.class));
+                        q.orderBy(o2);
+                    }
+                }
                 Query query = session.createQuery(q);
                 String p = page;
                 if (p != null && !p.isEmpty()) {
@@ -136,7 +161,7 @@ public class ImageRepositoryImpl implements ImageRepository {
 
             }
         }
-            return null;
+        return null;
     }
 
     @Override
@@ -183,5 +208,5 @@ public class ImageRepositoryImpl implements ImageRepository {
         }
         return 0;
     }
-    
+
 }

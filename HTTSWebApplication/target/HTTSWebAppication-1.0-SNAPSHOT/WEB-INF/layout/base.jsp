@@ -4,14 +4,16 @@
     Author     : minh-nguyen
 --%>
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-         <title>
+        <title>
             <tiles:insertAttribute name="title"/>
-         </title>
+        </title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
         <!-- Option 2: CoreUI PRO for Bootstrap CSS -->
         <link href="https://cdn.jsdelivr.net/npm/@coreui/coreui-pro@5.1.0/dist/css/coreui.min.css" rel="stylesheet" integrity="sha384-GEH24oINaP0CP7v1z+N804ebgDoavE2mUsfGGKLMDAukIK60qCLORzfAKEE7RWbb" crossorigin="anonymous">
@@ -26,17 +28,48 @@
                 padding-left: var(--cui-sidebar-occupy-start, 0);
                 padding-right: var(--cui-sidebar-occupy-end, 0);
             }
+            @keyframes fadeIn {
+                0% {
+                    opacity: 0;
+                }
+                100% {
+                    opacity: 1;
+                }
+
+
+            }
+            @keyframes fadeOut {
+                0% {
+                    opacity: 1;
+                }
+                100% {
+                    opacity: 0;
+                    display: none; /* Ensure element is removed after animation */
+                }
+            }
+            .fade-out {
+                animation: fadeOut 0.3s ease forwards;
+            }
+            #loadItem{
+                z-index: 9999;
+                position: fixed;
+                animation: fadeIn 0.3s ease forwards;
+
+            }
         </style>
-         <!-- Option 2: CoreUI PRO for Bootstrap Bundle with Popper -->
+        <!-- Option 2: CoreUI PRO for Bootstrap Bundle with Popper -->
         <script src="https://cdn.jsdelivr.net/npm/@coreui/coreui-pro@5.1.0/dist/js/coreui.bundle.min.js" integrity="sha384-86eT557yN6+cWfDcCEUIjzKvSe8xM5LXynY586L2TwybjqoAzi5SJaQ4Bphcm3TF" crossorigin="anonymous"></script>
     </head>
     <body>
+        <script async="" src="<c:url value="/resources/js/load.js" />"></script>
+
         <tiles:insertAttribute name="sidebar" />
         <div class="wrapper d-flex flex-column min-vh-100">
             <tiles:insertAttribute name="header" />
             <tiles:insertAttribute name="content" />
             <tiles:insertAttribute name="footer" />
         </div>
-       
+        <script defer src="<c:url value="/resources/js/main.js" />"></script>
+
     </body>
 </html>

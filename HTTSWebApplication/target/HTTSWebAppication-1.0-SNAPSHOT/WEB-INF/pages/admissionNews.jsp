@@ -8,7 +8,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <div class="body flex-grow-1">
-    
+
     <div class="container-lg">
         <!-- /.row-->
 
@@ -22,22 +22,36 @@
                         <!-- /.row-->
                         <c:url value="/admission-news" var="action"/>
                         <div class="row d-flex justify-content-between flex-row">
+                            <%@ page import="org.springframework.security.core.Authentication" %>
+                            <%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
+                            <%@ page import="java.util.Collection" %>
+                            <%@page import="org.springframework.security.core.GrantedAuthority"%>
+                            <%
+                                Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+                                if (auth != null && auth.isAuthenticated()) {
+                                    Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
+                                    String roleName = authorities.iterator().next().toString();
+                                    if (authorities.iterator().next().toString().equals("ROLE_ADMIN")) {
+                            %>
                             <div class="col-8">
                                 <p class="d-inline-flex gap-1">
                                     <a class="btn btn-dark" data-coreui-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
                                         Add News
                                     </a>
                                 </p>
+                                  <c:if test="${not empty sessionScope.createAdmissionNewsMessage}">
+                                        <div class="mb-3 alert-info alert py-2">${sessionScope.createAdmissionNewsMessage}</div>
+                                    </c:if>
                                 <div class="collapse mb-3" id="collapseExample">
                                     <div class="card card-body container">
                                         <form:form  method="post" action="${action}" enctype="multipart/form-data" >
-                                                                                        <form:errors path="*" cssClass="text-danger mb-3" element="span"/>
+                                            <form:errors path="*" cssClass="text-danger mb-3" element="span"/>
 
                                             <div class="mb-3">
                                                 <label for="exampleFormControlInput1" class="form-label">Id</label>
                                                 <input name="id" type="text" value="${UID}" readonly  class="form-control mb-3" id="exampleFormControlInput1" placeholder="your id"/>
-                                                            <form:errors path="id" cssClass="text-danger mb-3" element="span"/>
-                                                     <div class="mb-3 d-flex flex-col gap-3">
+                                                <form:errors path="id" cssClass="text-danger mb-3" element="span"/>
+                                                <div class="mb-3 d-flex flex-col gap-3">
                                                     <label for="exampleFormControlInput1" class="form-label">Title</label>
                                                     <textarea  class="form-control mb-3 ckeditor" id="tinyContent1" rows="10" cols="50" name="tieude" type="text" placeholder="your title"></textarea>
                                                 </div>
@@ -55,8 +69,12 @@
                                                     <label for="exampleFormControlInput1" class="form-label">Content</label>
                                                     <textarea  class="form-control mb-3 ckeditor" id="tinyContent1" rows="10" cols="50" name="noidung" type="text" placeholder="your content"></textarea>
                                                 </div>
-                                        <form:errors path="noidung" cssClass="text-danger mb-3" element="span"/>
-
+                                                <form:errors path="noidung" cssClass="text-danger mb-3" element="span"/>
+<c:if test="${not empty sessionScope.admissionNewsErrors}">
+                                            <c:forEach items="${sessionScope.admissionNewsErrors}" var="error">
+                                                <div class="text-danger alert alert-info p-2 mb-3">${error}</div>
+                                            </c:forEach>
+                                                </c:if>
                                                 <button type="submit" class="btn btn-dark mb-3">Create</button>
                                             </div>
                                         </form:form>
@@ -64,11 +82,21 @@
 
                                 </div>
                             </div>
+                            <%      } else {
+                            %>
+                            <div class="col-4">
+                                <h3>👋&nbsp;Welcome,&nbsp;<%= auth.getName()%>!</h3>
+                            </div>
+                            <%
+                                    }
+                                }
+                            %>
+
                             <div class="col-4">
                                 <div class="d-flex justify-content-end">
                                     <form action="${action}" class="btn-group mb-3" role="group" aria-label="Basic outlined example">
                                         <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
-                                            
+
                                             <c:if test="${fn:contains(tintuc, 'tatca')==false}">
                                                 <input type="radio" class="btn-check" name="tintuc" value="tatca" id="option1" autocomplete="off">
                                                 <label class="btn btn-secondary" for="option1">Tất cả</label>
@@ -90,141 +118,190 @@
                                         <button type="submit" class="ms-1 btn btn-dark">Lọc</button>
 
                                     </form>
-                                </div></div>
+
+                                </div>
+                                <div class="d-flex justify-content-end">
+
+                                </div>
+                            </div>
                         </div>
-                        <div class="d-flex">
+                        <div class="d-flex justify-content-between align-items-center" >
                             <form action="${action}" class="btn-group mb-3" role="group" aria-label="Basic outlined example">
                                 <input type="text" name="keyword" placeholder="Search" class="form-control"></input>
                                 <button type="submit" class="btn btn-outline-primary">Search</button>
                             </form>
+                            <form  action="${action}" class="btn-group mb-3" role="group" aria-label="Basic outlined example">
+                                <c:set value="default" var="def"/>
+                                <c:set value="asc" var="asc"/>
+                                <c:set value="desc" var="desc"/>
+
+                                <select onchange="Sort('${action}', this)" name="sort" class="form-select" id="exampleFormControlInput1"  aria-label="Default select example">
+                                    <c:if test="${sortType eq def}">
+
+                                        <option value="" selected="">Default    </option>
+                                        <option value="asc">Ascending</option>
+                                        <<option value="desc">Descending</option>
+                                    </c:if>
+
+
+                                    <c:if test="${sortType eq asc}">
+
+                                        <option value="">Default    </option>
+                                        <option value="asc" selected="">Ascending</option>
+                                        <<option value="desc">Descending</option>
+                                    </c:if>
+                                    <c:if test="${sortType eq desc}">
+                                        <option value="" >Default    </option>
+                                        <option value="asc">Ascending</option>
+                                        <<option value="desc" selected="">Descending</option>
+                                    </c:if>
+                                </select>
+                            </form>
                         </div>
-                        <div class="table-responsive">
-                            <table class="table border mb-0">
-                                <thead class="fw-semibold text-nowrap">
-                                    <tr class="align-middle">
-                                        <th class="bg-body-secondary">Id</th>
-                                        <th class="bg-body-secondary">Title</th>
-                                        <th class="bg-body-secondary">Type of Admission</th>
-                                        <th class="bg-body-secondary">Content</th>
-                                        <th class="bg-body-secondary"></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <c:forEach items="${admissionNews}" var="news" >
-                                        <c:url value="/admission-news/${news.id}" var="url" />
-                                        <c:url value="admission-news/delete/${news.id}" var="deleteUrl" />
-                                        <tr class="align-middle"> 
-                                            <td>
-                                                <div class="text-nowrap fs-3 fw-normal text-body text-left">${news.id}</div>
-                                            </td>
-                                            <td>
-                                                <div class="text-wrap fs-3 fw-normal text-left text-body">${news.thongtin.tieude}<div>
-                                                        </td>
-                                                        
-                                                        <td>
-                                                            <div class="text-nowrap fs-3 fw-normal text-body text-left">${news.loaituyensinh.ten}</div>
-                                                        </td>
-                                                        <td>
-                                                <div class="text-wrap fs-3 fw-normal text-left text-body">${news.thongtin.noidung}<div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="dropdown">
-                                                                <button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                    <i class="icon bi bi-three-dots-vertical"></i>
-                                                                </button>
-                                                                <div class="dropdown-menu dropdown-menu-end">
-                                                                    <a class="dropdown-item" href="${url}">Info</a>
-                                                                    <a class="dropdown-item" href="${url}">Edit</a>
+                                <div class="mb-3">Quantity:&nbsp;${admissionNewsQ}</div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table border mb-0">
+                            <thead class="fw-semibold text-nowrap">
+                                <tr class="align-middle">
+                                    <th class="bg-body-secondary">Id</th>
+                                    <th class="bg-body-secondary">Title</th>
+                                    <th class="bg-body-secondary">Content</th>
+                                    <th class="bg-body-secondary">Type of Admission</th>
+                                    <th class="bg-body-secondary"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <c:forEach items="${admissionNews}" var="news" >
+                                    <c:url value="/admission-news/${news.id}" var="url" />
+                                    <c:url value="admission-news/delete/${news.id}" var="deleteUrl" />
+                                    <tr class="align-top"> 
+                                        <td>
+                                            <div class="text-nowrap fs-3 fw-normal text-body text-left">${news.id}</div>
+                                        </td>
+                                        <td>
+                                            <div class="text-wrap fs-3 fw-normal text-left text-body">${news.thongtin.tieude}<div>
+                                                    </td>
+<td>
+                                                        <div class="text-wrap fs-3 fw-normal text-left text-body">${news.thongtin.noidung}<div>
+                                                                </td>
+                                                    <td>
+                                                        <div class="text-nowrap fs-3 fw-normal text-body text-left">${news.loaituyensinh.ten}</div>
+                                                    </td>
+                                                    
+                                                                <td>
+                                                                    <div class="dropdown">
+                                                                        <button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                            <i class="icon bi bi-three-dots-vertical"></i>
+                                                                        </button>
+                                                                        <div class="dropdown-menu dropdown-menu-end">
+                                                                            <a class="dropdown-item" href="${url}">Info</a>
+                                                                            <a class="dropdown-item" href="${url}">Edit</a>
 
-                                                                    <buttom onclick="Delete('${deleteUrl}', '${news.id}')" class="dropdown-item text-danger" type="submit">Delete</button>
+                                                                            <%
+                                                                                if (auth
+                                                                                        != null && auth.isAuthenticated()) {
+                                                                                    Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
+                                                                                    String roleName = authorities.iterator().next().toString();
+                                                                                    if (authorities.iterator().next().toString().equals("ROLE_ADMIN")) {
+                                                                            %>
+                                                                            <buttom onclick="Delete('${deleteUrl}', '${news.id}')" class="dropdown-item text-danger" type="submit">Delete</button>
 
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        </tr>
-                                                    </c:forEach>
-                                                    </tbody>
-                                                    </table>
-                                                </div>
 
-                                                <nav class="mt-3" aria-label="Page navigation example">
-                                                    <ul class="pagination">
-                                                            <c:forEach begin="1" end="${admissionNewsQuantity}" var="i">
-                                                                <c:url value="/admission-news" var="pageAction">
-                                                                    <c:param name="page" value="${i}"/>
-                                                                </c:url>
-                                                                <c:if test="${fn:contains(currentPage,i)==true}">
-                                                                <li class="page-item"><a class="page-link active" href="${pageAction}">${i}</a></li>
-                                                                </c:if>
-                                                                <c:if test="${fn:contains(currentPage,i)==false}">
-                                                                <li class="page-item"><a class="page-link" href="${pageAction}">${i}</a></li>
-                                                                </c:if>
 
-                                                        </c:forEach>
-                                                    </ul>
-                                                </nav>
+                                                                                <%      } else {
+                                                                                %>
+                                                                                <%
+                                                                                        }
+                                                                                    }
+                                                                                %>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                                </tr>
+                                                            </c:forEach>
+                                                            </tbody>
+                                                            </table>
+                                                        </div>
+
+                                                        <nav class="mt-3" aria-label="Page navigation example">
+                                                            <ul class="pagination">
+                                                                <c:forEach begin="1" end="${admissionNewsQuantity}" var="i">
+                                                                    <c:url value="/admission-news" var="pageAction">
+                                                                        <c:param name="page" value="${i}"/>
+                                                                    </c:url>
+                                                                    <c:if test="${fn:contains(currentPage,i)==true}">
+                                                                        <li class="page-item"><a class="page-link active" href="${pageAction}">${i}</a></li>
+                                                                        </c:if>
+                                                                        <c:if test="${fn:contains(currentPage,i)==false}">
+                                                                        <li class="page-item"><a class="page-link" href="${pageAction}">${i}</a></li>
+                                                                        </c:if>
+
+                                                                </c:forEach>
+                                                            </ul>
+                                                        </nav>
+                                                    </div>
+
+
+
+
+
+
+
                                             </div>
+                                        </div>
+                                        </div>
+                                        <!-- /.col-->
+                                        </div>
+                                        <!-- /.row-->
+                                        </div>
 
 
+                                        <script src="https://cdn.tiny.cloud/1/${TinyMCE_Key}/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+                                        <!--                                            <script>
+                                                                                                                tinymce.init({
+                                                                                                                    selector: 'textarea#tiny',
+                                                                                                                    toolbar: 'image',
+                                                                                                                    plugins: 'image code',
+                                                                                                                    images_file_types: 'jpeg,jpg,jpe,jfi,jif,jfif,png,gif,bmp,webp',
+                                                                                                                    file_picker_types: 'file image media',
+                                                                                                                    file_picker_callback: (cb, value, meta) => {
+                                                                                                                        const input = document.createElement('input');
+                                                                                                                        input.setAttribute('type', 'file');
+                                                                                                                        input.setAttribute('accept', 'image/*');
+                                        
+                                                                                                                        input.addEventListener('change', (e) => {
+                                                                                                                            const file = e.target.files[0];
+                                        
+                                                                                                                            const reader = new FileReader();
+                                                                                                                            reader.addEventListener('load', () => {
+                                                                                                                                /*
+                                                                                                                                 Note: Now we need to register the blob in TinyMCEs image blob
+                                                                                                                                 registry. In the next release this part hopefully won't be
+                                                                                                                                 necessary, as we are looking to handle it internally.
+                                                                                                                                 */
+                                                                                                                                const id = 'blobid' + (new Date()).getTime();
+                                                                                                                                const blobCache = tinymce.activeEditor.editorUpload.blobCache;
+                                                                                                                                const base64 = reader.result.split(',')[1];
+                                                                                                                                const blobInfo = blobCache.create(id, file, base64);
+                                                                                                                                blobCache.add(blobInfo);
+                                        
+                                                                                                                                /* call the callback and populate the Title field with the file name */
+                                                                                                                                cb(blobInfo.blobUri(), {title: file.name});
+                                                                                                                            });
+                                                                                                                            reader.readAsDataURL(file);
+                                                                                                                        });
+                                        
+                                                                                                                        input.click();
+                                                                                                                    }
+                                                                                                                });
+                                                                                                                document.addEventListener('focusin', (e) => {
+                                                                                                                    if (e.target.closest(".tox-tinymce, .tox-tinymce-aux, .moxman-window, .tam-assetmanager-root") !== null) {
+                                                                                                                        e.stopImmediatePropagation();
+                                                                                                                    }
+                                                                                                                });
+                                                                                    </script>-->
+                                        <script defer src="<c:url value="/resources/js/TinyMCEInit.js" />"></script>
 
-
-
-
-
-                                            </div>
-                                            </div>
-                                            </div>
-                                            <!-- /.col-->
-                                            </div>
-                                            <!-- /.row-->
-                                            </div>
-
-
-                                            <script src="https://cdn.tiny.cloud/1/${TinyMCE_Key}/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
-<!--                                            <script>
-                                                                        tinymce.init({
-                                                                            selector: 'textarea#tiny',
-                                                                            toolbar: 'image',
-                                                                            plugins: 'image code',
-                                                                            images_file_types: 'jpeg,jpg,jpe,jfi,jif,jfif,png,gif,bmp,webp',
-                                                                            file_picker_types: 'file image media',
-                                                                            file_picker_callback: (cb, value, meta) => {
-                                                                                const input = document.createElement('input');
-                                                                                input.setAttribute('type', 'file');
-                                                                                input.setAttribute('accept', 'image/*');
-
-                                                                                input.addEventListener('change', (e) => {
-                                                                                    const file = e.target.files[0];
-
-                                                                                    const reader = new FileReader();
-                                                                                    reader.addEventListener('load', () => {
-                                                                                        /*
-                                                                                         Note: Now we need to register the blob in TinyMCEs image blob
-                                                                                         registry. In the next release this part hopefully won't be
-                                                                                         necessary, as we are looking to handle it internally.
-                                                                                         */
-                                                                                        const id = 'blobid' + (new Date()).getTime();
-                                                                                        const blobCache = tinymce.activeEditor.editorUpload.blobCache;
-                                                                                        const base64 = reader.result.split(',')[1];
-                                                                                        const blobInfo = blobCache.create(id, file, base64);
-                                                                                        blobCache.add(blobInfo);
-
-                                                                                        /* call the callback and populate the Title field with the file name */
-                                                                                        cb(blobInfo.blobUri(), {title: file.name});
-                                                                                    });
-                                                                                    reader.readAsDataURL(file);
-                                                                                });
-
-                                                                                input.click();
-                                                                            }
-                                                                        });
-                                                                        document.addEventListener('focusin', (e) => {
-                                                                            if (e.target.closest(".tox-tinymce, .tox-tinymce-aux, .moxman-window, .tam-assetmanager-root") !== null) {
-                                                                                e.stopImmediatePropagation();
-                                                                            }
-                                                                        });
-                                            </script>-->
-                                            <script defer src="<c:url value="/resources/js/TinyMCEInit.js" />"></script>
-
-                                            <script defer src="<c:url value="/resources/js/main.js" />"></script>
+                                        <script defer src="<c:url value="/resources/js/main.js" />"></script>
 

@@ -23,9 +23,17 @@ public class UserValidator implements Validator{
 
     @Override
     public void validate(Object target, Errors errors) {
-        UserDTO u = (UserDTO) target;
-        if(u.getHoten().isEmpty()==true)
-            errors.rejectValue("hoten", "value.NullMsg");
+        UserDTO user = (UserDTO) target;
+        if(user.getHoten().isEmpty()==true){
+            errors.rejectValue("hoten", "value.EmptyMsg");
+        }
+        if(user.getPassword().equals(user.getConfirmPassword())==false){
+            errors.rejectValue("password", "value.PasswordEqualMsg");
+            errors.rejectValue("confirmPassword", "value.PasswordEqualMsg");
+        }
+        if(user.getUsername().isEmpty()==false){
+            errors.rejectValue("username", "value.EmptyMsg");
+        }
     }
     
 }

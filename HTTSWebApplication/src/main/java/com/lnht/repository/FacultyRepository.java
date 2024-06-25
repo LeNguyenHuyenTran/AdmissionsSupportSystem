@@ -5,6 +5,7 @@
 package com.lnht.repository;
 
 import com.lnht.pojo.Chuongtrinhdaotao;
+import com.lnht.pojo.Diemtrungtuyen;
 import com.lnht.pojo.Khoa;
 import com.lnht.pojo.Nganh;
 import java.util.List;
@@ -24,12 +25,20 @@ public interface FacultyRepository {
     void deleteFaculty(int id);
     void deleteMajor(int id);
     void deleteEducationProgram(int id);
-    List<Khoa> getAll(Map<String,String> params);    
-    List<Khoa> getAll();
+    List<Khoa> getAll(Map<String,Object> params);    
+    List<Khoa> getAllFaculty();
+        List<Nganh> getAllMajor();
+    List<Chuongtrinhdaotao> getAllEducationProgram();
+
     
-    List<Nganh> getAllMajor(Map<String,String> params);
-    List<Chuongtrinhdaotao> getAllEducationProgram(Map<String,String> params);
+    List<Nganh> getAllMajor(Map<String,Object> params);
+    List<Chuongtrinhdaotao> getAllEducationProgram(Map<String,Object> params);
     int countFaculty();
     int countMajor();
     int countEducationProgram();
+    int countAdmissionScore();
+    List<Diemtrungtuyen> getAdmissionScore(Map<String,Object> params);
+    void deleteAdmissionScore(int id);
+    void postOrEditAdmissionScore(Diemtrungtuyen d);
+    Diemtrungtuyen getAdmissionScoreById(int id);
 }

@@ -57,7 +57,6 @@ public class AdmissionNewsServiceImpl implements AdmissionNewsService {
             b.setLoaituyensinh(x);
             
             b.setThongtin(t);
-            b.setBinhluanSet(commentRepo.getAll());
             newsRepo.postOrEdit(b);
         }
     }
@@ -74,7 +73,7 @@ public class AdmissionNewsServiceImpl implements AdmissionNewsService {
     }
 
     @Override
-    public List<Tintuyensinh> getAll(Map<String, String> params, String type) {
+    public List<Tintuyensinh> getAll(Map<String, Object> params, String type) {
         return newsRepo.getAll(params, type);
     }
 

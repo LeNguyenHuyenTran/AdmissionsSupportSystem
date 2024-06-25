@@ -35,6 +35,19 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Loaituyensinh.findById", query = "SELECT l FROM Loaituyensinh l WHERE l.id = :id")})
 public class Loaituyensinh implements Serializable {
 
+    @Basic(optional = false)
+    @NotNull
+    @Lob
+    @Size(min = 1, max = 65535)
+    @Column(name = "ten")
+    private String ten;
+    @Basic(optional = false)
+    @NotNull
+    @Lob
+    @Size(min = 1, max = 2147483647)
+    @Column(name = "mota")
+    private String mota;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,18 +55,6 @@ public class Loaituyensinh implements Serializable {
     @Column(name = "id")
     @NotNull(message = "{value.NullMsg}")
     private Integer id;
-    @Basic(optional = false)
-    @NotNull(message = "{value.NullMsg}")
-    @Lob
-    @Size(min = 1, max = 65535, message = "{value.SizeMsg}")
-    @Column(name = "ten")
-    private String ten;
-    @Basic(optional = false)
-    @NotNull(message = "{value.NullMsg}")
-    @Lob
-    @Size(min = 1, max = 2147483647, message = "{value.SizeMsg}")
-    @Column(name = "mota")
-    private String mota;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "loaituyensinh")
     private Set<Tintuyensinh> tintuyensinhSet;
     public Loaituyensinh() {
@@ -77,21 +78,6 @@ public class Loaituyensinh implements Serializable {
         this.id = id;
     }
 
-    public String getTen() {
-        return ten;
-    }
-
-    public void setTen(String ten) {
-        this.ten = ten;
-    }
-
-    public String getMota() {
-        return mota;
-    }
-
-    public void setMota(String mota) {
-        this.mota = mota;
-    }
 
     @Override
     public int hashCode() {
@@ -130,6 +116,22 @@ public class Loaituyensinh implements Serializable {
      */
     public void setTintuyensinhSet(Set<Tintuyensinh> tintuyensinhSet) {
         this.tintuyensinhSet = tintuyensinhSet;
+    }
+
+    public String getTen() {
+        return ten;
+    }
+
+    public void setTen(String ten) {
+        this.ten = ten;
+    }
+
+    public String getMota() {
+        return mota;
+    }
+
+    public void setMota(String mota) {
+        this.mota = mota;
     }
     
 }

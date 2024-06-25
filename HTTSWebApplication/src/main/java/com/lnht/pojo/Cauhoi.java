@@ -37,6 +37,18 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Cauhoi.findByThoidiem", query = "SELECT c FROM Cauhoi c WHERE c.thoidiem = :thoidiem")})
 public class Cauhoi implements Serializable {
 
+    @Basic(optional = false)
+    @NotNull
+    @Lob
+    @Size(min = 1, max = 65535)
+    @Column(name = "noidung")
+    private String noidung;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "thoidiem")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date thoidiem;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,17 +56,6 @@ public class Cauhoi implements Serializable {
     @Column(name = "id")
     @NotNull(message = "{value.NullMsg}")
     private Integer id;
-    @Basic(optional = false)
-    @NotNull(message = "{value.NullMsg}")
-    @Lob
-    @Size(min = 1, max = 65535, message = "{value.SizeMsg}")
-    @Column(name = "noidung")
-    private String noidung;
-    @Basic(optional = false)
-    @NotNull(message = "{value.NullMsg}")
-    @Column(name = "thoidiem")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date thoidiem;
     @JoinColumn(name = "thisinh", referencedColumnName = "id")
     @ManyToOne
     private Thisinh thisinh;
@@ -86,21 +87,6 @@ public class Cauhoi implements Serializable {
         this.id = id;
     }
 
-    public String getNoidung() {
-        return noidung;
-    }
-
-    public void setNoidung(String noidung) {
-        this.noidung = noidung;
-    }
-
-    public Date getThoidiem() {
-        return thoidiem;
-    }
-
-    public void setThoidiem(Date thoidiem) {
-        this.thoidiem = thoidiem;
-    }
 
     public Thisinh getThisinh() {
         return thisinh;
@@ -149,6 +135,22 @@ public class Cauhoi implements Serializable {
     @Override
     public String toString() {
         return "com.lnht.pojo.Cauhoi[ id=" + id + " ]";
+    }
+
+    public String getNoidung() {
+        return noidung;
+    }
+
+    public void setNoidung(String noidung) {
+        this.noidung = noidung;
+    }
+
+    public Date getThoidiem() {
+        return thoidiem;
+    }
+
+    public void setThoidiem(Date thoidiem) {
+        this.thoidiem = thoidiem;
     }
     
 }

@@ -11,7 +11,11 @@
 
 <c:url value="/user" var="action"/>
 <h2 class="px-5 mb-4 text-lef text-body fw-bold">${title}</h2>
-<form:form  method="post" class="px-5" name="user" action="${action}" enctype="multipart/form-data" >
+
+<form:form modelAttribute="user" method="post" class="px-5" name="user" action="${action}" enctype="multipart/form-data" >
+    <c:if test="${not empty sessionScope.createUserMessage}">
+        <div class="mb-3 alert-info alert py-2">${sessionScope.createUserMessage}</div>
+    </c:if>
     <form:errors path="*" cssClass="text-danger mb-3" element="span"/>
 
     <div class="mb-3">
@@ -34,6 +38,13 @@
             <input   value="${user.password}" name="password" type="password" class="form-control" id="exampleFormControlInput1" placeholder="your password"/>
         </div>
         <form:errors path="password" cssClass="text-danger mb-3" element="span"/>
+        <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label">Password</label>
+            <input name="confirmPassword" type="password" class="form-control"
+                  value="${user.password}" id="exampleFormControlInput1" placeholder="your password"/>
+        </div>
+        <form:errors path="confirmPassword" cssClass="text-danger alert alert-info p-2 mb-3" element="div"/>
+
 
         <c:if test="${fn:contains(user.role.id,3)==true}">
             <div class="mb-3 p-3 mt-3">
@@ -70,5 +81,11 @@
                 </c:forEach>
             </select>
         </div>
+
+        <c:if test="${not empty sessionScope.userErrors}">
+            <c:forEach items="${sessionScope.userErrors}" var="error">
+                <div class="text-danger alert alert-infoalert-info p-2 mb-3">${error}</div>
+            </c:forEach>
+        </c:if>
         <button type="submit" class="btn btn-dark">Update</button>
     </form:form>

@@ -30,4 +30,7 @@ public interface UserRepository {
     Nguoituvan getInstructorById(int id);
     Thisinh getStudentById(int id);
     void deleteUser(int id);
+    boolean addUser(User user);
+    List<User> getUser(String username);
+    User getUserByUsername(String username);
 }
