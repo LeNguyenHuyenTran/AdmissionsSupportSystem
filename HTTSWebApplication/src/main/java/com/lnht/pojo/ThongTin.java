@@ -4,6 +4,7 @@
  */
 package com.lnht.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.Basic;
@@ -46,12 +47,16 @@ public class ThongTin implements Serializable {
     @Column(name = "noi_dung")
     private String noiDung;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "thongTin")
+    @JsonIgnore
     private TinTuyenSinh tinTuyenSinh;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "thongTin")
+    @JsonIgnore
     private ThongBaoLivestream thongBaoLivestream;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "thongTin")
+    @JsonIgnore
     private Khoa khoa;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "thongTin")
+    @JsonIgnore
     private Truong truong;
 
     public ThongTin() {

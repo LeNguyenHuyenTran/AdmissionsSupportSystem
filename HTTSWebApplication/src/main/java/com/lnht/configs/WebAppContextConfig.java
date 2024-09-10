@@ -31,7 +31,8 @@ import org.springframework.web.servlet.view.JstlView;
 @ComponentScan(basePackages = {
     "com.lnht.controllers",
     "com.lnht.repository",
-    "com.lnht.service"
+    "com.lnht.service",
+    "com.lnht.components"
 }
 )
 @PropertySource("classpath:configs.properties")
@@ -46,7 +47,9 @@ public class WebAppContextConfig implements WebMvcConfigurer {
     }
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+        registry.addResourceHandler("/images/**").addResourceLocations("/resources/images");
+        registry.addResourceHandler("/images/**").addResourceLocations("/resources/js");
+
     }
 
     @Bean
@@ -56,12 +59,4 @@ public class WebAppContextConfig implements WebMvcConfigurer {
         resolver.setDefaultEncoding("UTF-8");
         return resolver;
     }
-//    @Bean
-//    public InternalResourceViewResolver internalResourceViewResolver(){
-//        InternalResourceViewResolver r = new InternalResourceViewResolver();
-//        r.setViewClass(JstlView.class);
-//        r.setPrefix("/WEB-INF/pages/");
-//        r.setSuffix(".jsp");
-//        return r;
-//    }
 }

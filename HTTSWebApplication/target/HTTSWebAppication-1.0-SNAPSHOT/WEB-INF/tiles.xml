@@ -56,4 +56,9 @@ Software Foundation//DTD Tiles Configuration 3.0//EN"
         <put-attribute name="content"
                        value="/WEB-INF/pages/register.jsp" />
     </definition>
+<!--    <definition name="faculty" extends="baseLayout">
+        <put-attribute name="title" value="FACULTY" />
+        <put-attribute name="content"
+                       value="/WEB-INF/pages/khoa.jsp" />
+    </definition>-->
 </tiles-definitions>

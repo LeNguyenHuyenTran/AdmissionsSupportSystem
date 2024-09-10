@@ -14,10 +14,13 @@
         </button>
         <ul class="header-nav d-none d-lg-flex">
             <li class="nav-item">
-                <a class="nav-link" href="<c:url value="/" />">Home</a>
+                <a class="nav-link" href="<c:url value="/index" />">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Users</a>
+                <a class="nav-link" href="user">Users</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="faculty">Khoa</a>
             </li>
             <c:choose>
                 <c:when test="${pageContext.request.userPrincipal.name == null}">

@@ -4,6 +4,7 @@
  */
 package com.lnht.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.Basic;
@@ -82,16 +83,21 @@ public class User implements Serializable {
     @Size(max = 50)
     @Column(name = "role")
     private String role;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
-    private Set<Banner> bannerSet;
-    @OneToMany(mappedBy = "userId")
-    private Set<BinhLuanVideoLivestream> binhLuanVideoLivestreamSet;
-    @OneToMany(mappedBy = "userId")
-    private Set<BinhLuan> binhLuanSet;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "nguoiDangThongBaoId")
-    private Set<ThongBaoLivestream> thongBaoLivestreamSet;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
-    private Set<BinhLuanThongBao> binhLuanThongBaoSet;
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
+//    @JsonIgnore
+//    private Set<Banner> bannerSet;
+//    @OneToMany(mappedBy = "userId")
+//    @JsonIgnore
+//    private Set<BinhLuanVideoLivestream> binhLuanVideoLivestreamSet;
+//    @OneToMany(mappedBy = "userId")
+//    @JsonIgnore
+//    private Set<BinhLuan> binhLuanSet;
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "nguoiDangThongBaoId")
+//    @JsonIgnore
+//    private Set<ThongBaoLivestream> thongBaoLivestreamSet;
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
+//    @JsonIgnore
+//    private Set<BinhLuanThongBao> binhLuanThongBaoSet;
     @Transient
     private String confirmPassword;
     @Transient
@@ -169,50 +175,50 @@ public class User implements Serializable {
         this.role = role;
     }
 
-    @XmlTransient
-    public Set<Banner> getBannerSet() {
-        return bannerSet;
-    }
-
-    public void setBannerSet(Set<Banner> bannerSet) {
-        this.bannerSet = bannerSet;
-    }
-
-    @XmlTransient
-    public Set<BinhLuanVideoLivestream> getBinhLuanVideoLivestreamSet() {
-        return binhLuanVideoLivestreamSet;
-    }
-
-    public void setBinhLuanVideoLivestreamSet(Set<BinhLuanVideoLivestream> binhLuanVideoLivestreamSet) {
-        this.binhLuanVideoLivestreamSet = binhLuanVideoLivestreamSet;
-    }
-
-    @XmlTransient
-    public Set<BinhLuan> getBinhLuanSet() {
-        return binhLuanSet;
-    }
-
-    public void setBinhLuanSet(Set<BinhLuan> binhLuanSet) {
-        this.binhLuanSet = binhLuanSet;
-    }
-
-    @XmlTransient
-    public Set<ThongBaoLivestream> getThongBaoLivestreamSet() {
-        return thongBaoLivestreamSet;
-    }
-
-    public void setThongBaoLivestreamSet(Set<ThongBaoLivestream> thongBaoLivestreamSet) {
-        this.thongBaoLivestreamSet = thongBaoLivestreamSet;
-    }
-
-    @XmlTransient
-    public Set<BinhLuanThongBao> getBinhLuanThongBaoSet() {
-        return binhLuanThongBaoSet;
-    }
-
-    public void setBinhLuanThongBaoSet(Set<BinhLuanThongBao> binhLuanThongBaoSet) {
-        this.binhLuanThongBaoSet = binhLuanThongBaoSet;
-    }
+//    @XmlTransient
+//    public Set<Banner> getBannerSet() {
+//        return bannerSet;
+//    }
+//
+//    public void setBannerSet(Set<Banner> bannerSet) {
+//        this.bannerSet = bannerSet;
+//    }
+//
+//    @XmlTransient
+//    public Set<BinhLuanVideoLivestream> getBinhLuanVideoLivestreamSet() {
+//        return binhLuanVideoLivestreamSet;
+//    }
+//
+//    public void setBinhLuanVideoLivestreamSet(Set<BinhLuanVideoLivestream> binhLuanVideoLivestreamSet) {
+//        this.binhLuanVideoLivestreamSet = binhLuanVideoLivestreamSet;
+//    }
+//
+//    @XmlTransient
+//    public Set<BinhLuan> getBinhLuanSet() {
+//        return binhLuanSet;
+//    }
+//
+//    public void setBinhLuanSet(Set<BinhLuan> binhLuanSet) {
+//        this.binhLuanSet = binhLuanSet;
+//    }
+//
+//    @XmlTransient
+//    public Set<ThongBaoLivestream> getThongBaoLivestreamSet() {
+//        return thongBaoLivestreamSet;
+//    }
+//
+//    public void setThongBaoLivestreamSet(Set<ThongBaoLivestream> thongBaoLivestreamSet) {
+//        this.thongBaoLivestreamSet = thongBaoLivestreamSet;
+//    }
+//
+//    @XmlTransient
+//    public Set<BinhLuanThongBao> getBinhLuanThongBaoSet() {
+//        return binhLuanThongBaoSet;
+//    }
+//
+//    public void setBinhLuanThongBaoSet(Set<BinhLuanThongBao> binhLuanThongBaoSet) {
+//        this.binhLuanThongBaoSet = binhLuanThongBaoSet;
+//    }
 
     @Override
     public int hashCode() {

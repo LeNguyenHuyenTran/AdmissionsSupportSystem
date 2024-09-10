@@ -4,6 +4,7 @@
  */
 package com.lnht.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.Basic;
@@ -20,10 +21,12 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -53,13 +56,18 @@ public class Khoa implements Serializable {
     @Size(max = 65535)
     @Column(name = "video")
     private String video;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "khoa1")
     private Set<DiemTrungTuyen> diemTrungTuyenSet;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "khoa")
-    private Set<Nganh> nganhSet;
+    @JsonIgnore
+    private Set<Nganh> nganh;
     @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
     @OneToOne(optional = false)
     private ThongTin thongTin;
+    
+    @Transient
+    private MultipartFile file;
 
     public Khoa() {
     }
@@ -107,13 +115,7 @@ public class Khoa implements Serializable {
     }
 
     @XmlTransient
-    public Set<Nganh> getNganhSet() {
-        return nganhSet;
-    }
-
-    public void setNganhSet(Set<Nganh> nganhSet) {
-        this.nganhSet = nganhSet;
-    }
+    
 
     public ThongTin getThongTin() {
         return thongTin;
@@ -146,6 +148,34 @@ public class Khoa implements Serializable {
     @Override
     public String toString() {
         return "com.lnht.pojo.Khoa[ id=" + id + " ]";
+    }
+
+    /**
+     * @return the nganh
+     */
+    public Set<Nganh> getNganh() {
+        return nganh;
+    }
+
+    /**
+     * @param nganh the nganh to set
+     */
+    public void setNganh(Set<Nganh> nganh) {
+        this.nganh = nganh;
+    }
+
+    /**
+     * @return the file
+     */
+    public MultipartFile getFile() {
+        return file;
+    }
+
+    /**
+     * @param file the file to set
+     */
+    public void setFile(MultipartFile file) {
+        this.file = file;
     }
     
 }

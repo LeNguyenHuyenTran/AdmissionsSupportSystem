@@ -4,7 +4,9 @@
  */
 package com.lnht.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,6 +19,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -45,8 +49,12 @@ public class BinhLuan implements Serializable {
     @Size(min = 1, max = 65535)
     @Column(name = "binh_luan")
     private String binhLuan;
+    @Column(name = "created_date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdDate;
     @JoinColumn(name = "tin_tuyen_sinh_id", referencedColumnName = "id")
     @ManyToOne
+    @JsonIgnore
     private TinTuyenSinh tinTuyenSinhId;
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne
@@ -119,6 +127,20 @@ public class BinhLuan implements Serializable {
     @Override
     public String toString() {
         return "com.lnht.pojo.BinhLuan[ id=" + id + " ]";
+    }
+
+    /**
+     * @return the createdDate
+     */
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    /**
+     * @param createdDate the createdDate to set
+     */
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
     }
     
 }

@@ -61,7 +61,7 @@ public class UserController {
 //            session.setAttribute("image-file", user.getAvatar());
         }
         
-        String[] role = {"admin", "instructor", "student"};
+        String[] role = {"ROLE_ADMIN", "ROLE_INSTRUCTOR", "ROLE_USER"};
         model.addAttribute("user", user);
         model.addAttribute("roles", role);
         return "detailUser";

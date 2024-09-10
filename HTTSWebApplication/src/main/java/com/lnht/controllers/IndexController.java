@@ -31,10 +31,6 @@ public class IndexController {
     public String index(Model model, @RequestParam Map<String, String> params) {
         model.addAttribute("users", this.userService.getUsers(params));
         
-        int pageSize = Integer.parseInt(this.env.getProperty("PAGE_SIZE"));
-        
         return "index";
     }
-    
-    
 }

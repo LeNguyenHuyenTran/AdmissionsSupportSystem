@@ -48,16 +48,16 @@
                                                 <input name="password" type="password" class="form-control" id="exampleFormControlInput1" placeholder="Password"/>
                                             </div>
                                             <div class="mb-3">
-                                                <label for="exampleFormControlInput1" class="form-label">Image</label>
+                                                <label for="exampleFormControlInput1" class="form-label">Avatar</label>
                                                 <input name="file" type="file" class="form-control" id="exampleFormControlInput1"/>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="exampleFormControlInput1" class="form-label">Role</label>
                                                 <select id="exampleFormControlInput1" name="role" class="form-select" aria-label="Default select example">
-                                                    <option selected value="admin">Your Role</option>
-                                                    <option value="admin">ROLE_ADMIN</option>
-                                                    <option value="instructor">ROLE_INSTRUCTOR</option>
-                                                    <option value="student">ROLE_USER</option>
+                                                    <option selected value="ROLE_USER">Your Role</option>
+                                                    <option value="ROLE_ADMIN">ROLE_ADMIN</option>
+                                                    <option value="ROLE_INSTRUCTOR">ROLE_INSTRUCTOR</option>
+                                                    <option value="ROLE_USER">ROLE_USER</option>
                                                 </select>
                                             </div>
                                             <button type="submit" class="btn btn-dark">Create</button>
