@@ -4,7 +4,9 @@
  */
 package com.lnht.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -20,6 +22,9 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -46,12 +51,19 @@ public class TinTuyenSinh implements Serializable {
     @Size(max = 65535)
     @Column(name = "tieu_de")
     private String tieuDe;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "created_date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdDate;
     @JoinColumn(name = "loai_tuyen_sinh_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
+    @JsonIgnore
     private LoaiTuyenSinh loaiTuyenSinhId;
     @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
     @OneToOne(optional = false)
     private ThongTin thongTin;
+    @JsonIgnore
     @OneToMany(mappedBy = "tinTuyenSinhId")
     private Set<BinhLuan> binhLuanSet;
 

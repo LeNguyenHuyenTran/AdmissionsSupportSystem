@@ -4,6 +4,7 @@
  */
 package com.lnht.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.Basic;
@@ -47,13 +48,8 @@ public class LoaiTuyenSinh implements Serializable {
     @Size(min = 1, max = 65535)
     @Column(name = "ten")
     private String ten;
-    @Basic(optional = false)
-    @NotNull
-    @Lob
-    @Size(min = 1, max = 2147483647)
-    @Column(name = "mo_ta")
-    private String moTa;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "loaiTuyenSinhId")
+    @JsonIgnore
     private Set<TinTuyenSinh> tinTuyenSinhSet;
 
     public LoaiTuyenSinh() {
@@ -66,7 +62,6 @@ public class LoaiTuyenSinh implements Serializable {
     public LoaiTuyenSinh(Integer id, String ten, String moTa) {
         this.id = id;
         this.ten = ten;
-        this.moTa = moTa;
     }
 
     public Integer getId() {
@@ -83,14 +78,6 @@ public class LoaiTuyenSinh implements Serializable {
 
     public void setTen(String ten) {
         this.ten = ten;
-    }
-
-    public String getMoTa() {
-        return moTa;
-    }
-
-    public void setMoTa(String moTa) {
-        this.moTa = moTa;
     }
 
     @XmlTransient

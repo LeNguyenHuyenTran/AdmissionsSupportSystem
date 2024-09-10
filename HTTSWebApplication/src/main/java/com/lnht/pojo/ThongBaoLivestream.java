@@ -4,6 +4,7 @@
  */
 package com.lnht.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
@@ -15,6 +16,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -24,6 +26,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -46,6 +49,10 @@ public class ThongBaoLivestream implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+//    @Lob
+//    @Size(max = 2147483647)
+//    @Column(name = "noi_dung")
+//    private String noiDung;
     @Basic(optional = false)
     @NotNull
     @Column(name = "gio_livestream")
@@ -56,11 +63,14 @@ public class ThongBaoLivestream implements Serializable {
     private ThongTin thongTin;
     @JoinColumn(name = "nguoi_dang_thong_bao_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
+    @JsonIgnore
     private User nguoiDangThongBaoId;
     @JoinColumn(name = "video_livestream_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
+    @JsonIgnore
     private VideoLivestream videoLivestreamId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "thongBaoLivestreamId")
+    @JsonIgnore
     private Set<BinhLuanThongBao> binhLuanThongBaoSet;
 
     public ThongBaoLivestream() {

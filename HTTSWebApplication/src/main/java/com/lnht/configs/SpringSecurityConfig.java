@@ -10,13 +10,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.firewall.DefaultHttpFirewall;
+import org.springframework.security.web.firewall.HttpFirewall;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
@@ -31,6 +33,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
     "com.lnht.repository",
     "com.lnht.service"
 })
+@Order(2)
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
      private UserDetailsService userDetailsService;
@@ -39,7 +42,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
+    
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
@@ -49,9 +52,9 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     public Cloudinary cloudinary() {
         Cloudinary cloudinary
                 = new Cloudinary(ObjectUtils.asMap(
-                        "cloud_name", "dbhlpxx26",
-                        "api_key", "621874533584887",
-                        "api_secret", "EUiMK1Pe8IwZY_s7J8v-XknRs24-A",
+                        "cloud_name", "dryl4d4o4",
+                        "api_key", "244966144477858",
+                        "api_secret", "6ITT2VoqoU2ltjrDfq0hwDKF8_w",
                         "secure", true));
         return cloudinary;
     }
@@ -65,6 +68,10 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         http.formLogin().defaultSuccessUrl("/").failureUrl("/login?error");
         
         http.logout().logoutSuccessUrl("/login");
+        
+//        http.authorizeRequests().antMatchers("/").permitAll()
+//                .antMatchers("/api/**")
+//                .access("hasRole('ROLE_ADMIN')");
         
         http.csrf().disable();
     }

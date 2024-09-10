@@ -4,9 +4,9 @@
  */
 package com.lnht.service.impl;
 
-import com.lnht.utils.FileUtils;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.lnht.utils.FileUtils;
 import com.lnht.pojo.User;
 import com.lnht.repository.UserRepository;
 import com.lnht.service.UserService;
@@ -20,9 +20,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -43,6 +41,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepo;
+    
+    @Autowired
+    private Cloudinary cloudinary;
 
     @Override
     public List<User> getUsers(Map<String, String> params) {
@@ -96,28 +97,41 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getUser(String username) {
+    public User getUser(String username) {
         return this.userRepo.getUser(username);
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        List<User> users = this.getUser(username);
-        if (users.isEmpty()) {
+        User users = this.getUser(username);
+        if (users == null) {
             throw new UsernameNotFoundException("Username does not exist!!!");
         }
-        User user = users.get(0);
+        
         Set<GrantedAuthority> auth = new HashSet<>();
-        auth.add(new SimpleGrantedAuthority(user.getRole()));
+        auth.add(new SimpleGrantedAuthority(users.getRole()));
 
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), auth);
+        return new org.springframework.security.core.userdetails.User(users.getUsername(), users.getPassword(), auth);
     }
 
     @Override
     public boolean addUser(User user) {
+        if (!user.getFile().isEmpty()) {
+            try {
+                Map res = this.cloudinary.uploader().upload(user.getFile().getBytes(), ObjectUtils.asMap("resource_type", "auto"));
+                user.setAvatar(res.get("secure_url").toString());
+            } catch (IOException ex) {
+                Logger.getLogger(UserServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         String pass = user.getPassword();
         user.setPassword(this.bCryptPasswordEncoder.encode(pass));
         user.setRole(User.USER);
         return this.userRepo.addUser(user);
+    }
+
+    @Override
+    public boolean authUser(String username, String password) {
+        return this.userRepo.authUser(username, password);
     }
 }
